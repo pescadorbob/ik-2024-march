@@ -1,9 +1,7 @@
 package com.brent.ik.selectionsort;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class QuickSort extends Sorter {
     public ArrayList<Integer> sort(ArrayList<Integer> arr) {
@@ -16,12 +14,28 @@ public class QuickSort extends Sorter {
         // leaf worker
         if (start >= end) return;
         // internal node worker
-        var aux = new ArrayList<Integer>();
-        while (aux.size() < end - start + 1) aux.add(null);
+        int pivotPoint = pickPivot(start, end);
+        int pivotNumber = arr.get(pivotPoint);
+        System.out.println(String.format("Helper %s %d:%d Pivot[%d]=%d", arr,start,end,pivotPoint,pivotNumber));
+        int pivotIndex = partition(arr, start, end,  pivotPoint);
+
+        helper(arr, start, pivotIndex - 1);
+        helper(arr, pivotIndex + 1, end);
+    }
+
+    /**
+     *
+     * @param arr
+     * @param start
+     * @param end
+     * @param pivotPoint
+     * @return pivotIndex
+     */
+    private int partition(ArrayList<Integer> arr, int start, int end, int pivotPoint) {
+        ArrayList<Integer> aux = createAuxArray(start, end);
         var smaller = 0;
-        var pivotPoint = new Random(System.currentTimeMillis()).nextInt(start,end);
         var pivot = arr.get(pivotPoint);
-        swap(arr,start,pivotPoint);
+        swap(arr, start, pivotPoint);
         var larger = aux.size() - 1;
         for (int i = start + 1; i <= end; i++) {
             var ele = arr.get(i);
@@ -34,15 +48,25 @@ public class QuickSort extends Sorter {
             }
         }
         aux.set(smaller, pivot);
-        System.out.println(String.format("Pivot:%d aux array:%s", pivot, aux.toString()));
-        copyArrayBack(arr, start, end, aux);
-        System.out.println(String.format("Pivot:%d After Partitioning:%s", pivot, arr.toString()));
+        copyAuxBack(arr, start, end, aux);
+        System.out.println(String.format("Finished Partition %s %d:%d Pivot[%d]=%d",
+                arr,start,end,pivotPoint,pivot));
 
-        helper(arr, start, start + smaller - 1);
-        helper(arr, start + smaller + 1, end);
+        return start + smaller;
     }
 
-    private void copyArrayBack(ArrayList<Integer> arr, int start, int end, ArrayList<Integer> aux) {
+    private static ArrayList<Integer> createAuxArray(int start, int end) {
+        var aux = new ArrayList<Integer>();
+        while (aux.size() < end - start + 1) aux.add(null);
+        return aux;
+    }
+
+    private static int pickPivot(int start, int end) {
+        var pivotPoint = new Random(System.currentTimeMillis()).nextInt(start, end);
+        return pivotPoint;
+    }
+
+    private void copyAuxBack(ArrayList<Integer> arr, int start, int end, ArrayList<Integer> aux) {
         var auxIndex = 0;
         for (int i = start; i <= end; i++, auxIndex++) {
             arr.set(i, aux.get(auxIndex));
