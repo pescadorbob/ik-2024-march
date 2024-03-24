@@ -3,7 +3,7 @@ package com.brent.ik.selectionsort;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class QuickSort extends Sorter {
+public class HeapSort extends Sorter {
     public ArrayList<Integer> sort(ArrayList<Integer> arr) {
         helper(arr, 0, arr.size() - 1);
         return arr;
