@@ -44,23 +44,9 @@ public abstract class SortTest {
         );
     }
 
-    private static ArrayList<Integer> load(String resourceFileName) {
-        try {
-            // Read the JSON file
-            ObjectMapper objectMapper = new ObjectMapper();
-            File jsonFile = new File("input013.txt"); // Replace with your actual file path
-            Integer[] dataArray = objectMapper.readValue(jsonFile, Integer[].class);
-            var retVal = new ArrayList<Integer>();
-            for (Integer integer : dataArray) {
-                retVal.add(integer);
-            }
-            return retVal;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     private static ArrayList<Integer> list(Integer... array) {
-        return new ArrayList<Integer>(java.util.Arrays.stream(array).toList());
+        return new ArrayList<>(java.util.Arrays.stream(array).toList());
     }
 }
