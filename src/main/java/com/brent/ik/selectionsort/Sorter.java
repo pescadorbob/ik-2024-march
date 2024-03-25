@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public abstract class Sorter {
     abstract ArrayList<Integer> sort(ArrayList<Integer> items);
 
-    void swap(ArrayList<Integer> items, int i, int minindex) {
-        int temp = items.get(i);
-        items.set(i,items.get(minindex));
-        items.set(minindex,temp);
-        }
+    public static void swap(ArrayList<Integer> items, int left, int right) {
+        int temp = items.get(left);
+        items.set(left, items.get(right));
+        items.set(right, temp);
+    }
 }

@@ -1,75 +1,132 @@
 package com.brent.ik.selectionsort;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class HeapSort extends Sorter {
     public ArrayList<Integer> sort(ArrayList<Integer> arr) {
-        helper(arr, 0, arr.size() - 1);
-        return arr;
+        var maxHeap = new MaxHeap();
+        maxHeap.create(arr);
+        var sorted = maxHeap.sort();
+        return sorted;
+
     }
 
-    private void helper(ArrayList<Integer> arr, int start, int end) {
-        // leaf worker
-        if (start >= end) return;
-        // internal node worker
-        int pivotPoint = pickPivot(start, end);
-        int pivotNumber = arr.get(pivotPoint);
+    private static final class MaxHeap {
+        private final ArrayList<Integer> heapArray = new ArrayList<>();
+        int heapIndex = 1;
 
-        int pivotIndex = partition(arr, start, end,  pivotPoint);
+        void create(ArrayList<Integer> unsortedArray) {
+            heapIndex = 1;
+            heapArray.add(0, 0);
+            for (int ele : unsortedArray) {
+                insert(heapIndex, ele);
+                heapIndex++;
 
-        helper(arr, start, pivotIndex - 1);
-        helper(arr, pivotIndex + 1, end);
-    }
-
-    /**
-     *
-     * @param arr
-     * @param start
-     * @param end
-     * @param pivotPoint
-     * @return pivotIndex
-     */
-    private int partition(ArrayList<Integer> arr, int start, int end, int pivotPoint) {
-        ArrayList<Integer> aux = createAuxArray(start, end);
-        var smaller = 0;
-        var pivot = arr.get(pivotPoint);
-        swap(arr, start, pivotPoint);
-        var larger = aux.size() - 1;
-        for (int i = start + 1; i <= end; i++) {
-            var ele = arr.get(i);
-            if (ele > pivot) {
-                aux.set(larger, ele);
-                larger--;
-            } else {
-                aux.set(smaller, ele);
-                smaller++;
             }
         }
-        aux.set(smaller, pivot);
-        copyAuxBack(arr, start, end, aux);
 
+        private void insert(int index, int ele) {
+            heapArray.add(index, ele);
+            heapifyLeaf(heapArray, index);
+        }
 
-        return start + smaller;
-    }
+        private void heapifyLeaf(ArrayList<Integer> heapArray, int heapIndex) {
+            if (heapIndex <= 1) return;
+            var parentIndex = heapIndex / 2;
+            var parentValue = heapArray.get(parentIndex);
+            if (parentValue < heapArray.get(heapIndex)) {
+                swap(heapArray, parentIndex, heapIndex);
+                heapifyLeaf(heapArray, parentIndex);
+            }
+        }
 
-    private static ArrayList<Integer> createAuxArray(int start, int end) {
-        var aux = new ArrayList<Integer>();
-        while (aux.size() < end - start + 1) aux.add(null);
-        return aux;
-    }
+        private ArrayList<Integer> sort() {
+            var sortedArray = new ArrayList<Integer>();
+            for (int i = 1; i < heapIndex; i++) {
+                sortedArray.add(null);
+            }
+            for (int i = heapIndex - 1; i > 0; i--) {
+                sortedArray.set(i - 1, removeMax());
+            }
+            return sortedArray;
+        }
 
-    private static int pickPivot(int start, int end) {
-        var pivotPoint = new Random(System.currentTimeMillis()).nextInt(start, end);
-        return pivotPoint;
-    }
+        private Integer removeMax() {
 
-    private void copyAuxBack(ArrayList<Integer> arr, int start, int end, ArrayList<Integer> aux) {
-        var auxIndex = 0;
-        for (int i = start; i <= end; i++, auxIndex++) {
-            arr.set(i, aux.get(auxIndex));
+            var max = heapArray.get(1);
+            swap(heapArray, 1, heapIndex - 1);
+            heapIndex--;
+            heapifyParent(1);
+            return max;
+        }
+
+        private void heapifyParent(int nodeIndex) {
+            if (nodeIndex >= heapIndex) return;
+            var leftNodeIndex = nodeIndex * 2;
+            var rightNodeIndex = nodeIndex * 2 + 1;
+            // check if the vertex is greater than the left child only
+            // check if the vertex is greater than the right child only
+            if (isVertexLessThanLeftChildOnly(nodeIndex)) {
+                swap(heapArray, nodeIndex, leftNodeIndex);
+                heapifyParent(leftNodeIndex);
+                // check if the vertex is greater than both children
+            } else if (isVertexLessThanRightChildOnly(nodeIndex)) {
+                swap(heapArray, nodeIndex, rightNodeIndex);
+                heapifyParent(rightNodeIndex);
+            } else if (isVertexLessThanBothChildren(nodeIndex)) {
+
+                if (heapArray.get(leftNodeIndex) > heapArray.get(rightNodeIndex)) {
+                    // left one is greater, so go left
+                    swap(heapArray, nodeIndex, leftNodeIndex);
+                    heapifyParent(leftNodeIndex);
+                } else {
+                    // they are equal or right is greater, so go right.
+                    swap(heapArray, nodeIndex, rightNodeIndex);
+                    heapifyParent(rightNodeIndex);
+                }
+            }
+            // otherwise, it's bigger than the children.
 
         }
+
+        private boolean isVertexLessThanBothChildren(int nodeIndex) {
+            var leftNodeIndex = nodeIndex * 2;
+            var rightNodeIndex = nodeIndex * 2 + 1;
+            boolean hasLeft = exists(leftNodeIndex);
+            boolean hasRight = exists(rightNodeIndex);
+            if (!hasLeft || !hasRight) return false;
+            var isVertexLessThanBothChildren = heapArray.get(nodeIndex) < heapArray.get(leftNodeIndex) &&
+                    heapArray.get(nodeIndex) < heapArray.get(rightNodeIndex);
+            return isVertexLessThanBothChildren;
+        }
+
+        private boolean isVertexLessThanRightChildOnly(int nodeIndex) {
+            var leftNodeIndex = nodeIndex * 2;
+            var rightNodeIndex = nodeIndex * 2 + 1;
+            boolean hasLeft = exists(leftNodeIndex);
+            boolean hasRight = exists(rightNodeIndex);
+            if (!hasRight) return false;
+            var isVertexLessThanRightChildOnly = (!hasLeft || heapArray.get(nodeIndex) >= heapArray.get(leftNodeIndex)) &&
+                    (heapArray.get(nodeIndex) < heapArray.get(rightNodeIndex));
+            return isVertexLessThanRightChildOnly;
+        }
+
+        private boolean isVertexLessThanLeftChildOnly(int nodeIndex) {
+            var leftNodeIndex = nodeIndex * 2;
+            var rightNodeIndex = nodeIndex * 2 + 1;
+            boolean hasLeft = exists(leftNodeIndex);
+            boolean hasRight = exists(rightNodeIndex);
+            if (!hasLeft) return false;
+            var isVertexLessThanLeftChildOnly = (!hasRight || heapArray.get(nodeIndex) >= heapArray.get(rightNodeIndex)) &&
+                    (heapArray.get(nodeIndex) < heapArray.get(leftNodeIndex));
+            return isVertexLessThanLeftChildOnly;
+        }
+
+        private boolean exists(int nodeIndex) {
+            return nodeIndex < heapIndex ;
+        }
+
     }
+
 
 }
