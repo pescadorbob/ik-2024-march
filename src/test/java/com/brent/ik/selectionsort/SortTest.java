@@ -4,10 +4,7 @@ package com.brent.ik.selectionsort;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import com.fasterxml.jackson.databind.ObjectMapper; // Import Jackson library
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 

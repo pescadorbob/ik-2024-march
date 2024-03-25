@@ -6,8 +6,7 @@ public class HeapSort extends Sorter {
     public ArrayList<Integer> sort(ArrayList<Integer> arr) {
         var maxHeap = new MaxHeap();
         maxHeap.create(arr);
-        var sorted = maxHeap.sort();
-        return sorted;
+        return maxHeap.sort();
 
     }
 
@@ -95,9 +94,8 @@ public class HeapSort extends Sorter {
             boolean hasLeft = exists(leftNodeIndex);
             boolean hasRight = exists(rightNodeIndex);
             if (!hasLeft || !hasRight) return false;
-            var isVertexLessThanBothChildren = heapArray.get(nodeIndex) < heapArray.get(leftNodeIndex) &&
+            return heapArray.get(nodeIndex) < heapArray.get(leftNodeIndex) &&
                     heapArray.get(nodeIndex) < heapArray.get(rightNodeIndex);
-            return isVertexLessThanBothChildren;
         }
 
         private boolean isVertexLessThanRightChildOnly(int nodeIndex) {
@@ -106,9 +104,8 @@ public class HeapSort extends Sorter {
             boolean hasLeft = exists(leftNodeIndex);
             boolean hasRight = exists(rightNodeIndex);
             if (!hasRight) return false;
-            var isVertexLessThanRightChildOnly = (!hasLeft || heapArray.get(nodeIndex) >= heapArray.get(leftNodeIndex)) &&
+            return (!hasLeft || heapArray.get(nodeIndex) >= heapArray.get(leftNodeIndex)) &&
                     (heapArray.get(nodeIndex) < heapArray.get(rightNodeIndex));
-            return isVertexLessThanRightChildOnly;
         }
 
         private boolean isVertexLessThanLeftChildOnly(int nodeIndex) {
@@ -117,9 +114,8 @@ public class HeapSort extends Sorter {
             boolean hasLeft = exists(leftNodeIndex);
             boolean hasRight = exists(rightNodeIndex);
             if (!hasLeft) return false;
-            var isVertexLessThanLeftChildOnly = (!hasRight || heapArray.get(nodeIndex) >= heapArray.get(rightNodeIndex)) &&
+            return (!hasRight || heapArray.get(nodeIndex) >= heapArray.get(rightNodeIndex)) &&
                     (heapArray.get(nodeIndex) < heapArray.get(leftNodeIndex));
-            return isVertexLessThanLeftChildOnly;
         }
 
         private boolean exists(int nodeIndex) {
