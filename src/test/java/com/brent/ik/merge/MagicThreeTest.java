@@ -46,11 +46,8 @@ public class MagicThreeTest {
             int neededSum = -first;
             int left = i+1,right=arr.size()-1;
             var sums = twoSums(arr,left,right,neededSum);
-            var triplets = new ArrayList<String>();
-            for(String sum : sums){
-                triplets.add(String.format("%d,%s",arr.get(i),sum));
-            }
-            magicTriplets.addAll(triplets);
+            magicTriplets.addAll(sums);
+
         }
         return new ArrayList<>(magicTriplets.stream().toList());
     }
@@ -61,7 +58,7 @@ public class MagicThreeTest {
             int sum = arr.get(left) + arr.get(right);
 
             if(sum == neededSum){
-                answer.add(String.format("%d,%d",arr.get(left),arr.get(right)));
+                answer.add(String.format("%d,%d,%d",-neededSum,arr.get(left),arr.get(right)));
                 left++; // right would be fine too.
                 // Note: because I sorted this at the start and we'll add them to a hash set, there will be no duplicates.
             } else if(sum >= neededSum){
