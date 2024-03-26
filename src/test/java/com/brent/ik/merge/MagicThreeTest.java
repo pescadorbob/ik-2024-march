@@ -47,9 +47,8 @@ public class MagicThreeTest {
             int left = i+1,right=arr.size()-1;
             var sums = twoSums(arr,left,right,neededSum);
             magicTriplets.addAll(sums);
-
         }
-        return new ArrayList<>(magicTriplets.stream().toList());
+        return new ArrayList<>(magicTriplets);
     }
 
     static ArrayList<String> twoSums(ArrayList<Integer> arr, int left, int right, int neededSum){
