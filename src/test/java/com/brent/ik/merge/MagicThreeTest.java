@@ -55,22 +55,22 @@ public class MagicThreeTest {
         return new ArrayList<String>(magicTriplets.stream().toList());
     }
 
-    static ArrayList<String> twoSums(ArrayList<Integer> arr, int left, int right, int lookFor){
-        var sums = new ArrayList<String>();
+    static ArrayList<String> twoSums(ArrayList<Integer> arr, int left, int right, int neededSum){
+        var answer = new ArrayList<String>();
         while(left<right ){
             int sum = arr.get(left) + arr.get(right);
 
-            if(sum == lookFor){
-                sums.add(String.format("%d,%d",arr.get(left),arr.get(right)));
+            if(sum == neededSum){
+                answer.add(String.format("%d,%d",arr.get(left),arr.get(right)));
             }
-            if(arr.get(left)+arr.get(right) >= lookFor){
+            if(arr.get(left)+arr.get(right) >= neededSum){
                 right--;
             } else {
                 left++;
             }
         }
 
-        return sums;
+        return answer;
 
     }
 }
