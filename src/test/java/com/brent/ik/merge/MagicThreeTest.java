@@ -60,7 +60,9 @@ public class MagicThreeTest {
         int l = start;
         int r = end;
         while(l<r && l<end && r>start){
-            if(arr.get(l)+arr.get(r) == lookFor){
+            int sum = arr.get(l) + arr.get(r);
+
+            if(sum == lookFor){
                 sums.add(String.format("%d,%d",arr.get(l),arr.get(r)));
             }
             if(arr.get(l)+arr.get(r) >= lookFor){
