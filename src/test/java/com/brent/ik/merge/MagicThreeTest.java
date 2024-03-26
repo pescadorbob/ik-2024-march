@@ -43,7 +43,9 @@ public class MagicThreeTest {
         var magicTriplets = new HashSet<String>();
         for(int i=0;i<arr.size()-1;i++){
             int first = arr.get(i);
-            var sums = twoSums(arr,i+1,arr.size()-1,-first);
+            int neededSum = -first;
+            int left = i+1,right=arr.size()-1;
+            var sums = twoSums(arr,left,right,neededSum);
             var triplets = new ArrayList<String>();
             for(String sum : sums){
                 triplets.add(String.format("%d,%s",arr.get(i),sum));
