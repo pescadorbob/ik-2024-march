@@ -62,8 +62,9 @@ public class MagicThreeTest {
 
             if(sum == neededSum){
                 answer.add(String.format("%d,%d",arr.get(left),arr.get(right)));
-            }
-            if(arr.get(left)+arr.get(right) >= neededSum){
+                left++; // right would be fine too.
+                // Note: because I sorted this at the start and we'll add them to a hash set, there will be no duplicates.
+            } else if(sum >= neededSum){
                 right--;
             } else {
                 left++;
