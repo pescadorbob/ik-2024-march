@@ -52,7 +52,7 @@ public class MagicThreeTest {
             }
             magicTriplets.addAll(triplets);
         }
-        return new ArrayList<String>(magicTriplets.stream().toList());
+        return new ArrayList<>(magicTriplets.stream().toList());
     }
 
     static ArrayList<String> twoSums(ArrayList<Integer> arr, int left, int right, int neededSum){
