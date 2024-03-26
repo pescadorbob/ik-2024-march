@@ -55,20 +55,18 @@ public class MagicThreeTest {
         return new ArrayList<String>(magicTriplets.stream().toList());
     }
 
-    static ArrayList<String> twoSums(ArrayList<Integer> arr, int start, int end, int lookFor){
+    static ArrayList<String> twoSums(ArrayList<Integer> arr, int left, int right, int lookFor){
         var sums = new ArrayList<String>();
-        int l = start;
-        int r = end;
-        while(l<r && l<end && r>start){
-            int sum = arr.get(l) + arr.get(r);
+        while(left<right ){
+            int sum = arr.get(left) + arr.get(right);
 
             if(sum == lookFor){
-                sums.add(String.format("%d,%d",arr.get(l),arr.get(r)));
+                sums.add(String.format("%d,%d",arr.get(left),arr.get(right)));
             }
-            if(arr.get(l)+arr.get(r) >= lookFor){
-                r--;
+            if(arr.get(left)+arr.get(right) >= lookFor){
+                right--;
             } else {
-                l++;
+                left++;
             }
         }
 
