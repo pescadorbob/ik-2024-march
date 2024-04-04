@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class NQueensTest {
@@ -14,23 +15,24 @@ class NQueensTest {
     @Test
     void nQueens() {
         int n = 4;
-        var expectedSolution =
-                Arrays.asList(
-                        Arrays.asList("--q-",
-                                "q---",
-                                "---q",
-                                "-q--")
+        ArrayList<List<String>> expectedSolution = new ArrayList<>();
+        List<String> solution1 = new ArrayList<>();
+        solution1.add("--q-");
+        solution1.add("q---");
+        solution1.add("---q");
+        solution1.add("-q--");
+        expectedSolution.add(solution1);
+        List<String> solution2 = new ArrayList<>();
+        solution2.add("-q--");
+        solution2.add("---q");
+        solution2.add("q---");
+        solution2.add("--q-");
+        expectedSolution.add(solution2);
 
-                        , Arrays.asList("-q--",
-                                "---q",
-                                "q---",
-                                "--q-")
-                );
 
-    var actual = NQueens.nQueens(n);
 
-    assertThat(expectedSolution).
+        ArrayList<List<String>> actual = NQueens.nQueens(n);
 
-    isEqualTo(actual);
-}
+        assertThat(actual).containsExactlyInAnyOrder(newArrayList(solution1),newArrayList(solution2));
+    }
 }
