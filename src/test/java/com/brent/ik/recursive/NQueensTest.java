@@ -14,25 +14,26 @@ class NQueensTest {
 
     @Test
     void nQueens() {
-        int n = 4;
-        ArrayList<List<String>> expectedSolution = new ArrayList<>();
-        List<String> solution1 = new ArrayList<>();
-        solution1.add("--q-");
-        solution1.add("q---");
-        solution1.add("---q");
-        solution1.add("-q--");
-        expectedSolution.add(solution1);
-        List<String> solution2 = new ArrayList<>();
-        solution2.add("-q--");
-        solution2.add("---q");
-        solution2.add("q---");
-        solution2.add("--q-");
-        expectedSolution.add(solution2);
+        int n = 5;
+        String[][] expected = new String[][]{
+                {"q----", "--q--", "----q", "-q---", "---q-"},
+{"q----", "---q-", "-q---", "----q", "--q--"},
+{"-q---", "---q-", "q----", "--q--", "----q"},
+{"-q---", "----q", "--q--", "q----", "---q-"},
+{"--q--", "q----", "---q-", "-q---", "----q"},
+{"--q--", "----q", "-q---", "---q-", "q----"},
+{"---q-", "q----", "--q--", "----q", "-q---"},
+{"---q-", "-q---", "----q", "--q--", "q----"},
+{"----q", "-q---", "---q-", "q----", "--q--"},
+{"----q", "--q--", "q----", "---q-", "-q---"}
+};
+        List<List<String>> expectedSolution = Arrays.stream(expected).map(soln-> Arrays.stream(soln).map(String::new).toList()).toList();
 
 
 
-        ArrayList<List<String>> actual = NQueens.nQueens(n);
 
-        assertThat(actual).containsExactlyInAnyOrder(newArrayList(solution1),newArrayList(solution2));
+        List<List<String>> actual = NQueens.nQueens(n);
+
+        assertThat(actual).hasSameElementsAs(expectedSolution);
     }
 }

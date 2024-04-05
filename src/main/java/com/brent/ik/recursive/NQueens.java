@@ -60,7 +60,6 @@ public class NQueens {
                 nQueens(n, row + 1, partialSolution, solution);
 
                 removeQueen(row, column, n, partialSolution);
-                partialSolution.remove(row);
             }
         }
 
