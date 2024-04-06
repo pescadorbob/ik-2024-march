@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,12 +14,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static com.brent.ik.trees.BSTPrettyPrint.*;
 
 public class BSTTest {
-	@Test
-	void shouldFindSuccessor_givenFullTree(){
+	private static Stream<Arguments> successorProvider() {
+		return Stream.of(
+		  Arguments.of(44, 54)
+		  
+		);
+	}
+
+    @ParameterizedTest
+    @MethodSource("successorProvider")
+	void shouldFindSuccessor_givenFullTree(int givenKey,int expectedSuccessor){
 		var bst = createTestTree();
-		
-		var givenKey = 44;
-		var expectedSuccessor = 54;
 		
 		var actual = bst.successor(44);
 		assertThat(actual).isEqualTo(expectedSuccessor);
