@@ -14,6 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class BSTTest {
 
+	
+
 	@Test
 	void shouldDeleteNode_givenNodeHasTwoChildren(){
 		var bst = createTestTree();
