@@ -2,11 +2,12 @@ package com.brent.ik.trees;
 
 import com.sun.source.tree.Tree;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class BST {
     private TreeNode root;
-
 
     @Override
     public boolean equals(Object o) {
@@ -29,16 +30,6 @@ public class BST {
 
     }
 
-    public BST add(int val) {
-
-        if(root == null){
-            root = new TreeNode(val);
-
-        } else {
-
-        }
-        return this;
-    }
 
     public TreeNode getRoot() {
         return root;
@@ -51,11 +42,41 @@ public class BST {
                return curr;
            } else if (val < curr.value){
                curr = curr.left;
-           } else {
+           } else { 
                curr = curr.right;
            }
-        }
+        } 
         return null;
+    }
+
+    public void insert(int val) {
+		TreeNode prev = null;
+		if(root==null) {
+			root = new TreeNode(val);
+			return;
+		}
+        var curr = root;
+        while(curr != null){
+           if(val == curr.value){
+			   // key already exists
+               return;
+           } else if (val < curr.value){
+			   prev = curr;
+               curr = curr.left;
+           } else { 
+		       prev = curr;
+               curr = curr.right;
+           }
+        } 
+		if(prev!=null){
+			if(val < prev.value){
+				prev.addLeft(val);
+			} else {
+				prev.addRight(val);
+			}
+		}
+        return;
+
     }
 
     public static class TreeNode {
@@ -67,6 +88,8 @@ public class BST {
         public TreeNode(int value) {
             this.value = value;
         }
+
+
 
         public void setValue(int val) {
             this.value = val;
@@ -115,6 +138,9 @@ public class BST {
             this.left = node;
         }
     }
+
+
+
     public static class Builder {
         TreeNode root;
         TreeNode curr;

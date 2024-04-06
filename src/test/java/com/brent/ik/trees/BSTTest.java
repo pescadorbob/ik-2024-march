@@ -1,5 +1,6 @@
 package com.brent.ik.trees;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -17,14 +18,21 @@ public class BSTTest {
         var expectedBST = new BST.Builder().withRootNode(val).build();
         var bst = new BST();
 
-        bst.add(val);
+        bst.insert(val);
 
         assertThat(bst).isEqualTo(expectedBST);
     }
 
-    Map<Integer,BST.TreeNode> nodes = new HashMap<>();
+    Map<BST,Map<Integer, BST.TreeNode>> testBackTracker;
+
+    @BeforeEach
+    void setup(){
+        testBackTracker = new HashMap<>();
+    }
     BST createTestTree(){
+        Map<Integer,BST.TreeNode> nodes = new HashMap<>();
         var bst = new BST.Builder().withRootNode(44).build();
+        testBackTracker.put(bst,nodes);
         var rootNode = bst.getRoot();
         nodes.put(44,rootNode);
         var _88 = rootNode.addRight(88);
@@ -80,25 +88,28 @@ public class BSTTest {
 
         var bst = createTestTree();
 
-        var expectedNode = bst(value);
+        var expectedNode = bst(bst,value);
         var node = bst.search(value);
 
         assertThat(node).isEqualTo(expectedNode);
 
     }
+    @Test void shouldInsertNode_given_12(){
+        var expectedBST = createTestTree();
+        var _8 = bst(expectedBST,8);
+        _8.addRight(12);
 
-    private BST.TreeNode bst(int key) {
-        return nodes.get(key);
+        var bst = createTestTree();
+
+        bst.insert(12);
+
+        assertThat(bst).isEqualTo(expectedBST);
+
     }
-//    @Test
-//    void shouldAddTreeNodeAtRight_GivenRoot() {
-//        var val = 1;
-//        var expectedBST = new BST.Builder().withRootNode(val)
-//                .withRightNode(1).build();
-//        var bst = new BST();
-//
-//        bst.add(val).add(2);
-//
-//        assertThat(bst).isEqualTo(expectedBST);
-//    }
+
+    private BST.TreeNode bst(BST bst,int key) {
+        return testBackTracker.get(bst).get(key);
+    }
+
+
 }
