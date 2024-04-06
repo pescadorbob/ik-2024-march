@@ -13,6 +13,15 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class NAryTreeTest {
+	
+	@Test
+	void shouldProvidePreOrderTraversal_giveDefaultTree(){
+		var expectedOutput = "1)CEO 2)Manager 1 3)Manager 2 4)Manager 4 6)dev1 7)dev2 8)dev3 5)Manager 5 9)Manager 3";
+		var tree = defaultTestTree();
+		
+		var output = tree.preOrder();
+		assertThat(output).isEqualTo(expectedOutput);
+	}
 
 	@Test
 	void shouldPrintSize_giveDefaultTree(){
@@ -25,8 +34,8 @@ public class NAryTreeTest {
 		var root = new NaryTreeNode(1,"CEO");
 		root.addChild(2,"Manager 1");
 		var man2 = root.addChild(3,"Manager 2");
-		man2.addChild(4,"Manager 5");
-		var man4 = man2.addChild(5,"Manager 4");
+		var man4 = man2.addChild(4,"Manager 4");
+		man2.addChild(5,"Manager 5");
 		man4.addChild(6,"dev1");
 		man4.addChild(7,"dev2");
 		man4.addChild(8,"dev3");

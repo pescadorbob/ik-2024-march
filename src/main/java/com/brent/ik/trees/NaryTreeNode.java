@@ -19,6 +19,7 @@ public  class NaryTreeNode {
 	
 	public NaryTreeNode(Integer key, String value){
 		children = new ArrayList<NaryTreeNode>();
+		this.value = value;
 		this.key = key;
 	}
 	
@@ -35,6 +36,19 @@ public  class NaryTreeNode {
 		return thisSize;
 		
 	}
+	public String preOrder(){
+		var output = new StringBuffer();
+		preOrder(this,output);
+		return output.toString().trim();
+	}
+	public static void preOrder(NaryTreeNode node,StringBuffer sb){
+		if(node==null) return ;
+		sb.append(String.format("%d)%s ",node.key,node.value));
+		for(NaryTreeNode child:node.children){
+			preOrder(child,sb);
+		}
+	}
+		
 	
 }
 
