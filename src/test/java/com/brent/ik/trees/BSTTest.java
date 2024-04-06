@@ -14,6 +14,36 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static com.brent.ik.trees.BSTPrettyPrint.*;
 
 public class BSTTest {
+	
+	@Test
+	void shouldDeleteNode_givenNodeIsALeaf(){
+		var bst = createTestTree();
+		var expectedBST = createTestTree();
+		bst(expectedBST,76).left = null;
+		
+		var valueToDelete = 68;
+		bst.delete(valueToDelete);
+        assertThat(bst).isEqualTo(expectedBST);		
+	}		
+	
+	private static Stream<Arguments> predecessorProvider() {
+		return Stream.of(
+		  Arguments.of(44, 54),
+		  Arguments.of(65, 68),
+		  Arguments.of(null, 8),
+		  Arguments.of(88, 93)
+		  
+		);
+	}
+
+    @ParameterizedTest
+    @MethodSource("predecessorProvider")
+	void shouldFindPredecessor_givenFullTree(Integer predecessor,Integer givenKey){
+		var bst = createTestTree();
+		
+		var actual = bst.predecessor(givenKey);
+		assertThat(actual).isEqualTo(predecessor);
+	}
 	private static Stream<Arguments> successorProvider() {
 		return Stream.of(
 		  Arguments.of(44, 54),

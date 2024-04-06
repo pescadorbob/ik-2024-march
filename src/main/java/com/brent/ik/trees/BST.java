@@ -104,6 +104,72 @@ public class BST {
 		}
 		return null;
 	}
+	public Integer predecessor(Integer key){
+		if(root == null) return null;
+		var p = search(key);
+		if(p==null) return null;
+		TreeNode curr = null;
+		// if the node has a left node, then the successor is the one furthest left.
+		if(p.left!=null){
+			curr = p.left;
+			while(curr.right != null){
+				curr = curr.right;
+			}
+			return curr.key;
+		}
+		// if it wasn't found, then we must look back through the tree to the furthest right ancestor
+		// that has a left ancestor
+		// search for p, starting from root
+		TreeNode ancestor = null;
+		curr = root;
+		while(curr.key != p.key){
+			if(p.key < curr.key){
+				curr = curr.left;
+			} else {
+				ancestor = curr;
+				curr = curr.right;
+			}
+		}
+		if(ancestor!=null){
+			return ancestor.key;
+		}
+		return null;
+	}
+	public TreeNode delete(Integer key){
+		// case 1: node is a leaf
+		// find the node
+		var curr = getRoot();
+		TreeNode prev = null;
+		while(curr != null){
+			if(key == curr.key){
+				break; // found it
+			} else if(key>curr.key){
+				prev = curr;
+				curr = curr.left;
+			} else {
+				prev = curr;
+				curr = curr.right;
+			}
+		}
+		if(curr == null){
+			// root remains the same
+			return getRoot();
+		}
+		if(curr.left == null && curr.right == null){
+			// case 1, node is a leaf 
+			// edge case first, is this the root
+			if(prev==null){
+				root = null;
+				return null;
+			}
+			if(curr == prev.left){
+				prev.left = null;
+			} else { // curr is prev.right
+			    prev.right = null;
+			}
+		}
+		return root;
+	}
 
     @Override
     public boolean equals(Object o) {
