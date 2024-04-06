@@ -16,7 +16,9 @@ import static com.brent.ik.trees.BSTPrettyPrint.*;
 public class BSTTest {
 	private static Stream<Arguments> successorProvider() {
 		return Stream.of(
-		  Arguments.of(44, 54)
+		  Arguments.of(44, 54),
+		  Arguments.of(65, 68),
+		  Arguments.of(88, 93)
 		  
 		);
 	}
@@ -26,7 +28,7 @@ public class BSTTest {
 	void shouldFindSuccessor_givenFullTree(int givenKey,int expectedSuccessor){
 		var bst = createTestTree();
 		
-		var actual = bst.successor(44);
+		var actual = bst.successor(givenKey);
 		assertThat(actual).isEqualTo(expectedSuccessor);
 	}
 		
