@@ -1,9 +1,12 @@
 package com.brent.ik.trees;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -62,13 +65,19 @@ public class BSTTest {
         assertThat(node).isNull();
 
     }
-    @Test
-    void shouldFindNode_given13Value(){
+
+    static Stream<Integer> searchProvider() {
+        return Stream.of(65,44,88,97,93,82,76,80,68,29,54,32,17,8,28);
+    }
+    @ParameterizedTest
+    @MethodSource("searchProvider")
+
+    void shouldFindNode_given13Value(Integer value){
 
         var bst = createTestTree();
 
-        var expectedNode = bst(65);
-        var node = bst.search(65);
+        var expectedNode = bst(value);
+        var node = bst.search(value);
 
         assertThat(node).isEqualTo(expectedNode);
 
