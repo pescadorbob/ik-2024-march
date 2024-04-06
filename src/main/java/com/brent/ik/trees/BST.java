@@ -10,6 +10,18 @@ import java.util.LinkedList;
 public class BST {
     private TreeNode root;
 	
+	public String postOrder(){
+		var output = new StringBuffer();
+		postOrder(root,output);
+		return output.toString().trim();
+	}
+	
+	private static void postOrder(TreeNode node,StringBuffer sb){
+		if(node == null) return ;
+		postOrder(node.left,sb);
+		postOrder(node.right,sb);
+		sb.append(node.key).append(" ");
+	}
 	public String inOrder(){
 		var output = new StringBuffer();
 		inOrder(root,output);
