@@ -14,8 +14,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class BSTTest {
 
+	@Test
+	void shouldPrintLevelOrder_givenDefaultTree(){
+		var expectedPrintOut = "44 17 88 8 32 65 97 28 54 82 93 29 76 68 80";
+		var bst = createTestTree();
+		
+		var levelOrderPrintout = bst.levelOrderPrint();
+		assertThat(levelOrderPrintout).isEqualTo(expectedPrintOut);
+			
+	}
 	
-
 	@Test
 	void shouldDeleteNode_givenNodeHasTwoChildren(){
 		var bst = createTestTree();

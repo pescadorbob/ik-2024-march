@@ -5,9 +5,28 @@ import com.sun.source.tree.Tree;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.LinkedList;
 
 public class BST {
     private TreeNode root;
+	
+	public String levelOrderPrint(){
+		if(root==null)return "";
+		var q = new LinkedList<TreeNode>();
+		var output = new StringBuffer();
+		q.push(root);
+		while(q.size()>0){
+			var node = q.poll();
+			output.append(node.key).append(" ");
+			if(node.left!=null){
+				q.offer(node.left);
+			}
+			if(node.right!=null){
+				q.offer(node.right);
+			}
+		}
+		return output.toString().trim();
+	}
 	
 	public TreeNode search(int key) {
 		var curr = getRoot();
