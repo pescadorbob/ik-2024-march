@@ -3,18 +3,44 @@ package com.brent.ik.trees;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.brent.ik.trees.BSTPrettyPrint.*;
 
 public class BSTTest {
 	
+	@Test
+	void shouldDeleteNode_givenNodeHasOneChild(){
+		var bst = createTestTree();
+		var expectedBST = createTestTree();
+		bst(expectedBST,97).left = null;
+		bst(expectedBST,97).key = 93;
+		
+		var valueToDelete = 97;
+		bst.delete(valueToDelete);
+        assertThat(bst).isEqualTo(expectedBST);		
+	}		
+
+    @Test
+    void shouldReturnDifferentHashes_givenDifferentTrees(){
+        var bst1 = createTestTree();
+        var bst2 = createTestTree();
+
+        assertThat(bst1.hashCode()).isNotEqualTo(bst2.hashCode());
+    }
+    @Test
+    void shouldFailEquals_givenUnequalTrees(){
+        var tree1= createTestTree();
+        var tree2= createTestTree();
+        bst(tree2,76).left = null;
+
+        assertThat(tree1).isNotEqualTo(tree2);
+    }
 	@Test
 	void shouldDeleteNode_givenNodeIsALeaf(){
 		var bst = createTestTree();

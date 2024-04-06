@@ -136,14 +136,13 @@ public class BST {
 		return null;
 	}
 	public TreeNode delete(Integer key){
-		// case 1: node is a leaf
 		// find the node
 		var curr = getRoot();
 		TreeNode prev = null;
 		while(curr != null){
 			if(key == curr.key){
 				break; // found it
-			} else if(key>curr.key){
+			} else if(key<curr.key){
 				prev = curr;
 				curr = curr.left;
 			} else {
@@ -155,6 +154,7 @@ public class BST {
 			// root remains the same
 			return getRoot();
 		}
+		// case 1: node is a leaf
 		if(curr.left == null && curr.right == null){
 			// case 1, node is a leaf 
 			// edge case first, is this the root
@@ -166,6 +166,27 @@ public class BST {
 				prev.left = null;
 			} else { // curr is prev.right
 			    prev.right = null;
+			}
+			return root;
+		}
+		// case 2: node has one child
+		TreeNode child = null;
+		if(curr.left == null && curr.right != null){
+			child = curr.right;
+		} 
+		if(curr.left != null && curr.right == null){
+			child = curr.left;
+		}
+		if(child != null){
+			// special corner case of root node
+			if(prev == null){
+				root = child;
+				return root;
+			}
+			if(curr==prev.left){
+				prev.left = child;
+			} else {
+				prev.right = child;
 			}
 		}
 		return root;
@@ -179,10 +200,6 @@ public class BST {
         return Objects.equals(root, bst.root);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(root);
-    }
 
     public BST(Builder builder) {
         root = builder.root;
@@ -221,13 +238,10 @@ public class BST {
             if (o == null || getClass() != o.getClass()) return false;
             TreeNode treeNode = (TreeNode) o;
             if (key != treeNode.key) return false;
-            return Objects.equals(((TreeNode) o).right,this.right);
+            return Objects.equals(((TreeNode) o).right,this.right) &&
+                   Objects.equals(((TreeNode) o).left,this.left) ;
         }
 
-        @Override
-        public int hashCode() {
-            return Objects.hash(key);
-        }
 
         public TreeNode setRight(TreeNode rightNode) {
             this.right = rightNode;
