@@ -13,6 +13,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static com.brent.ik.trees.BSTPrettyPrint.*;
 
 public class BSTTest {
+	@Test
+	void shouldReturnMin_givenFullTree(){
+		var expectedBST = createTestTree();
+        var _8 = bst(expectedBST,8);
+        
+		var expectedMin = 8;
+
+        var bst = createTestTree();
+
+        var actual = bst.min();
+        assertThat(actual).isEqualTo(expectedMin);
+	}
     @Test
     void shouldAddTreeNodeAtRoot_GivenEmpty() {
         var val = 1;

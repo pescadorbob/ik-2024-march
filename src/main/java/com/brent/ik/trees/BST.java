@@ -56,6 +56,14 @@ public class BST {
 		return;
 
 	}
+	public Integer min(){
+		if(getRoot()==null) return null;
+		var curr = root;
+		while(curr.left !=null){
+			curr = curr.left;
+		}
+		return curr.key;
+	}
 
     @Override
     public boolean equals(Object o) {
