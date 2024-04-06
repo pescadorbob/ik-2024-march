@@ -12,16 +12,18 @@ import java.util.ArrayList;
 
 public  class NaryTreeNode {
 
-	private String key;
+	private Integer key;
+	private String value;
+	
 	private List<NaryTreeNode> children;
 	
-	public NaryTreeNode(String key){
+	public NaryTreeNode(Integer key, String value){
 		children = new ArrayList<NaryTreeNode>();
 		this.key = key;
 	}
 	
-	public NaryTreeNode addChild(String key){
-		var newNode = new NaryTreeNode(key);
+	public NaryTreeNode addChild(Integer key, String value){
+		var newNode = new NaryTreeNode(key,value);
 		children.add(newNode);
 		return newNode;
 	}

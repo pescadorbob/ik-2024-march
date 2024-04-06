@@ -22,15 +22,15 @@ public class NAryTreeTest {
 	}
 	
 	public static NaryTreeNode defaultTestTree(){
-		var root = new NaryTreeNode("CEO");
-		root.addChild("Manager 1");
-		var man2 = root.addChild("Manager 2");
-		man2.addChild("Manager 5");
-		var man4 = man2.addChild("Manager 4");
-		man4.addChild("dev1");
-		man4.addChild("dev2");
-		man4.addChild("dev3");
-		root.addChild("Manager 3");
+		var root = new NaryTreeNode(1,"CEO");
+		root.addChild(2,"Manager 1");
+		var man2 = root.addChild(3,"Manager 2");
+		man2.addChild(4,"Manager 5");
+		var man4 = man2.addChild(5,"Manager 4");
+		man4.addChild(6,"dev1");
+		man4.addChild(7,"dev2");
+		man4.addChild(8,"dev3");
+		root.addChild(9,"Manager 3");
 		return root;
 	}
 
