@@ -14,6 +14,16 @@ import static com.brent.ik.trees.BSTPrettyPrint.*;
 
 public class BSTTest {
 	@Test
+	void shouldReturnMax_givenFullTree(){
+		var bst = createTestTree();
+        
+		var expectedMax = 97;
+
+
+        var actual = bst.max();
+        assertThat(actual).isEqualTo(expectedMax);
+	}
+	@Test
 	void shouldReturnMin_givenFullTree(){
 		var expectedBST = createTestTree();
         var _8 = bst(expectedBST,8);

@@ -65,6 +65,15 @@ public class BST {
 		return curr.key;
 	}
 
+	public Integer max(){
+		if(getRoot()==null) return null;
+		var curr = root;
+		while(curr.right !=null){
+			curr = curr.right;
+		}
+		return curr.key;
+	}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
