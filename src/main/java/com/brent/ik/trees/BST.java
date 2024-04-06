@@ -8,6 +8,54 @@ import java.util.Objects;
 
 public class BST {
     private TreeNode root;
+	
+	public TreeNode search(int key) {
+		var curr = getRoot();
+		while(curr != null){
+		   if(key == curr.key){
+			   return curr;
+		   } else if (key < curr.key){
+			   curr = curr.left;
+		   } else { 
+			   curr = curr.right;
+		   }
+		} 
+		return null;
+	}
+
+	public void insert(int key) {
+		var newNode = new TreeNode(key);
+		
+		TreeNode prev = null;
+		var curr = getRoot();
+		if(curr==null){
+			root = newNode;
+			return;
+		}
+		while(curr != null){
+		   if(key == curr.key){
+			   // key already exists
+			   return;
+		   } else if (key < curr.key){
+			   prev = curr;
+			   curr = curr.left;
+		   } else { 
+			   prev = curr;
+			   curr = curr.right;
+		   }
+		} 
+		if(prev!=null){
+			if(key < prev.key){
+				prev.left = newNode;
+				
+			} else {
+				prev.right = newNode;
+				
+			}
+		}
+		return;
+
+	}
 
     @Override
     public boolean equals(Object o) {
@@ -34,65 +82,23 @@ public class BST {
     public TreeNode getRoot() {
         return root;
     }
+	
 
-    public TreeNode search(int val) {
-        var curr = root;
-        while(curr != null){
-           if(val == curr.value){
-               return curr;
-           } else if (val < curr.value){
-               curr = curr.left;
-           } else { 
-               curr = curr.right;
-           }
-        } 
-        return null;
-    }
-
-    public void insert(int val) {
-		TreeNode prev = null;
-		if(root==null) {
-			root = new TreeNode(val);
-			return;
-		}
-        var curr = root;
-        while(curr != null){
-           if(val == curr.value){
-			   // key already exists
-               return;
-           } else if (val < curr.value){
-			   prev = curr;
-               curr = curr.left;
-           } else { 
-		       prev = curr;
-               curr = curr.right;
-           }
-        } 
-		if(prev!=null){
-			if(val < prev.value){
-				prev.addLeft(val);
-			} else {
-				prev.addRight(val);
-			}
-		}
-        return;
-
-    }
 
     public static class TreeNode {
 
-        private int value;
-        private TreeNode right;
-        private TreeNode left;
+        int key;
+        TreeNode right;
+        TreeNode left;
 
-        public TreeNode(int value) {
-            this.value = value;
+        public TreeNode(int key) {
+            this.key = key;
         }
 
 
 
-        public void setValue(int val) {
-            this.value = val;
+        public void setKey(int key) {
+            this.key = key;
         }
 
         @Override
@@ -100,13 +106,13 @@ public class BST {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             TreeNode treeNode = (TreeNode) o;
-            if (value != treeNode.value) return false;
+            if (key != treeNode.key) return false;
             return Objects.equals(((TreeNode) o).right,this.right);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(value);
+            return Objects.hash(key);
         }
 
         public TreeNode setRight(TreeNode rightNode) {
@@ -116,20 +122,31 @@ public class BST {
 
         @Override
         public String toString() {
-            return "TreeNode{" +
-                    "value=" + value +
-                    ", right=" + right +
-                    '}';
+            return toString(0);
         }
+		public String toString(int level){
+			return "[" + level + "]{" + 
+                    "key=" + key +
+                    ", left=" + toString(left,level+1) +
+					", right=" + toString(right,level+1) +
+                    '}';
+		}
+		public static String toString(TreeNode node,int level){
+			if(node!=null){
+				return node.toString(level);
+			} else {
+				return "-";
+			}
+		}
 
-        public TreeNode addRight(int val) {
-            var node = new TreeNode(val);
+        public TreeNode addRight(int key) {
+            var node = new TreeNode(key);
             this.setRight(node);
             return node;
         }
 
-        public TreeNode addLeft(int val) {
-            var node = new TreeNode(val);
+        public TreeNode addLeft(int key) {
+            var node = new TreeNode(key);
             this.setLeft(node);
             return node;
         }
@@ -146,9 +163,9 @@ public class BST {
         TreeNode curr;
         public Builder(){
         }
-        public Builder withRootNode(int val) {
-            root = new TreeNode(val);
-            root.setValue(val);
+        public Builder withRootNode(int key) {
+            root = new TreeNode(key);
+            root.setKey(key);
             curr = root;
             return this;
         }
@@ -157,8 +174,8 @@ public class BST {
             return new BST(this);
         }
 
-        public Builder withRightNode(int val) {
-            var rightNode = new TreeNode(val);
+        public Builder withRightNode(int key) {
+            var rightNode = new TreeNode(key);
             curr.setRight(rightNode);
             return this;
         }

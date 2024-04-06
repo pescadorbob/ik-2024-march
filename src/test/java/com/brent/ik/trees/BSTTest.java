@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static com.brent.ik.trees.BSTPrettyPrint.*;
 
 public class BSTTest {
     @Test
@@ -49,6 +50,8 @@ public class BSTTest {
         nodes.put(29,_29);
         var _97 = _88.addRight(97);
         nodes.put(97,_97);
+		var _93 = _97.addLeft(93);
+		nodes.put(93,_93);
         var _65 = _88.addLeft(65);
         nodes.put(65,_65);
         var _54 = _65.addLeft(54);
@@ -70,7 +73,7 @@ public class BSTTest {
 
     @ParameterizedTest
     @MethodSource("searchMissProvider")
-    void shouldNotFindNode_givenNotPresentValue(){
+    void shouldNotFindNode_givenNotPresentKey(){
         var bst = createTestTree();
 
         var node = bst.search(90);
@@ -84,12 +87,12 @@ public class BSTTest {
     }
     @ParameterizedTest
     @MethodSource("searchProvider")
-    void shouldFindNode_given13Value(Integer value){
+    void shouldFindNode_given13Key(Integer key){
 
         var bst = createTestTree();
 
-        var expectedNode = bst(bst,value);
-        var node = bst.search(value);
+        var expectedNode = bst(bst,key);
+        var node = bst.search(key);
 
         assertThat(node).isEqualTo(expectedNode);
 
@@ -102,7 +105,6 @@ public class BSTTest {
         var bst = createTestTree();
 
         bst.insert(12);
-
         assertThat(bst).isEqualTo(expectedBST);
 
     }
