@@ -18,6 +18,7 @@ public class BSTTest {
 		return Stream.of(
 		  Arguments.of(44, 54),
 		  Arguments.of(65, 68),
+		  Arguments.of(97, null),
 		  Arguments.of(88, 93)
 		  
 		);
@@ -25,7 +26,7 @@ public class BSTTest {
 
     @ParameterizedTest
     @MethodSource("successorProvider")
-	void shouldFindSuccessor_givenFullTree(int givenKey,int expectedSuccessor){
+	void shouldFindSuccessor_givenFullTree(Integer givenKey,Integer expectedSuccessor){
 		var bst = createTestTree();
 		
 		var actual = bst.successor(givenKey);
