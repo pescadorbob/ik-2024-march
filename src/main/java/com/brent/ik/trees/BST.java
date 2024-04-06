@@ -10,6 +10,19 @@ import java.util.LinkedList;
 public class BST {
     private TreeNode root;
 	
+	public String preOrder(){
+		if(root==null)return "";
+		var output = new StringBuffer();
+		preOrder(root,output);
+		return output.toString().trim();
+	}
+	
+	private static void preOrder(TreeNode node,StringBuffer sb){
+		if(node == null) return ;
+		sb.append(node.key).append(" ");
+		preOrder(node.left,sb);
+		preOrder(node.right,sb);
+	}
 	public String levelOrderPrint(){
 		if(root==null)return "";
 		var q = new LinkedList<TreeNode>();
