@@ -13,6 +13,19 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BSTTest {
+
+	@Test
+	void shouldDeleteNode_givenNodeHasTwoChildren(){
+		var bst = createTestTree();
+		var expectedBST = createTestTree();
+		bst(expectedBST,97).left = null;
+		bst(expectedBST,88).key = 93;
+		
+		
+		var valueToDelete = 88;
+		bst.delete(valueToDelete);
+        assertThat(bst).isEqualTo(expectedBST);		
+	}		
 	
 	@Test
 	void shouldDeleteNode_givenNodeHasOneChild(){

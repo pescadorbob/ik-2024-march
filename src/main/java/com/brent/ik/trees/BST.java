@@ -189,6 +189,25 @@ public class BST {
 				prev.right = child;
 			}
 		}
+		// case 3: node has 2 children
+		// find the successor, swap the value for the successor, delete the successor.
+		if(curr.left!=null && curr.right!=null){
+			var succ = curr.right;
+			prev = curr;
+			
+			while(succ.left!=null){
+				prev = succ;
+				succ=succ.left;
+			}
+			
+			curr.key = succ.key;
+			if(succ==prev.left){
+				prev.left = succ.right;
+			} else { //succ is prev right
+				prev.right = succ.right;
+			}
+				
+		}
 		return root;
 	}
 
