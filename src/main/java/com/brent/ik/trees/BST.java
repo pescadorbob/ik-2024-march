@@ -73,6 +73,37 @@ public class BST {
 		}
 		return curr.key;
 	}
+	public Integer successor(Integer key){
+		if(root == null) return null;
+		var p = search(key);
+		if(p==null) return null;
+		TreeNode curr = null;
+		// if the node has a right node, then the successor is the one furthest right.
+		if(p.right!=null){
+			curr = p.right;
+			while(curr.left != null){
+				curr = curr.left;
+			}
+			return curr.key;
+		}
+		// if it wasn't found, then we must look back through the tree to the furthest left ancestor
+		// that has a right ancestor
+		// search for p, starting from root
+		TreeNode ancestor = null;
+		curr = root;
+		while(curr.key != p.key){
+			if(p.key < curr.key){
+				ancestor = curr;
+				curr = curr.left;
+			} else {
+				curr = curr.right;
+			}
+		}
+		if(ancestor!=null){
+			return ancestor.key;
+		}
+		return null;
+	}
 
     @Override
     public boolean equals(Object o) {

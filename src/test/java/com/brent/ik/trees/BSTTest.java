@@ -14,6 +14,17 @@ import static com.brent.ik.trees.BSTPrettyPrint.*;
 
 public class BSTTest {
 	@Test
+	void shouldFindSuccessor_givenFullTree(){
+		var bst = createTestTree();
+		
+		var givenKey = 44;
+		var expectedSuccessor = 54;
+		
+		var actual = bst.successor(44);
+		assertThat(actual).isEqualTo(expectedSuccessor);
+	}
+		
+	@Test
 	void shouldReturnMax_givenFullTree(){
 		var bst = createTestTree();
         
