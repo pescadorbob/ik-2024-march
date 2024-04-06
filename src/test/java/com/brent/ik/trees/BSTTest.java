@@ -56,7 +56,12 @@ public class BSTTest {
         return bst;
     }
 
-    @Test
+    static Stream<Integer> searchMissProvider() {
+        return Stream.of(62,42,82,92,92,81,71,81,61,21,51,31,11,2,22);
+    }
+
+    @ParameterizedTest
+    @MethodSource("searchMissProvider")
     void shouldNotFindNode_givenNotPresentValue(){
         var bst = createTestTree();
 
@@ -71,7 +76,6 @@ public class BSTTest {
     }
     @ParameterizedTest
     @MethodSource("searchProvider")
-
     void shouldFindNode_given13Value(Integer value){
 
         var bst = createTestTree();
