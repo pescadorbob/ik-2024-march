@@ -15,6 +15,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BSTTest {
 	
 	@Test
+	void shouldProvideInOrderTraversal_givenDefaultTree(){
+		
+		var expectedPrintOut = "8 17 28 29 32 44 54 65 68 76 80 82 88 93 97";
+		var bst = createTestTree();
+		
+		var preorder = bst.inOrder();
+		assertThat(preorder).isEqualTo(expectedPrintOut);
+	}		
+
+	@Test
 	void shouldProvidePreOrderTraversal_givenDefaultTree(){
 		var expectedPrintOut = "44 17 8 32 28 29 88 65 54 82 76 68 80 97 93";
 		var bst = createTestTree();
