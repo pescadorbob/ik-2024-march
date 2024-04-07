@@ -49,6 +49,19 @@ public  class NaryTreeNode {
 		}
 	}
 		
+	public String postOrder(){
+		var output = new StringBuffer();
+		postOrder(this,output);
+		return output.toString().trim();
+	}
+	public static void postOrder(NaryTreeNode node,StringBuffer sb){
+		if(node==null) return ;
+		for(NaryTreeNode child:node.children){
+			postOrder(child,sb);
+		}
+		sb.append(String.format("%d)%s ",node.key,node.value));
+	}
+		
 	
 }
 

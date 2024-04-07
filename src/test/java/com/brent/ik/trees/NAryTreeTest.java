@@ -15,6 +15,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class NAryTreeTest {
 	
 	@Test
+	void shouldProvidePostOrderTraversal_giveDefaultTree(){
+		var expectedOutput = "2)Manager 1 6)dev1 7)dev2 8)dev3 4)Manager 4 5)Manager 5 3)Manager 2 9)Manager 3 1)CEO";
+		var tree = defaultTestTree();
+		
+		var output = tree.postOrder();
+		assertThat(output).isEqualTo(expectedOutput);
+	}
+
+	@Test
 	void shouldProvidePreOrderTraversal_giveDefaultTree(){
 		var expectedOutput = "1)CEO 2)Manager 1 3)Manager 2 4)Manager 4 6)dev1 7)dev2 8)dev3 5)Manager 5 9)Manager 3";
 		var tree = defaultTestTree();
