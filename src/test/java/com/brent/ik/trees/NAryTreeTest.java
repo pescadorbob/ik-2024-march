@@ -13,7 +13,14 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class NAryTreeTest {
-	
+	@Test
+	void shouldPrintWithIndent_giveDefaultTree(){
+		var expectedOutput = String.format("1)CEO%n 2)Manager 1%n 3)Manager 2%n  4)Manager 4%n   6)dev1%n   7)dev2%n   8)dev3%n  5)Manager 5%n 9)Manager 3");
+		var tree = defaultTestTree();
+		
+		var output = tree.prettyPrint();
+		assertThat(output).isEqualTo(expectedOutput);
+	}
 	@Test
 	void shouldProvidePostOrderTraversal_giveDefaultTree(){
 		var expectedOutput = "2)Manager 1 6)dev1 7)dev2 8)dev3 4)Manager 4 5)Manager 5 3)Manager 2 9)Manager 3 1)CEO";
