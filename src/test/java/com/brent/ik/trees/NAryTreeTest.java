@@ -14,6 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class NAryTreeTest {
 	@Test
+	void shouldCompareTwoIntegerValues(){
+		var int1 = new Integer(1);
+		var int2 = 2;
+		assertThat(int1 < int2).isTrue();
+	}
+	@Test
+	void shouldCompareIntegerValues(){
+		var int1 = new Integer(1);
+		var int2 = new Integer(1);
+		assertThat(int1 == int2).isTrue();
+	}
+	@Test
 	void shouldPrintWithIndent_giveDefaultTree(){
 		var expectedOutput = String.format("1)CEO%n 2)Manager 1%n 3)Manager 2%n  4)Manager 4%n   6)dev1%n   7)dev2%n   8)dev3%n  5)Manager 5%n 9)Manager 3");
 		var tree = defaultTestTree();
