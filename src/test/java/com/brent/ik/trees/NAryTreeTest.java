@@ -13,6 +13,14 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class NAryTreeTest {
+	@Test 
+	void shouldBeAssigned(){
+		var myInt = new Integer(5);
+		assertThat(myInt.intValue()).isEqualTo(5);
+	}
+	public static void testMethod(Integer ref){
+		ref = new Integer(6);
+	}
 	@Test
 	void shouldCompareTwoIntegerValues(){
 		var int1 = new Integer(1);
@@ -23,7 +31,7 @@ public class NAryTreeTest {
 	void shouldCompareIntegerValues(){
 		var int1 = new Integer(1);
 		var int2 = new Integer(1);
-		assertThat(int1 == int2).isTrue();
+		assertThat(int1 == int2).isFalse();
 	}
 	@Test
 	void shouldPrintWithIndent_giveDefaultTree(){
