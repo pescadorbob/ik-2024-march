@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.brent.ik.graphs.DFS.dfs_traversal;
+import static com.brent.ik.graphs.DFSIterative.dfs_traversal;
 import static org.assertj.core.api.Assertions.assertThat;
 
 

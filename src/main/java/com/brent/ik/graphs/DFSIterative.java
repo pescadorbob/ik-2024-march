@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.LinkedList;
 import java.util.*;
 
-public class DFS {
+public class DFSIterative {
 
     static void dfsTraversalHelper(int startNode, List<List<Integer>> graph, List<Integer> answer, boolean[] isVisited) {
         isVisited[startNode] = true;
