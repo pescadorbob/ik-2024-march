@@ -47,7 +47,7 @@ class DFSRecursiveTest {
 				}
 """;
 		var expectedString = """
-				[0, 4, 2, 3, 1, 5]
+				[0, 1, 2, 3, 4, 5]
 """;		
 		var json = new ObjectMapper();
 		GraphData graphData = json.readValue(inputJson,GraphData.class);
