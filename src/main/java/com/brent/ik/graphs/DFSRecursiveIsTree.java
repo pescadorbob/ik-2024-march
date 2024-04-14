@@ -21,7 +21,7 @@ public class DFSRecursiveIsTree {
 		}
     }
 
-    public static Integer isTree(int n, List<List<Integer>> edges) {
+    public static boolean isTree(int n, List<List<Integer>> edges) {
         List<List<Integer>> graph = new ArrayList<>();
         List<Integer> answer = new ArrayList<>();
         int[] isVisited = new int[n];
@@ -49,6 +49,6 @@ public class DFSRecursiveIsTree {
             }
         }
 
-        return components[0];
+        return components[0]==1;
     }
 }

@@ -51,7 +51,7 @@ class DFSRecursiveIsTreeTest {
 		GraphData graphData = json.readValue(inputJson,GraphData.class);
 		
 		var actual = isTree(graphData.n,graphData.edges);
-		assertThat(actual).isEqualTo(2);
+		assertThat(actual).isEqualTo(false);
 	}		
 }
 /**
