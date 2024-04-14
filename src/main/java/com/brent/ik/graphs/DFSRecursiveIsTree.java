@@ -9,27 +9,38 @@ import java.util.*;
 public class DFSRecursiveIsTree {
 
 
-    static void dfsTraversalHelper(int startNode, List<List<Integer>> graph, 
-	    List<Integer> answer, int[] isVisited,int[]components) {
+    static boolean dfsTraversalHelper(int startNode, List<List<Integer>> graph, 
+	    List<Integer> answer, int[] isVisited,int[]components, List<Integer> parent) {
 			answer.add(startNode);
         isVisited[startNode] = components[0];
 		var adjNodes = graph.get(startNode);
-		for(Integer adj:adjNodes){
-			if(isVisited[adj]==-1){
-				dfsTraversalHelper(adj,graph,answer,isVisited,components);
+		for(Integer neighbor:adjNodes){
+			if(isVisited[neighbor]==-1){
+				parent.set(neighbor,startNode);
+				boolean hasBackTrack = dfsTraversalHelper(neighbor,graph,answer,isVisited,components,parent);
+				if(hasBackTrack) return hasBackTrack;
+			} else {
+				if(parent.get(startNode) !=null && neighbor != parent.get(startNode)){
+					// means the visited node wasn't this node's  parent, 
+					// so it is a back track					
+					return true;
+				}
 			}
 		}
+		return false;// meaning hasBackTrack is false;
     }
 
     public static boolean isTree(int n, List<List<Integer>> edges) {
         List<List<Integer>> graph = new ArrayList<>();
         List<Integer> answer = new ArrayList<>();
         int[] isVisited = new int[n];
+		List<Integer> parent = new ArrayList<>();
 
         // Initialize graph
         for (int i = 0; i < n; i++) {
             graph.add(new ArrayList<>());
 			isVisited[i] = -1;
+			parent.add(null);
         }
 
         // Making a graph from the input edges
@@ -42,13 +53,15 @@ public class DFSRecursiveIsTree {
 
 		int [] components = new int[1];
 		components[0]=0;
+		boolean hasBackTrack = false;
         for (int i = 0; i < n; i++) {
             if (isVisited[i]==-1) {
 				components[0] = components[0]+1;
-                dfsTraversalHelper(i, graph, answer, isVisited, components);
+                hasBackTrack = dfsTraversalHelper(i, graph, answer, isVisited, components,parent);
+				if(hasBackTrack) break;
             }
         }
 
-        return components[0]==1;
+        return components[0]==1 && !hasBackTrack;
     }
 }

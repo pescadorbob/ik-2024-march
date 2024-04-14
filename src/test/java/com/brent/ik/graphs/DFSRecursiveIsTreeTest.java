@@ -35,7 +35,7 @@ class DFSRecursiveIsTreeTest {
 
 	
 	@Test
-	void shouldFindNumComponents_givenGraph() throws Exception {
+	void shouldFindIsTreeFalse_givenGraphWith2Components() throws Exception {
 		var inputJson = """
 				{
 					"n": 6,
@@ -44,6 +44,45 @@ class DFSRecursiveIsTreeTest {
 					[0, 2],
 					[0, 4],
 					[2, 3]
+					]
+				}
+""";
+		var json = new ObjectMapper();
+		GraphData graphData = json.readValue(inputJson,GraphData.class);
+		
+		var actual = isTree(graphData.n,graphData.edges);
+		assertThat(actual).isEqualTo(false);
+	}		
+	@Test
+	void shouldFindIsTreeTrue_givenTrueTree() throws Exception {
+		var inputJson = """
+				{
+					"n": 5,
+					"edges": [
+					[0, 1],
+					[0, 2],
+					[0, 4],
+					[2, 3]
+					]
+				}
+""";
+		var json = new ObjectMapper();
+		GraphData graphData = json.readValue(inputJson,GraphData.class);
+		
+		var actual = isTree(graphData.n,graphData.edges);
+		assertThat(actual).isEqualTo(true);
+	}		
+	@Test
+	void shouldFindIsTreeFalse_givenBackTrack() throws Exception {
+		var inputJson = """
+				{
+					"n": 5,
+					"edges": [
+					[0, 1],
+					[0, 2],
+					[0, 4],
+					[2, 3],
+					[3, 1]
 					]
 				}
 """;
