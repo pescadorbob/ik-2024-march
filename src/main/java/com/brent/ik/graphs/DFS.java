@@ -6,28 +6,28 @@ import java.util.Objects;
 import java.util.LinkedList;
 import java.util.*;
 
-public class BFS{
+public class DFS {
 
-	static void bfsTraversalHelper(int startNode, List<List<Integer>> graph, List<Integer> answer, boolean[] isVisited) {
+    static void dfsTraversalHelper(int startNode, List<List<Integer>> graph, List<Integer> answer, boolean[] isVisited) {
         isVisited[startNode] = true;
 //        answer.add(startNode);
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(startNode);
+        Deque<Integer> stack = new ArrayDeque<>();
+        stack.push(startNode);
 
-        while (!queue.isEmpty()) {
-            int u = queue.poll();
+        while (stack.size() > 0) {
+            int u = stack.pop();
             answer.add(u); // the only place it should be, when it comes off the queue
             for (int v : graph.get(u)) {
                 if (!isVisited[v]) {
 //                    answer.add(startNode);
-                    queue.add(v);
+                    stack.push(v);
                     isVisited[v] = true;
                 }
             }
         }
     }
 
-    public static List<Integer> bfs_traversal(int n, List<List<Integer>> edges) {
+    public static List<Integer> dfs_traversal(int n, List<List<Integer>> edges) {
         List<List<Integer>> graph = new ArrayList<>();
         List<Integer> answer = new ArrayList<>();
         boolean[] isVisited = new boolean[n];
@@ -47,7 +47,7 @@ public class BFS{
 
         for (int i = 0; i < n; i++) {
             if (!isVisited[i]) {
-                bfsTraversalHelper(i, graph, answer, isVisited);
+                dfsTraversalHelper(i, graph, answer, isVisited);
             }
         }
 

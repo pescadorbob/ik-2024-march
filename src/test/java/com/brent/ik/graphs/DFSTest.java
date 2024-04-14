@@ -1,23 +1,16 @@
 package com.brent.ik.graphs;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.List;
 
-import static com.brent.ik.graphs.BFS.*;
-
+import static com.brent.ik.graphs.DFS.dfs_traversal;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-class BFSTest {
+class DFSTest {
 
 	public static class GraphData {
 		private int n;
@@ -54,13 +47,13 @@ class BFSTest {
 				}
 """;
 		var expectedString = """
-				[0, 1, 2, 4, 3, 5]
+				[0, 4, 2, 3, 1, 5]
 """;		
 		var json = new ObjectMapper();
 		GraphData graphData = json.readValue(inputJson,GraphData.class);
 		
 		List<Integer> expected = json.readValue(expectedString, new TypeReference<List<Integer>>(){});
-		var actual = bfs_traversal(graphData.n,graphData.edges);
+		var actual = dfs_traversal(graphData.n,graphData.edges);
 		assertThat(actual).isEqualTo(expected);
 		
 	}
