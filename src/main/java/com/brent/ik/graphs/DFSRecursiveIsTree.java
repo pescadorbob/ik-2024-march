@@ -43,14 +43,26 @@ public class DFSRecursiveIsTree {
 			parent.add(null);
         }
 
+		boolean isMultiedge = false;
         // Making a graph from the input edges
         for (List<Integer> edge : edges) {
             int u = edge.get(0);
             int v = edge.get(1);
+			List<Integer> uList = graph.get(u);
+			List<Integer> vList = graph.get(v);
+			if(uList.contains(v)) {
+				isMultiedge = true;
+				break;
+			}
+			if(vList.contains(u)){
+				isMultiedge = true;
+				break;
+			}
             graph.get(u).add(v);
             graph.get(v).add(u); // For undirected graph
         }
-
+		if(isMultiedge) return false;
+		
 		int [] components = new int[1];
 		components[0]=0;
 		boolean hasBackTrack = false;

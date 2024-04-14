@@ -92,6 +92,26 @@ class DFSRecursiveIsTreeTest {
 		var actual = isTree(graphData.n,graphData.edges);
 		assertThat(actual).isEqualTo(false);
 	}		
+	@Test
+	void shouldFindIsTreeFalse_givenBackTrackWithDuplicateEdge() throws Exception {
+		var inputJson = """
+				{
+					"n": 5,
+					"edges": [
+					[0, 1],
+					[0, 2],
+					[0, 4],
+					[2, 3],
+					[1, 0]
+					]
+				}
+""";
+		var json = new ObjectMapper();
+		GraphData graphData = json.readValue(inputJson,GraphData.class);
+		
+		var actual = isTree(graphData.n,graphData.edges);
+		assertThat(actual).isEqualTo(false);
+	}		
 }
 /**
 <T> T readValue(String content,
