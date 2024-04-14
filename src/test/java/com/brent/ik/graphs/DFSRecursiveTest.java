@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.brent.ik.graphs.DFSRecursive.dfs_traversal;
+import static com.brent.ik.graphs.DFSRecursiveComponents.dfs_components;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -33,8 +33,9 @@ class DFSRecursiveTest {
 		}
 	}
 
+	
 	@Test
-	void shouldTraverseGraph_givenGraph() throws Exception {
+	void shouldFindNumComponents_givenGraph() throws Exception {
 		var inputJson = """
 				{
 					"n": 6,
@@ -46,17 +47,12 @@ class DFSRecursiveTest {
 					]
 				}
 """;
-		var expectedString = """
-				[0, 1, 2, 3, 4, 5]
-""";		
 		var json = new ObjectMapper();
 		GraphData graphData = json.readValue(inputJson,GraphData.class);
 		
-		List<Integer> expected = json.readValue(expectedString, new TypeReference<List<Integer>>(){});
-		var actual = dfs_traversal(graphData.n,graphData.edges);
-		assertThat(actual).isEqualTo(expected);
-		
-	}
+		var actual = dfs_components(graphData.n,graphData.edges);
+		assertThat(actual).isEqualTo(2);
+	}		
 }
 /**
 <T> T readValue(String content,
