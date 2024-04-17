@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import static com.brent.ik.graphs.DFSRecursiveIsTree.isTree;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,18 +58,59 @@ class DFSRecursiveIsTreeTest {
 	void shouldFindIsTreeTrue_givenTrueTree() throws Exception {
 		var inputJson = """
 				{
-					"n": 5,
+					"n": 6,
 					"edges": [
-					[0, 1],
-					[0, 2],
-					[0, 4],
-					[2, 3]
+					[4, 3],
+					[4, 5],
+					[4, 0],
+					[2, 0],
+					[1, 0]
 					]
 				}
 """;
 		var json = new ObjectMapper();
 		GraphData graphData = json.readValue(inputJson,GraphData.class);
 		
+		var actual = isTree(graphData.n,graphData.edges);
+		assertThat(actual).isEqualTo(true);
+	}		
+	@Test
+	void shouldFindIsTreeTrue_givenStaticCircleTree() throws Exception {
+		var inputJson = """
+				{
+					"n": 5,
+					"edges": [
+					[0, 1],
+					[1, 2],
+					[2, 3],
+					[3, 4]
+					]
+				}
+""";
+		var json = new ObjectMapper();
+		GraphData graphData = json.readValue(inputJson,GraphData.class);
+		
+		var actual = isTree(graphData.n,graphData.edges);
+		assertThat(actual).isEqualTo(true);
+	}		
+	@Test
+	void shouldFindIsTreeTrue_givenCircleTree() throws Exception {
+		GraphData graphData = new GraphData();
+		var n = 999;
+		graphData.setN(n);
+		List<List<Integer>> edges = new ArrayList<>();
+		graphData.setEdges(edges);
+		//n==3
+		/*
+		0->1
+		1->2
+		*/
+		for(int i=0;i<n-1;i++){
+			var edge = new ArrayList<Integer>();
+			edge.add(i);
+			edge.add(i+1);
+			edges.add(edge);
+		}
 		var actual = isTree(graphData.n,graphData.edges);
 		assertThat(actual).isEqualTo(true);
 	}		

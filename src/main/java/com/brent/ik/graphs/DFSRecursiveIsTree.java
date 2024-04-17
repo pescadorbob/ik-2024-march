@@ -20,7 +20,7 @@ public class DFSRecursiveIsTree {
 				boolean hasBackTrack = dfsTraversalHelper(neighbor,graph,answer,isVisited,components,parent);
 				if(hasBackTrack) return hasBackTrack;
 			} else {
-				if(parent.get(startNode) !=null && neighbor != parent.get(startNode)){
+				if(parent.get(startNode) !=null && neighbor.intValue() != parent.get(startNode).intValue()){
 					// means the visited node wasn't this node's  parent, 
 					// so it is a back track					
 					return true;
