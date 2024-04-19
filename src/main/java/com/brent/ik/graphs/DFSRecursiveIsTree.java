@@ -10,9 +10,9 @@ public class DFSRecursiveIsTree {
 
 
     static boolean dfsTraversalHelper(int startNode, List<List<Integer>> graph, 
-	    List<Integer> answer, int[] isVisited,int[]components, List<Integer> parent) {
+	    List<Integer> answer, int[] isVisited,int components, List<Integer> parent) {
 			answer.add(startNode);
-        isVisited[startNode] = components[0];
+        isVisited[startNode] = components;
 		var adjNodes = graph.get(startNode);
 		for(Integer neighbor:adjNodes){
 			if(isVisited[neighbor]==-1){
@@ -30,7 +30,7 @@ public class DFSRecursiveIsTree {
 		return false;// meaning hasBackTrack is false;
     }
 
-    public static boolean isTree(int n, List<List<Integer>> edges) {
+    public static boolean isTree(Integer n, List<List<Integer>> edges) {
         List<List<Integer>> graph = new ArrayList<>();
         List<Integer> answer = new ArrayList<>();
         int[] isVisited = new int[n];
@@ -44,6 +44,7 @@ public class DFSRecursiveIsTree {
         }
 
 		boolean isMultiedge = false;
+		boolean isSameEdge = false;
         // Making a graph from the input edges
         for (List<Integer> edge : edges) {
             int u = edge.get(0);
@@ -58,22 +59,27 @@ public class DFSRecursiveIsTree {
 				isMultiedge = true;
 				break;
 			}
+			if(u == v) {
+				isSameEdge = true;
+				break;
+			}
             graph.get(u).add(v);
             graph.get(v).add(u); // For undirected graph
         }
 		if(isMultiedge) return false;
-		
-		int [] components = new int[1];
-		components[0]=0;
+		if(isSameEdge) return false;
+
+		int components = 0;
+
 		boolean hasBackTrack = false;
         for (int i = 0; i < n; i++) {
             if (isVisited[i]==-1) {
-				components[0] = components[0]+1;
-                hasBackTrack = dfsTraversalHelper(i, graph, answer, isVisited, components,parent);
+				components ++;
+                hasBackTrack = dfsTraversalHelper(i, graph, answer, isVisited,components, parent);
 				if(hasBackTrack) break;
             }
         }
 
-        return components[0]==1 && !hasBackTrack;
+        return components==1 && !hasBackTrack;
     }
 }
