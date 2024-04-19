@@ -18,6 +18,8 @@ class AlienAlphabetTest {
                 Arguments.of(new String []{"eeeeeeeeeee"}, "e"),
                 Arguments.of(new String []{"e","e","e","e","e",}, "e"),
                 Arguments.of(new String []{"z","s",}, "zs"),
+                Arguments.of(new String []{"yyyyyy","wwwwwwwww",}, "yw"),
+                Arguments.of(new String []{"x","d","g",}, "xdg"),
                 Arguments.of(new String []{"caa","aaa","aab"}, "cab")
 
         );
