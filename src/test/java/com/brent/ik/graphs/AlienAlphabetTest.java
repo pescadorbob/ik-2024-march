@@ -17,6 +17,7 @@ class AlienAlphabetTest {
                 Arguments.of(new String []{"baa","abcd","abca","cab","cad"}, "bdac"),
                 Arguments.of(new String []{"eeeeeeeeeee"}, "e"),
                 Arguments.of(new String []{"e","e","e","e","e",}, "e"),
+                Arguments.of(new String []{"z","s",}, "zs"),
                 Arguments.of(new String []{"caa","aaa","aab"}, "cab")
 
         );
