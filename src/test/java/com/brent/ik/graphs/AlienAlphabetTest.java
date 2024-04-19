@@ -14,7 +14,9 @@ class AlienAlphabetTest {
 
     private static Stream<Arguments> provideInput() {
         return Stream.of(
-                Arguments.of(new String []{"baa","abcd","abca","cab","cad"}, "bdac")
+                Arguments.of(new String []{"baa","abcd","abca","cab","cad"}, "bdac"),
+                Arguments.of(new String []{"eeeeeeeeeee"}, "e"),
+                Arguments.of(new String []{"caa","aaa","aab"}, "cab")
 
         );
     }

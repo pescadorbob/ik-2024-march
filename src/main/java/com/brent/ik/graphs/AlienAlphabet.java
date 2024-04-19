@@ -60,6 +60,9 @@ public class AlienAlphabet {
 
     private static Map<Character, List<Character>> getAdjList(String[] words) {
         Map<Character, List<Character>> adjList = new HashMap<>();
+        if(words.length==1) {
+            adjList.put(words[0].charAt(0),new ArrayList<>());
+        }
         for (int wI = 0; wI < words.length - 1; wI++) {
             String word1 = words[wI];
             String word2 = words[wI + 1];
