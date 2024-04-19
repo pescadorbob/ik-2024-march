@@ -86,7 +86,7 @@ public class AlienAlphabet {
             }
 
         }
-        if(adjList.size()==0) {
+        if(adjList.isEmpty()) {
             adjList.put(words[0].charAt(0),new ArrayList<>());
         }
 
