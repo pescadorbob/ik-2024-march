@@ -1,11 +1,18 @@
 package com.brent.ik.dp;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
+import static java.util.Collections.list;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class WordBreakTest {
@@ -58,10 +65,19 @@ public class WordBreakTest {
         }
     }
 
-    @Test
-    void shouldReturnTrue_givenHelloWorldHello() {
-        String s = "iamace";
-        String[] dict = new String[]{"i", "am", "ace", "a"};
-        assertThat(wordBreak(dict, s)).isTrue();
+
+    @ParameterizedTest
+    @MethodSource
+    void shouldReturnTrue_givenHelloWorldHello(String s,String [] dict,boolean expected) {
+        assertThat(wordBreak(dict, s)).isEqualTo(expected);
     }
+    private static Stream<Arguments> shouldReturnTrue_givenHelloWorldHello() {
+        return Stream.of(
+                Arguments.of("iamace",
+                        new String[]{"i","am","ace","a"},true),
+                Arguments.of("helloworldhello",
+                        new String[]{"hello","world"},true)
+        );
+    }
+
 }
