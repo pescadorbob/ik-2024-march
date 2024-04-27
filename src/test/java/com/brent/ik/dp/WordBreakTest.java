@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -89,14 +90,45 @@ public class WordBreakTest {
                 {31, 32, 33, 34, 35},
                 {41, 42, 43, 44, 45},
         };
+        List<List<Integer>> expected = new ArrayList<>();
+        var row1= new ArrayList<Integer>();
+        row1.add(1);
+        row1.add(12);
+        row1.add(23);
+        row1.add(34);
+        row1.add(45);
+        expected.add(row1);
+        var row2 = new ArrayList<Integer>();
+        row2.add(2);
+        row2.add(13);
+        row2.add(24);
+        row2.add(35);
+        expected.add(row2);
+        var row3 = new ArrayList<Integer>();
+        row3.add(3);
+        row3.add(14);
+        row3.add(25);
+        expected.add(row3);
+        var row4 = new ArrayList<Integer>();
+        row4.add(4);
+        row4.add(15);
+        expected.add(row4);
+        var row5 = new ArrayList<Integer>();
+        row5.add(5);
+        expected.add(row5);
+        var actual = new ArrayList<ArrayList<Integer>>();
         for (int row = 0; row < matrix.length; ++row) {
+            var currRow=new ArrayList<Integer>();
             for (int col = 0; col < matrix.length - row; ++col) {
                 int i = col;
                 int j = row + col;
+                currRow.add(matrix[i][j]);
                 System.out.printf("%d-", matrix[i][j]);
             }
+            actual.add(currRow);
             System.out.println();
         }
+        assertThat(actual).isEqualTo(expected);
     }
 
 }
