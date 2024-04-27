@@ -90,6 +90,23 @@ public class WordBreakTest {
                 {31, 32, 33, 34, 35},
                 {41, 42, 43, 44, 45},
         };
+        List<List<Integer>> expected = getExpectedHalfMatrix();
+        var actual = new ArrayList<ArrayList<Integer>>();
+        for (int row = 0; row < matrix.length; ++row) {
+            var currRow=new ArrayList<Integer>();
+            for (int col = 0; col < matrix.length - row; ++col) {
+                int i = col;
+                int j = row + col;
+                currRow.add(matrix[i][j]);
+                System.out.printf("%d-", matrix[i][j]);
+            }
+            actual.add(currRow);
+            System.out.println();
+        }
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    private static List<List<Integer>> getExpectedHalfMatrix() {
         List<List<Integer>> expected = new ArrayList<>();
         var row1= new ArrayList<Integer>();
         row1.add(1);
@@ -116,19 +133,7 @@ public class WordBreakTest {
         var row5 = new ArrayList<Integer>();
         row5.add(5);
         expected.add(row5);
-        var actual = new ArrayList<ArrayList<Integer>>();
-        for (int row = 0; row < matrix.length; ++row) {
-            var currRow=new ArrayList<Integer>();
-            for (int col = 0; col < matrix.length - row; ++col) {
-                int i = col;
-                int j = row + col;
-                currRow.add(matrix[i][j]);
-                System.out.printf("%d-", matrix[i][j]);
-            }
-            actual.add(currRow);
-            System.out.println();
-        }
-        assertThat(actual).isEqualTo(expected);
+        return expected;
     }
 
 }
