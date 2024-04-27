@@ -3,8 +3,6 @@ package com.brent.ik.dp;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashSet;
@@ -12,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static java.util.Collections.list;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class WordBreakTest {
@@ -22,11 +19,13 @@ public class WordBreakTest {
         Set<String> hashDict = new HashSet<>(List.of(dict));
         int n = w.length();
         int length = 1;
-        for (int x = 0; x < 2 * n; x++) {
+        for (int row = 0; row < n; ++row) {
             length++;
             System.out.printf("Length %d%n", length);
-            for (int i = 0; i < n - x; i++) {
-                int j = i + x;
+            for (int col = 0; col < n - row; ++col) {
+                int i = col;
+                int j = row + col;
+
                 // try all partitions k of the substring i to j
                 // such that T[i][k] && T[k+1][j]
                 // note that these are the results of the smaller
@@ -68,16 +67,36 @@ public class WordBreakTest {
 
     @ParameterizedTest
     @MethodSource
-    void shouldReturnTrue_givenHelloWorldHello(String s,String [] dict,boolean expected) {
+    void shouldReturnTrue_givenHelloWorldHello(String s, String[] dict, boolean expected) {
         assertThat(wordBreak(dict, s)).isEqualTo(expected);
     }
+
     private static Stream<Arguments> shouldReturnTrue_givenHelloWorldHello() {
         return Stream.of(
                 Arguments.of("iamace",
-                        new String[]{"i","am","ace","a"},true),
+                        new String[]{"i", "am", "ace", "a"}, true),
                 Arguments.of("helloworldhello",
-                        new String[]{"hello","world"},true)
+                        new String[]{"hello", "world"}, true)
         );
+    }
+
+    @Test
+    void shouldPrintHalfAMatrix() {
+        int[][] matrix = new int[][]{
+                {1, 2, 3, 4, 5},
+                {11, 12, 13, 14, 15},
+                {21, 22, 23, 24, 25},
+                {31, 32, 33, 34, 35},
+                {41, 42, 43, 44, 45},
+        };
+        for (int row = 0; row < matrix.length; ++row) {
+            for (int col = 0; col < matrix.length - row; ++col) {
+                int i = col;
+                int j = row + col;
+                System.out.printf("%d-", matrix[i][j]);
+            }
+            System.out.println();
+        }
     }
 
 }
