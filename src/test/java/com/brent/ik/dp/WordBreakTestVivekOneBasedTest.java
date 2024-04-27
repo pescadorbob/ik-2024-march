@@ -1,33 +1,30 @@
 package com.brent.ik.dp;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class WordBreakTestVivekZero {
+public class WordBreakTestVivekOneBasedTest {
     boolean wordBreak(String[] dict, String s) {
         int n = s.length();
-        boolean []T=new boolean[n];
+        boolean []T=new boolean[n+1];
+        T[0]=true;
         var dictSet = new HashSet<>(List.of(dict));
         for(int i=1;i<=n;i++){
             for(int j=0;j<i;j++){
-                if((j==0 || T[j-1])
-                        && dictSet.contains(s.substring(j,i))){
-                    T[i-1] = true;
+                if(T[j] && dictSet.contains(s.substring(j,i))){
+                    T[i] = true;
                     break;
                 }
             }
         }
-        return T[n-1];
+        return T[n];
     }
 
 
