@@ -1,23 +1,20 @@
 package com.brent.ik.graphs;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.LinkedList;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DFSRecursive {
 
-    static void dfsTraversalHelper(int startNode, List<List<Integer>> graph, 
-	    List<Integer> answer, boolean[] isVisited) {
-			answer.add(startNode);
+    static void dfsTraversalHelper(int startNode, List<List<Integer>> graph,
+                                   List<Integer> answer, boolean[] isVisited) {
+        answer.add(startNode);
         isVisited[startNode] = true;
-		var adjNodes = graph.get(startNode);
-		for(Integer adj:adjNodes){
-			if(!isVisited[adj]){
-				dfsTraversalHelper(adj,graph,answer,isVisited);
-			}
-		}
+        var adjNodes = graph.get(startNode);
+        for (Integer adj : adjNodes) {
+            if (!isVisited[adj]) {
+                dfsTraversalHelper(adj, graph, answer, isVisited);
+            }
+        }
     }
 
     public static List<Integer> dfs_traversal(int n, List<List<Integer>> edges) {

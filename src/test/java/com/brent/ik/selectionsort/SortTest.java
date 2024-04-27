@@ -13,16 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public abstract class SortTest {
 
 
-    @ParameterizedTest
-    @MethodSource("provideArrays")
-    public void testSelectionSortSortArrayOfTenItems(ArrayList<Integer> items, ArrayList<Integer> expectedItems) {
-
-        var actual = getSorter().sort(items);
-        assertThat(actual).isEqualTo(expectedItems);
-    }
-
-    abstract Sorter getSorter();
-
     private static Stream<Arguments> provideArrays() {
         return Stream.of(
                 Arguments.of(list(10, 9, 4, 5, 6, 7),
@@ -41,9 +31,17 @@ public abstract class SortTest {
         );
     }
 
-
-
     private static ArrayList<Integer> list(Integer... array) {
         return new ArrayList<>(java.util.Arrays.stream(array).toList());
     }
+
+    @ParameterizedTest
+    @MethodSource("provideArrays")
+    public void testSelectionSortSortArrayOfTenItems(ArrayList<Integer> items, ArrayList<Integer> expectedItems) {
+
+        var actual = getSorter().sort(items);
+        assertThat(actual).isEqualTo(expectedItems);
+    }
+
+    abstract Sorter getSorter();
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class MergeSort extends Sorter {
     public ArrayList<Integer> sort(ArrayList<Integer> arr) {
-        helper(arr, 0, arr.size() -1);
+        helper(arr, 0, arr.size() - 1);
 
         return arr;
     }
@@ -21,7 +21,7 @@ public class MergeSort extends Sorter {
         var left = start;
         var right = mid + 1;
 
-        var aux = new ArrayList<Integer>(end-start+1);
+        var aux = new ArrayList<Integer>(end - start + 1);
         while (left <= mid && right <= end) {
 
             if (arr.get(left) <= arr.get(right)) {
@@ -29,18 +29,18 @@ public class MergeSort extends Sorter {
                 left++;
             } else { // right is smaller
                 // move right one down
-                aux.add( arr.get(right));
+                aux.add(arr.get(right));
                 right++;
             }
 
         }
         // copy remaining left ones
         while (left <= mid) {
-            aux.add( arr.get(left++));
+            aux.add(arr.get(left++));
         }
         // copy remaining right ones
         while (right <= end) {
-            aux.add( arr.get(right++));
+            aux.add(arr.get(right++));
         }
         //copy aux back to original
         var copyAuxIndex = 0;

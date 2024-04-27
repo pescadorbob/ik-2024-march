@@ -1,30 +1,24 @@
+/*
+For your reference:
+class BinaryTreeNode {
+    Integer value;
+    BinaryTreeNode left;
+    BinaryTreeNode right;
 
-    /*
-    For your reference:
-    class BinaryTreeNode {
-        Integer value;
-        BinaryTreeNode left;
-        BinaryTreeNode right;
-
-        BinaryTreeNode(Integer value) {
-            this.value = value;
-            this.left = null;
-            this.right = null;
-        }
+    BinaryTreeNode(Integer value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
     }
-    do in order traversal of treeA into arrayA, and treeB into arrayA
-    walk through the two arrays to merge the two into an array called mergedArray
-    then create the balanced tree, starting in the middle, cutting the array in half recursively until you have a height-balanced BST
-    
-    */
+}
+do in order traversal of treeA into arrayA, and treeB into arrayA
+walk through the two arrays to merge the two into an array called mergedArray
+then create the balanced tree, starting in the middle, cutting the array in half recursively until you have a height-balanced BST
+
+*/
 package com.brent.ik.trees;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.*;
-import java.util.stream.Stream;
-
-public class MergeTwoBST{
+public class MergeTwoBST {
 	
 	
 	/*

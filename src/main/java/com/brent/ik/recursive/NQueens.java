@@ -7,17 +7,20 @@ public class NQueens {
 
     private static final char queen = 'q';
     private static final char no_queen = '-';
+    static boolean[] col_occupied;
+    static boolean[] slash_diagonal;
+    static boolean[] backslash_diagonal;
 
     static ArrayList<List<String>> nQueens(Integer n) {
-        col_occupied = new boolean[n*n];
-        slash_diagonal = new boolean[n*n];
-        backslash_diagonal = new boolean[n*n];
+        col_occupied = new boolean[n * n];
+        slash_diagonal = new boolean[n * n];
+        backslash_diagonal = new boolean[n * n];
 
         // the index is the row, the value is the column
         List<List<Integer>> solution = new ArrayList<>();
         ArrayList<Integer> partialSolution = new ArrayList<>();
         // initialize the solutions to empty
-        for (int i = 0; i < n*n; i++) {
+        for (int i = 0; i < n * n; i++) {
             partialSolution.add(-1);
             col_occupied[i] = false;
             slash_diagonal[i] = false;
@@ -48,7 +51,7 @@ public class NQueens {
 
     private static void nQueens(Integer n, int row, List<Integer> partialSolution, List<List<Integer>> solution) {
 
-        if(row==n){
+        if (row == n) {
             // base case, we have a solution!
             solution.add(new ArrayList<>(partialSolution));
             return;
@@ -72,10 +75,6 @@ public class NQueens {
         partialSolution.remove(row);
 
     }
-
-    static boolean[] col_occupied;
-    static boolean[] slash_diagonal;
-    static boolean[] backslash_diagonal;
 
     private static void placeQueen(int row, int column, int n, List<Integer> partialSolution) {
         col_occupied[column] = true;

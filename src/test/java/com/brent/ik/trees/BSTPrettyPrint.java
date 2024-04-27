@@ -1,9 +1,5 @@
 package com.brent.ik.trees;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Stream;
-
 public class BSTPrettyPrint {
 
     private static int getHeight(BST.TreeNode node) {

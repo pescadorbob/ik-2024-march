@@ -1,24 +1,21 @@
 package com.brent.ik.graphs;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.LinkedList;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DFSRecursiveComponents {
 
 
-    static void dfsTraversalHelper(int startNode, List<List<Integer>> graph, 
-	    List<Integer> answer, boolean[] isVisited,int[]components) {
-			answer.add(startNode);
+    static void dfsTraversalHelper(int startNode, List<List<Integer>> graph,
+                                   List<Integer> answer, boolean[] isVisited, int[] components) {
+        answer.add(startNode);
         isVisited[startNode] = true;
-		var adjNodes = graph.get(startNode);
-		for(Integer adj:adjNodes){
-			if(!isVisited[adj]){
-				dfsTraversalHelper(adj,graph,answer,isVisited,components);
-			}
-		}
+        var adjNodes = graph.get(startNode);
+        for (Integer adj : adjNodes) {
+            if (!isVisited[adj]) {
+                dfsTraversalHelper(adj, graph, answer, isVisited, components);
+            }
+        }
     }
 
     public static Integer dfs_components(int n, List<List<Integer>> edges) {
@@ -39,11 +36,11 @@ public class DFSRecursiveComponents {
             graph.get(v).add(u); // For undirected graph
         }
 
-		int [] components = new int[1];
-		components[0]=0;
+        int[] components = new int[1];
+        components[0] = 0;
         for (int i = 0; i < n; i++) {
             if (!isVisited[i]) {
-				components[0] = components[0]+1;
+                components[0] = components[0] + 1;
                 dfsTraversalHelper(i, graph, answer, isVisited, components);
             }
         }

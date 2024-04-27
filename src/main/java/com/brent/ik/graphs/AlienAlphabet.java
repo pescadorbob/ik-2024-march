@@ -34,7 +34,7 @@ public class AlienAlphabet {
 
     private static String charListToString(List<Character> reversed) {
         var output = new StringBuffer();
-        for(Character c: reversed){
+        for (Character c : reversed) {
             output.append(c);
         }
         return output.toString();
@@ -48,12 +48,12 @@ public class AlienAlphabet {
         timestamp++;
         var neighbors = adjList.get(node);
         for (Character neighbor : neighbors) {
-            if(!visited.contains(neighbor)){
-                if(dfsCycleFound(neighbor,adjList,visited,timestamp,topoMap,departed)) return true;
+            if (!visited.contains(neighbor)) {
+                if (dfsCycleFound(neighbor, adjList, visited, timestamp, topoMap, departed)) return true;
 
             } else if (!departed.containsKey(neighbor)) return true;
         }
-        departed.put(node,++timestamp);
+        departed.put(node, ++timestamp);
         topoMap.add(node);
         return false;
     }
@@ -77,8 +77,8 @@ public class AlienAlphabet {
                         neighbors = adjList.get(a);
                     }
                     neighbors.add(b);
-                    if(!adjList.containsKey(b)){
-                        adjList.put(b,new ArrayList<>());
+                    if (!adjList.containsKey(b)) {
+                        adjList.put(b, new ArrayList<>());
                     }
                     break;
                 }
@@ -86,8 +86,8 @@ public class AlienAlphabet {
             }
 
         }
-        if(adjList.isEmpty()) {
-            adjList.put(words[0].charAt(0),new ArrayList<>());
+        if (adjList.isEmpty()) {
+            adjList.put(words[0].charAt(0), new ArrayList<>());
         }
 
         return adjList;

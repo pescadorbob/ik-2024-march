@@ -22,24 +22,24 @@ public class TransposeCompleteGraph {
 
     private static void dfs(GraphNode node, Map<Integer, GraphNode> graphNodeMap, HashSet<Integer> visited) {
         visited.add(node.value);
-        for(GraphNode neighbor: node.neighbors){
+        for (GraphNode neighbor : node.neighbors) {
             GraphNode graphNode;
-            if(graphNodeMap.containsKey(neighbor.value)){
+            if (graphNodeMap.containsKey(neighbor.value)) {
                 graphNode = graphNodeMap.get(neighbor.value);
             } else {
                 graphNode = new GraphNode(neighbor.value);
-                graphNodeMap.put(graphNode.value,graphNode);
+                graphNodeMap.put(graphNode.value, graphNode);
             }
             GraphNode graphNodeBack;
-            if(graphNodeMap.containsKey(node.value)){
+            if (graphNodeMap.containsKey(node.value)) {
                 graphNodeBack = graphNodeMap.get(node.value);
             } else {
                 graphNodeBack = new GraphNode(node.value);
-                graphNodeMap.put(graphNodeBack.value,graphNodeBack);
+                graphNodeMap.put(graphNodeBack.value, graphNodeBack);
             }
             graphNode.neighbors.add(graphNodeBack);
-            if(!visited.contains(graphNode.value)){
-                dfs(neighbor,graphNodeMap,visited);
+            if (!visited.contains(graphNode.value)) {
+                dfs(neighbor, graphNodeMap, visited);
             }
         }
     }

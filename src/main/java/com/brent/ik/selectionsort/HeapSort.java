@@ -119,7 +119,7 @@ public class HeapSort extends Sorter {
         }
 
         private boolean exists(int nodeIndex) {
-            return nodeIndex < heapIndex ;
+            return nodeIndex < heapIndex;
         }
 
     }
