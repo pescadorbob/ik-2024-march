@@ -48,10 +48,10 @@ public class WordBreakTest {
     }
 
     public static void prettyPrintMatrix(boolean[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
+        for (boolean[] booleans : matrix) {
+            for (boolean aBoolean : booleans) {
                 // Print "T" for true and "F" for false, followed by a space
-                System.out.print(matrix[i][j] ? "T " : "F ");
+                System.out.print(aBoolean ? "T " : "F ");
             }
             // Move to the next line after each row
             System.out.println();
