@@ -16,7 +16,9 @@ class RadixSortTest {
     private static Stream<Arguments> provideArrays() {
         return Stream.of(
                 Arguments.of(list(5,8,3,9,4,1,7), list(1,3,4,5,7,8,9)),
-                Arguments.of(list(5,8,3,9,4,11,7), list(3,4,5,7,8,9,11))
+                Arguments.of(list(5,8,3,9,4,11,7), list(3,4,5,7,8,9,11)),
+                Arguments.of(list(5,888,3,9,4,11,7), list(3,4,5,7,9,11,888)),
+                Arguments.of(list(5,88,3,9,4,11,7), list(3,4,5,7,9,11,88))
         );
     }
     private static ArrayList<Integer> list(Integer ... nums){
