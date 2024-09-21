@@ -1,4 +1,4 @@
-package com.brent.ik.selectionsort;
+package com.brent.ik.sort;
 
 import java.util.ArrayList;
 

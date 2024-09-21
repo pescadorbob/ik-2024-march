@@ -1,4 +1,4 @@
-package com.brent.ik.selectionsort;
+package com.brent.ik.sort;
 
 
 import org.junit.jupiter.params.ParameterizedTest;
