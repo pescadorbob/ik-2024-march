@@ -18,6 +18,11 @@ class RadixSortTest {
                 Arguments.of(list(5,8,3,9,4,1,7), list(1,3,4,5,7,8,9)),
                 Arguments.of(list(5,8,3,9,4,11,7), list(3,4,5,7,8,9,11)),
                 Arguments.of(list(5,888,3,9,4,11,7), list(3,4,5,7,9,11,888)),
+                Arguments.of(list(5,5,888,3,9,4,11,7), list(3,4,5,5,7,9,11,888)),
+                Arguments.of(list(5,5,888,3,9,4,11,7,3), list(3,3,4,5,5,7,9,11,888)),
+                Arguments.of(list(5,5,888,3,9,4,11,0,7,3), list(0,3,3,4,5,5,7,9,11,888)),
+                Arguments.of(list(5,5,888,3,9,4, (int) Math.pow(42,4),11,0,7,3), list(0,3,3,4,5,5,7,9,11,888, (int) Math.pow(42,4))),
+                Arguments.of(list(5, (int) Math.pow(99,4),888,3,9,4, (int) Math.pow(42,4),11,0,7,3), list(0,3,3,4,5,7,9,11,888, (int) Math.pow(42,4),(int) Math.pow(99,4))),
                 Arguments.of(list(5,88,3,9,4,11,7), list(3,4,5,7,9,11,88))
         );
     }
