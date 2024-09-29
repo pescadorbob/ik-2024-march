@@ -6,13 +6,13 @@ import java.util.HashMap;
 public class RadixSort {
 
     static ArrayList<Integer> radix_sort(ArrayList<Integer> arr) {
-        int numberOfDigits = getNumberOfDigits(arr); //  2
+        int numberOfDigits = getNumberOfDigits(arr);
 
         ArrayList<Integer> interimAnswer = arr;
         for (int place = 1; place <= numberOfDigits; place++) {
             interimAnswer = sortByPlace(place, interimAnswer);
         }
-        // Write your code here.
+
         return interimAnswer;
     }
     /*
