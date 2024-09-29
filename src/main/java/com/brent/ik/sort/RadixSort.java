@@ -9,7 +9,7 @@ public class RadixSort {
         int numberOfDigits = getNumberOfDigits(arr);
 
         ArrayList<Integer> interimAnswer = arr;
-        for (int place = 1; place <= numberOfDigits; place++) {
+        for (long place = 1; place <= Math.pow(10,numberOfDigits); place*=10) {
             interimAnswer = sortByPlace(place, interimAnswer);
         }
 
@@ -33,7 +33,7 @@ public class RadixSort {
               sortedByPlaceList:[]
      */
 
-    static ArrayList<Integer> sortByPlace(int place, ArrayList<Integer> arr) {
+    static ArrayList<Integer> sortByPlace(long place, ArrayList<Integer> arr) {
         var sortedByPlaceList = new HashMap<Integer, ArrayList<Integer>>();
         addNumbersToListsByPlace(place, arr, sortedByPlaceList);
         return flatten(sortedByPlaceList);
@@ -68,7 +68,7 @@ public class RadixSort {
                             0  1  2  3  4  5   6  7  8  9
          sortedByPlaceList: [3,4,5,7,8,9],[11],[],[],[],[],[],[],[],[]
      */
-    private static void addNumbersToListsByPlace(int place, ArrayList<Integer> arr, HashMap<Integer, ArrayList<Integer>> sortedByPlaceList) {
+    private static void addNumbersToListsByPlace(long place, ArrayList<Integer> arr, HashMap<Integer, ArrayList<Integer>> sortedByPlaceList) {
         for (int num : arr) {
             int numAtPlace = numAtPlace(num, place);
             addNumToSortedByPlace(numAtPlace,num, sortedByPlaceList);
@@ -111,14 +111,9 @@ public class RadixSort {
         interimNum:0
       return 1
      */
-    static int numAtPlace(int num, int place) {
-        int interimNum = num;
-        int lastDigit = interimNum % 10;
-        for (int i = 0; i < place; i++) {
-            lastDigit = interimNum % 10;
-            interimNum = interimNum / 10;
-        }
-        return lastDigit;
+    static int numAtPlace(int num, long place) {
+        long digit = ((long)num/place)%10l;
+        return (int) digit;
     }
 
     static int getNumberOfDigits(ArrayList<Integer> arr) {
