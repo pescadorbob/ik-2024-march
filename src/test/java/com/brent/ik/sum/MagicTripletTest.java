@@ -1,4 +1,4 @@
-package com.brent.ik.merge;
+package com.brent.ik.sum;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MagicThreeTest {
+public class MagicTripletTest {
 
     private static Stream<Arguments> provideArrays() {
         return Stream.of(
@@ -53,7 +53,7 @@ public class MagicThreeTest {
             if (sum == neededSum) {
                 answer.add(String.format("%d,%d,%d", -neededSum, arr.get(left), arr.get(right)));
                 left++; // right would be fine too.
-                // Note: because I sorted this at the start and we'll add them to a hash set, there will be no duplicates.
+                // Note: because I sorted this at the start, and they're added to a set, there will be no duplicates.
             } else if (sum >= neededSum) {
                 right--;
             } else {
