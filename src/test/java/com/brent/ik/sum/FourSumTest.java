@@ -1,17 +1,35 @@
 package com.brent.ik.sum;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FourSumTest {
-    @Test
-    void shouldFindUniqueQuadruplesThatSumUpToGivenValue(){
-        var arr = new ArrayList(Arrays.asList(0,0,1,3,2,-1));
-        var target = 3;
-        var expected = Arrays.asList(Arrays.asList(-1,0,1,3),Arrays.asList(0,0,1,2));
+    private static ArrayList<ArrayList<Integer>> lists(ArrayList<Integer>... array) {
+        return new ArrayList<ArrayList<Integer>>(Arrays.stream(array).toList());
+    }
+
+    private static ArrayList<Integer> list(Integer... array) {
+        return new ArrayList<>(java.util.Arrays.stream(array).toList());
+    }
+
+    private static Stream<Arguments> shouldFindUniqueQuadruplesThatSumUpToGivenValue() {
+        return Stream.of(
+                Arguments.of(list(0,0,1,3,2,-1),3, lists(list(-1,0,1,3),list(0,0,1,2)))
+
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void shouldFindUniqueQuadruplesThatSumUpToGivenValue(ArrayList arr,int target,ArrayList<ArrayList<Integer>> expected){
+
         var actual = fourSum(arr,target);
         assertThat(actual).containsOnlyElementsOf(expected);
     }
