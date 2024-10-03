@@ -95,11 +95,11 @@ public class DFSRecursiveIsTree {
         return components == 1 && !hasBackTrack;
     }
 
-    private static Graph makeGraphFromEdges(List<List<Integer>> edges, List<List<Integer>> graph) {
+    private static GraphResult makeGraphFromEdges(List<List<Integer>> edges, List<List<Integer>> graph) {
 
-        Graph graphConditions = new Graph();
-        graphConditions.isMultiEdge = false;
-        graphConditions.isEdgeToSelf = false;
+        GraphResult graphResult = new GraphResult();
+        graphResult.isMultiEdge = false;
+        graphResult.isEdgeToSelf = false;
 
         // Making a graph from the input edges
         for (List<Integer> edge : edges) {
@@ -108,21 +108,21 @@ public class DFSRecursiveIsTree {
             List<Integer> uList = graph.get(u);
             List<Integer> vList = graph.get(v);
             if (uList.contains(v)) {
-                graphConditions.isMultiEdge = true;
+                graphResult.isMultiEdge = true;
                 break;
             }
             if (vList.contains(u)) {
-                graphConditions.isMultiEdge = true;
+                graphResult.isMultiEdge = true;
                 break;
             }
             if (u == v) {
-                graphConditions.isEdgeToSelf = true;
+                graphResult.isEdgeToSelf = true;
                 break;
             }
             graph.get(u).add(v);
             graph.get(v).add(u); // For undirected graph
         }
-        return graphConditions;
+        return graphResult;
     }
 
     private static void initializeEmptyGraphVisitedArrayAndParentGraph(Integer n, List<List<Integer>> graph, int[] isVisited, List<Integer> parent) {
@@ -134,7 +134,7 @@ public class DFSRecursiveIsTree {
         }
     }
 
-    private static class Graph {
+    private static class GraphResult {
         public boolean isMultiEdge;
         public boolean isEdgeToSelf;
     }
