@@ -71,39 +71,12 @@ public class DFSRecursiveIsTree {
         int[] isVisited = new int[n];
         List<Integer> parent = new ArrayList<>();
 
-        // Initialize graph
-        for (int i = 0; i < n; i++) {
-            graph.add(new ArrayList<>());
-            isVisited[i] = -1;
-            parent.add(null);
-        }
+        initializeEmptyGraphAndVisitedArrayAndParentGraph(n, graph, isVisited, parent);
 
-        boolean isMultiedge = false;
-        boolean isSameEdge = false;
-
-        // Making a graph from the input edges
-        for (List<Integer> edge : edges) {
-            int u = edge.get(0);
-            int v = edge.get(1);
-            List<Integer> uList = graph.get(u);
-            List<Integer> vList = graph.get(v);
-            if (uList.contains(v)) {
-                isMultiedge = true;
-                break;
-            }
-            if (vList.contains(u)) {
-                isMultiedge = true;
-                break;
-            }
-            if (u == v) {
-                isSameEdge = true;
-                break;
-            }
-            graph.get(u).add(v);
-            graph.get(v).add(u); // For undirected graph
+        var graphConditions = makeGraphFromEdges(edges, graph);
+        if(graphConditions.isMultiEdge || graphConditions.isEdgeToSelf){
+            return false;
         }
-        if (isMultiedge) return false;
-        if (isSameEdge) return false;
 
         int components = 0;
 
@@ -118,5 +91,48 @@ public class DFSRecursiveIsTree {
         }
 
         return components == 1 && !hasBackTrack;
+    }
+
+    private static GraphConditions makeGraphFromEdges(List<List<Integer>> edges, List<List<Integer>> graph) {
+        GraphConditions graphConditions = new GraphConditions();
+        graphConditions.isMultiEdge = false;
+        graphConditions.isEdgeToSelf = false;
+
+        // Making a graph from the input edges
+        for (List<Integer> edge : edges) {
+            int u = edge.get(0);
+            int v = edge.get(1);
+            List<Integer> uList = graph.get(u);
+            List<Integer> vList = graph.get(v);
+            if (uList.contains(v)) {
+                graphConditions.isMultiEdge = true;
+                break;
+            }
+            if (vList.contains(u)) {
+                graphConditions.isMultiEdge = true;
+                break;
+            }
+            if (u == v) {
+                graphConditions.isEdgeToSelf = true;
+                break;
+            }
+            graph.get(u).add(v);
+            graph.get(v).add(u); // For undirected graph
+        }
+        return graphConditions;
+    }
+
+    private static void initializeEmptyGraphAndVisitedArrayAndParentGraph(Integer n, List<List<Integer>> graph, int[] isVisited, List<Integer> parent) {
+        // Initialize graph
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+            isVisited[i] = -1;
+            parent.add(null);
+        }
+    }
+
+    private static class GraphConditions {
+        public boolean isMultiEdge;
+        public boolean isEdgeToSelf;
     }
 }
