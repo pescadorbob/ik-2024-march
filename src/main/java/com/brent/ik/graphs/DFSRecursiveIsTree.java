@@ -26,7 +26,45 @@ public class DFSRecursiveIsTree {
         }
         return false;// meaning hasBackTrack is false;
     }
+    public static class GraphData2 {
+        private int node_count;
+        private List<Integer> edge_start;
+        private List<Integer> edge_end;
 
+        public int getNode_count() {
+            return node_count;
+        }
+
+        public void setNode_count(int node_count) {
+            this.node_count = node_count;
+        }
+
+        public List<Integer> getEdge_start() {
+            return edge_start;
+        }
+
+        public void setEdge_start(List<Integer> edge_start) {
+            this.edge_start = edge_start;
+        }
+
+        public List<Integer> getEdge_end() {
+            return edge_end;
+        }
+
+        public void setEdge_end(List<Integer> edge_end) {
+            this.edge_end = edge_end;
+        }
+    }
+    public static boolean isTree(GraphData2 graphData2) {
+        List<List<Integer>> edges = new ArrayList<>();
+        for(int i=0;i<graphData2.edge_start.size();i++){
+            var edge = new ArrayList<Integer>();
+            edge.add(graphData2.edge_start.get(i));
+            edge.add(graphData2.edge_end.get(i));
+            edges.add(edge);
+        }
+        return isTree(graphData2.node_count,edges);
+    }
     public static boolean isTree(Integer n, List<List<Integer>> edges) {
         List<List<Integer>> graph = new ArrayList<>();
         List<Integer> answer = new ArrayList<>();

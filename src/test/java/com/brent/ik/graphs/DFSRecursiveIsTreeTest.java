@@ -12,6 +12,41 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class DFSRecursiveIsTreeTest {
 
+
+    @Test
+    void shouldFindIsTree_givenLargeTreeGraph() throws Exception {
+        var inputJson = """
+                		{
+                  "node_count": 4,
+                  "edge_start": [0, 0, 0],
+                  "edge_end": [1, 2, 3]
+                  }
+                """;
+        var json = new ObjectMapper();
+        DFSRecursiveIsTree.GraphData2 graphData = json.readValue(inputJson, DFSRecursiveIsTree.GraphData2.class);
+
+        var actual = isTree(graphData);
+        assertThat(actual).isEqualTo(true);
+    }
+    @Test
+    void shouldFindIsTreeFalse_givenGraphSelfLoop() throws Exception {
+        var inputJson = """
+                				{
+                					"n": 4,
+                					"edges": [
+                					[0, 1],
+                					[0, 2],
+                					[0, 3],
+                					[0, 0]
+                					]
+                				}
+                """;
+        var json = new ObjectMapper();
+        GraphData graphData = json.readValue(inputJson, GraphData.class);
+
+        var actual = isTree(graphData.n, graphData.edges);
+        assertThat(actual).isEqualTo(false);
+    }
     @Test
     void shouldFindIsTreeFalse_givenGraphWith2Components() throws Exception {
         var inputJson = """
@@ -136,6 +171,8 @@ class DFSRecursiveIsTreeTest {
         var actual = isTree(graphData.n, graphData.edges);
         assertThat(actual).isEqualTo(false);
     }
+
+
 
     public static class GraphData {
         private int n;
