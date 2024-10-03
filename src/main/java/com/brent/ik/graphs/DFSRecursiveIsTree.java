@@ -7,14 +7,13 @@ public class DFSRecursiveIsTree {
 
 
     static boolean dfsTraversalHelper(int startNode, List<List<Integer>> graph,
-                                      List<Integer> answer, int[] isVisited, int components, List<Integer> parent) {
-        answer.add(startNode);
+                                       int[] isVisited, int components, List<Integer> parent) {
         isVisited[startNode] = components;
         var adjNodes = graph.get(startNode);
         for (Integer neighbor : adjNodes) {
             if (isVisited[neighbor] == -1) {
                 parent.set(neighbor, startNode);
-                boolean hasBackTrack = dfsTraversalHelper(neighbor, graph, answer, isVisited, components, parent);
+                boolean hasBackTrack = dfsTraversalHelper(neighbor, graph, isVisited, components, parent);
                 if (hasBackTrack) return hasBackTrack;
             } else {
                 if (parent.get(startNode) != null && neighbor.intValue() != parent.get(startNode).intValue()) {
@@ -67,7 +66,6 @@ public class DFSRecursiveIsTree {
     }
     public static boolean isTree(Integer n, List<List<Integer>> edges) {
         List<List<Integer>> graph = new ArrayList<>();
-        List<Integer> answer = new ArrayList<>();
         int[] isVisited = new int[n];
         List<Integer> parent = new ArrayList<>();
 
@@ -78,6 +76,10 @@ public class DFSRecursiveIsTree {
             return false;
         }
 
+        return verifyNoBackTrackOrSeparateComponents(n, isVisited, graph, parent);
+    }
+
+    private static boolean verifyNoBackTrackOrSeparateComponents(Integer n, int[] isVisited, List<List<Integer>> graph,  List<Integer> parent) {
         int components = 0;
 
         boolean hasBackTrack = false;
@@ -85,7 +87,7 @@ public class DFSRecursiveIsTree {
             if (isVisited[i] == -1) {
                 components++;
                 if(components>1) return false;
-                hasBackTrack = dfsTraversalHelper(i, graph, answer, isVisited, components, parent);
+                hasBackTrack = dfsTraversalHelper(i, graph,  isVisited, components, parent);
                 if (hasBackTrack) break;
             }
         }
