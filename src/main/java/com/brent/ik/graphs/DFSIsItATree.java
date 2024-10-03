@@ -79,6 +79,7 @@ public class DFSIsItATree {
         for (int i = 0; i < n; i++) {
             if (isVisited[i]==-1) {
                 components++;
+                if(components>1) return false;
                 hasBackTrack = dfsTraversalHelper(i, graph, answer, isVisited, components,parent);
                 if(hasBackTrack) break;
             }
