@@ -80,6 +80,7 @@ public class DFSRecursiveIsTree {
 
         boolean isMultiedge = false;
         boolean isSameEdge = false;
+
         // Making a graph from the input edges
         for (List<Integer> edge : edges) {
             int u = edge.get(0);

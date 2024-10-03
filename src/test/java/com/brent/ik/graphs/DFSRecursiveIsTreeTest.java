@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.brent.ik.graphs.DFSIsItATree.is_it_a_tree;
 import static com.brent.ik.graphs.DFSRecursiveIsTree.isTree;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,16 +15,23 @@ class DFSRecursiveIsTreeTest {
 
 
     @Test
-    void shouldFindIsTree_givenLargeTreeGraph() throws Exception {
-        var inputJson = """
-                		{
-                  "node_count": 4,
-                  "edge_start": [0, 0, 0],
-                  "edge_end": [1, 2, 3]
-                  }
-                """;
+    void shouldFindIsItATree_givenLargeTreeGraph() throws Exception {
+        var inputJsonStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("problem_141.json");
+
         var json = new ObjectMapper();
-        DFSRecursiveIsTree.GraphData2 graphData = json.readValue(inputJson, DFSRecursiveIsTree.GraphData2.class);
+        DFSRecursiveIsTree.GraphData2 graphData = json.readValue(inputJsonStream, DFSRecursiveIsTree.GraphData2.class);
+
+        var actual = is_it_a_tree(graphData);
+        assertThat(actual).isEqualTo(true);
+    }
+
+
+    @Test
+    void shouldFindIsTree_givenLargeTreeGraph() throws Exception {
+        var inputJsonStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("problem_141.json");
+
+        var json = new ObjectMapper();
+        DFSRecursiveIsTree.GraphData2 graphData = json.readValue(inputJsonStream, DFSRecursiveIsTree.GraphData2.class);
 
         var actual = isTree(graphData);
         assertThat(actual).isEqualTo(true);
