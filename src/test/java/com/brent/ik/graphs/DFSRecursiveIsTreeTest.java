@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.brent.ik.graphs.DFSIsItATree.is_it_a_tree;
 import static com.brent.ik.graphs.DFSRecursiveIsTree.isTree;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +20,7 @@ class DFSRecursiveIsTreeTest {
         var json = new ObjectMapper();
         DFSRecursiveIsTree.GraphData2 graphData = json.readValue(inputJsonStream, DFSRecursiveIsTree.GraphData2.class);
 
-        var actual = is_it_a_tree(graphData);
+        var actual = isTree(graphData);
         assertThat(actual).isEqualTo(true);
     }
 
