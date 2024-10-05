@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-
 public class MergeKLists {
 
     public static class LinkedListNodeRepresentation extends StandardRepresentation {
@@ -137,13 +134,15 @@ public class MergeKLists {
     */
     static LinkedListNode merge_k_lists(ArrayList<LinkedListNode> lists) {
         if(lists.size()==0) return null;
-        LinkedListNode response= null;
+        LinkedListNode responseStart = null;
+        LinkedListNode responseEnd =null;
         while(listsHaveMoreElements(lists)){
             var minIndex = getMinIndex(lists);
 
-            response = addNodeAndAdvancePointer(lists,response,minIndex);
+            responseEnd = addNodeAndAdvancePointer(lists,responseEnd ,minIndex);
+            if(responseStart == null) responseStart = responseEnd;
         }
-        return response;
+        return responseStart ;
     }
     /*
     0: 1,3,5
@@ -183,16 +182,16 @@ public class MergeKLists {
         else return index2;
     }
 
-    static LinkedListNode addNodeAndAdvancePointer(ArrayList<LinkedListNode> lists, LinkedListNode response,int nodeIndex){
+    static LinkedListNode addNodeAndAdvancePointer(ArrayList<LinkedListNode> lists, LinkedListNode responseEnd,int nodeIndex){
         var node = lists.get(nodeIndex);
-        if(response!=null){
-            addNodeToEndOfResponse(response,node);
+        if(responseEnd!=null){
+            addNodeToEndOfResponse(responseEnd,node);
         } else {
-            response = node;
+            responseEnd = node;
         }
         lists.set(nodeIndex,node.next);
         node.next = null;
-        return response;
+        return responseEnd;
     }
 
     private static void addNodeToEndOfResponse(LinkedListNode response, LinkedListNode node) {
