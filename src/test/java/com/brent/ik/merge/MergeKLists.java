@@ -24,12 +24,13 @@ public class MergeKLists {
 
         private String rest(LinkedListNode next) {
 
-            if(next!=null){
+            if (next != null) {
                 return ", " + next.value + rest(next.next);
             }
             return "";
         }
     }
+
     static class LinkedListNode {
         Integer value;
         LinkedListNode next;
@@ -38,13 +39,19 @@ public class MergeKLists {
             this.value = value;
             this.next = null;
         }
+
+        @Override
+        public String toString() {
+            var rep = new LinkedListNodeRepresentation();
+            return rep.toStringOf(this);
+        }
     }
 
     @Test
-    void shouldMergeListsIntoOne(){
+    void shouldMergeListsIntoOne() {
         Assertions.useRepresentation(new LinkedListNodeRepresentation());
-        var given = makeLists(Arrays.asList(Arrays.asList(1,3,5),Arrays.asList(3,4),Arrays.asList(7)));
-        var expected = makeLinkedList(Arrays.asList(1,3,3,4,5,7));
+        var given = makeLists(Arrays.asList(Arrays.asList(1, 3, 5), Arrays.asList(3, 4), Arrays.asList(7)));
+        var expected = makeLinkedList(Arrays.asList(1, 3, 3, 4, 5, 7));
         var actual = merge_k_lists(given);
         LinkedListAssert.assertThat(actual).isEqualTo(expected);
     }
@@ -58,7 +65,8 @@ public class MergeKLists {
         public static LinkedListAssert assertThat(LinkedListNode actual) {
             return new LinkedListAssert(actual);
         }
-        public LinkedListAssert isEqualTo(LinkedListNode expected){
+
+        public LinkedListAssert isEqualTo(LinkedListNode expected) {
             isNotNull();
             var actualList = makeAList(actual);
             var expectedList = makeAList(expected);
@@ -69,7 +77,7 @@ public class MergeKLists {
         private List<Integer> makeAList(LinkedListNode node) {
             var result = new ArrayList<Integer>();
             result.add(node.value);
-            while(node.next != null){
+            while (node.next != null) {
                 node = node.next;
                 result.add(node.value);
             }
@@ -79,10 +87,9 @@ public class MergeKLists {
     }
 
 
-
     private ArrayList<LinkedListNode> makeLists(List<List<Integer>> list) {
         var result = new ArrayList<LinkedListNode>();
-        for(var sortedList:list){
+        for (var sortedList : list) {
             result.add(makeLinkedList(sortedList));
         }
         return result;
@@ -91,9 +98,9 @@ public class MergeKLists {
     private static LinkedListNode makeLinkedList(List<Integer> sortedList) {
         LinkedListNode last = null;
         LinkedListNode first = null;
-        for(int val: sortedList){
+        for (int val : sortedList) {
             var node = new LinkedListNode(val);
-            if(last !=null){
+            if (last != null) {
                 last.next = node;
             } else {
                 first = node;
@@ -118,32 +125,20 @@ public class MergeKLists {
     0: 1,3,5
     1: 3,4
     2: 7
-    response:null
-    listsHaveMoreElements:true
-        minIndex:0
-        0: 3,5
-        1: 3,4
-        2: 7
-        response:[1]
-    listsHaveMoreElements:true
-        minIndex:0
-        0: 3,5
-        1: 3,4
-        2: 7
-        response:[1]
     */
     static LinkedListNode merge_k_lists(ArrayList<LinkedListNode> lists) {
-        if(lists.size()==0) return null;
+        if (lists.size() == 0) return null;
         LinkedListNode responseStart = null;
-        LinkedListNode responseEnd =null;
-        while(listsHaveMoreElements(lists)){
+        LinkedListNode responseEnd = null;
+        while (listsHaveMoreElements(lists)) {
             var minIndex = getMinIndex(lists);
 
-            responseEnd = addNodeAndAdvancePointer(lists,responseEnd ,minIndex);
-            if(responseStart == null) responseStart = responseEnd;
+            responseEnd = addNodeToEndAndAdvancePointerInList(lists, responseEnd, minIndex);
+            if (responseStart == null) responseStart = responseEnd;
         }
-        return responseStart ;
+        return responseStart;
     }
+
     /*
     0: 1,3,5
     1: 3,4
@@ -161,58 +156,58 @@ public class MergeKLists {
       minIndex:0
     << 0
     */
-    static int getMinIndex(ArrayList<LinkedListNode> lists){
+    static int getMinIndex(ArrayList<LinkedListNode> lists) {
         var minIndex = getFirstElementIndex(lists);
-        if(minIndex<0) return -1;
+        if (minIndex < 0) return -1;
 
-        for(int i=0;i<lists.size();i++){
-            minIndex = min(lists,minIndex,i);
+        for (int i = 0; i < lists.size(); i++) {
+            minIndex = min(lists, minIndex, i);
         }
         return minIndex;
     }
-    static int min(ArrayList<LinkedListNode> lists,int index1,int index2){
-        LinkedListNode node1 = lists.get(index1);
-        LinkedListNode node2 =lists.get(index2);
 
-        if(node1==null && node2==null) return -1;
-        if(node1==null) return index2;
-        if(node2==null) return index1;
-        if(node1.value < node2.value) return index1;
+    static int min(ArrayList<LinkedListNode> lists, int index1, int index2) {
+        LinkedListNode node1 = lists.get(index1);
+        LinkedListNode node2 = lists.get(index2);
+
+        if (node1 == null && node2 == null) return -1;
+        if (node1 == null) return index2;
+        if (node2 == null) return index1;
+        if (node1.value < node2.value) return index1;
         else return index2;
     }
 
-    static LinkedListNode addNodeAndAdvancePointer(ArrayList<LinkedListNode> lists, LinkedListNode responseEnd,int nodeIndex){
+    static LinkedListNode addNodeToEndAndAdvancePointerInList(ArrayList<LinkedListNode> lists, LinkedListNode responseEnd, int nodeIndex) {
         var node = lists.get(nodeIndex);
-        if(responseEnd!=null){
-            addNodeToEndOfResponse(responseEnd,node);
-        } else {
-            responseEnd = node;
+        if (responseEnd != null) {
+            responseEnd.next = node;
         }
-        lists.set(nodeIndex,node.next);
+        lists.set(nodeIndex, node.next);
         node.next = null;
-        return responseEnd;
+        return node;
     }
 
     private static void addNodeToEndOfResponse(LinkedListNode response, LinkedListNode node) {
         LinkedListNode end = response;
-        while(end.next !=null){
+        while (end.next != null) {
             end = end.next;
         }
         end.next = node;
 
     }
 
-    static int getFirstElementIndex(ArrayList<LinkedListNode> lists){
-        for(int i=0;i<lists.size();i++){
+    static int getFirstElementIndex(ArrayList<LinkedListNode> lists) {
+        for (int i = 0; i < lists.size(); i++) {
             var node = lists.get(i);
-            if(node != null) return i;
+            if (node != null) return i;
         }
         return -1;
     }
-    static boolean listsHaveMoreElements(ArrayList<LinkedListNode> lists){
 
-        for(var node : lists){
-            if(node != null) return true;
+    static boolean listsHaveMoreElements(ArrayList<LinkedListNode> lists) {
+
+        for (var node : lists) {
+            if (node != null) return true;
         }
         return false;
     }
