@@ -66,13 +66,13 @@ public class OnlineMedianTest {
 
     private static void addValue(int val, PriorityQueue<Integer> smallerHeap, PriorityQueue<Integer> biggerHeap) {
         smallerHeap.add(val);
-        biggerHeap.add(smallerHeap.peek());
-        smallerHeap.poll();
+        biggerHeap.add(smallerHeap.poll());
+
 
         // maintain size
         if(biggerHeap.size() > smallerHeap.size()){
-            smallerHeap.add(biggerHeap.peek());
-            biggerHeap.poll();
+            smallerHeap.add(biggerHeap.poll());
+
         }
     }
 
