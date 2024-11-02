@@ -22,10 +22,12 @@ public class HeapSort extends Sorter {
                 heapIndex++;
             }
         }
+
         private void insert(int index, int ele) {
             heapArray.add(index, ele);
             heapifyLeaf(heapArray, index);
         }
+
         private void heapifyLeaf(ArrayList<Integer> heapArray, int index) {
             if (index <= 1) return;
             var parentIndex = index / 2;
@@ -60,10 +62,10 @@ public class HeapSort extends Sorter {
             if (nodeIndex >= heapIndex) return;
             var leftNodeIndex = nodeIndex * 2;
             var rightNodeIndex = nodeIndex * 2 + 1;
-            if (isVertexLessThanLeftChildOnly(nodeIndex,leftNodeIndex,rightNodeIndex)) {
+            if (isVertexLessThanLeftChildOnly(nodeIndex, leftNodeIndex, rightNodeIndex)) {
                 swap(heapArray, nodeIndex, leftNodeIndex);
                 heapifyParent(leftNodeIndex);
-            } else if (isVertexLessThanRightChildOnly(nodeIndex)) {
+            } else if (isVertexLessThanRightChildOnly(nodeIndex, leftNodeIndex, rightNodeIndex)) {
                 swap(heapArray, nodeIndex, rightNodeIndex);
                 heapifyParent(rightNodeIndex);
             } else if (isVertexLessThanBothChildren(nodeIndex)) {
@@ -91,9 +93,7 @@ public class HeapSort extends Sorter {
                     heapArray.get(nodeIndex) < heapArray.get(rightNodeIndex);
         }
 
-        private boolean isVertexLessThanRightChildOnly(int nodeIndex) {
-            var leftNodeIndex = nodeIndex * 2;
-            var rightNodeIndex = nodeIndex * 2 + 1;
+        private boolean isVertexLessThanRightChildOnly(int nodeIndex, int leftNodeIndex, int rightNodeIndex) {
             boolean hasLeft = exists(leftNodeIndex);
             boolean hasRight = exists(rightNodeIndex);
             if (!hasRight) return false;
