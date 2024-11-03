@@ -62,14 +62,15 @@ public class HeapSort extends Sorter {
             if (nodeIndex >= heapIndex) return;
             var leftNodeIndex = nodeIndex * 2;
             var rightNodeIndex = nodeIndex * 2 + 1;
-            if (isVertexLessThanLeftChildOnly(nodeIndex, leftNodeIndex, rightNodeIndex)) {
+            
+            if (isVertexLessThanLeftChildOnly_and_atLeastLeftChildExists(nodeIndex, leftNodeIndex, rightNodeIndex)) {
                 swap(heapArray, nodeIndex, leftNodeIndex);
                 heapifyParent(leftNodeIndex);
-            } else if (isVertexLessThanRightChildOnly(nodeIndex, leftNodeIndex, rightNodeIndex)) {
+            } else if (isVertexLessThanRightChildOnly_and_bothChildrenExist(nodeIndex, leftNodeIndex, rightNodeIndex)) {
                 swap(heapArray, nodeIndex, rightNodeIndex);
                 heapifyParent(rightNodeIndex);
-            } else if (isVertexLessThanBothChildren(nodeIndex, leftNodeIndex, rightNodeIndex)) {
-                if (heapArray.get(leftNodeIndex) > heapArray.get(rightNodeIndex)) {
+            } else if (isVertexLessThanBothChildren_and_bothChildrenExist(nodeIndex, leftNodeIndex, rightNodeIndex)) {
+                if (isLeftGreater(leftNodeIndex, rightNodeIndex)) {
                     // left one is greater, so go left
                     swap(heapArray, nodeIndex, leftNodeIndex);
                     heapifyParent(leftNodeIndex);
@@ -79,11 +80,15 @@ public class HeapSort extends Sorter {
                     heapifyParent(rightNodeIndex);
                 }
             }
-            // otherwise, it's bigger than the children.
+            // otherwise, it's bigger than the children or there are no children.
 
         }
 
-        private boolean isVertexLessThanBothChildren(int nodeIndex, int leftNodeIndex, int rightNodeIndex) {
+        private boolean isLeftGreater(int leftNodeIndex, int rightNodeIndex) {
+            return heapArray.get(leftNodeIndex) > heapArray.get(rightNodeIndex);
+        }
+
+        private boolean isVertexLessThanBothChildren_and_bothChildrenExist(int nodeIndex, int leftNodeIndex, int rightNodeIndex) {
             boolean hasLeft = exists(leftNodeIndex);
             boolean hasRight = exists(rightNodeIndex);
             if (!hasLeft || !hasRight) return false;
@@ -91,15 +96,23 @@ public class HeapSort extends Sorter {
                     heapArray.get(nodeIndex) < heapArray.get(rightNodeIndex);
         }
 
-        private boolean isVertexLessThanRightChildOnly(int nodeIndex, int leftNodeIndex, int rightNodeIndex) {
+        private boolean isVertexLessThanRightChildOnly_and_bothChildrenExist(int nodeIndex, int leftNodeIndex, int rightNodeIndex) {
             boolean hasLeft = exists(leftNodeIndex);
             boolean hasRight = exists(rightNodeIndex);
             if (!hasRight) return false;
-            return (!hasLeft || heapArray.get(nodeIndex) >= heapArray.get(leftNodeIndex)) &&
-                    (heapArray.get(nodeIndex) < heapArray.get(rightNodeIndex));
+            return (!hasLeft || isLeftLessOrEqualToVertex(nodeIndex, leftNodeIndex)) &&
+                    isRightLessThanVertex(nodeIndex, rightNodeIndex);
         }
 
-        private boolean isVertexLessThanLeftChildOnly(int nodeIndex, int leftNodeIndex, int rightNodeIndex) {
+        private boolean isRightLessThanVertex(int nodeIndex, int rightNodeIndex) {
+            return heapArray.get(nodeIndex) < heapArray.get(rightNodeIndex);
+        }
+
+        private boolean isLeftLessOrEqualToVertex(int nodeIndex, int leftNodeIndex) {
+            return heapArray.get(nodeIndex) >= heapArray.get(leftNodeIndex);
+        }
+
+        private boolean isVertexLessThanLeftChildOnly_and_atLeastLeftChildExists(int nodeIndex, int leftNodeIndex, int rightNodeIndex) {
             boolean hasLeft = exists(leftNodeIndex);
             boolean hasRight = exists(rightNodeIndex);
             if (!hasLeft) return false;
