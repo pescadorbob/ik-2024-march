@@ -187,14 +187,7 @@ public class MergeKLists {
         return node;
     }
 
-    private static void addNodeToEndOfResponse(LinkedListNode response, LinkedListNode node) {
-        LinkedListNode end = response;
-        while (end.next != null) {
-            end = end.next;
-        }
-        end.next = node;
 
-    }
 
     static int getFirstElementIndex(ArrayList<LinkedListNode> lists) {
         for (int i = 0; i < lists.size(); i++) {
