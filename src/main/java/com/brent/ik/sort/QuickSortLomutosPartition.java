@@ -15,16 +15,16 @@ public class QuickSortLomutosPartition extends Sorter {
     private static void helper(ArrayList<Integer> arr, int start, int end) {
         if (start >= end) return; // leaf node
 
-        int pivotPoint = pickPivot(start, end);
 
-        int partitionIndex = partition(arr, start, end, pivotPoint);
+        int partitionIndex = lomutosPartition(arr, start, end);
 
         helper(arr, start, partitionIndex - 1);
         helper(arr, partitionIndex + 1, end);
 
     }
 
-    private static int partition(ArrayList<Integer> arr, int start, int end, int pivot) {
+    public static int lomutosPartition(ArrayList<Integer> arr, int start, int end) {
+        int pivot = pickPivot(start, end);
 
         int smaller = start;
         swap(arr, start, pivot);
@@ -41,7 +41,7 @@ public class QuickSortLomutosPartition extends Sorter {
 
     }
 
-    private static int pickPivot(int start, int end) {
+    public static int pickPivot(int start, int end) {
         return new Random(System.currentTimeMillis()).nextInt(start, end);
     }
 
