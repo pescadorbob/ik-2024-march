@@ -50,6 +50,15 @@ public class OnlineMedianTest {
 
         public OnlineMedian(ArrayList<Integer> initialArray) {
             minHeap = new PriorityQueue<>();
+            /*
+              comparator. negative number if the first number comes before the second.
+              e.g. numbers 10 & 11. if 10 should come before 11, return a negative number
+              so the comparator should use this arithmetic: 10 - 11
+              so if a = 10 and b = 11
+              then the comparator is (a,b)-> a-b which is the default.
+              if 11 should come before 10, i.e. a max heap, then 11 - 10
+              then the comparator is (a,b)->b-a
+             */
             maxHeap = new PriorityQueue<>((a,b)->b-a);
             for(int ele:initialArray){
                 add(ele);
@@ -74,7 +83,7 @@ public class OnlineMedianTest {
         }
 
         private void placeOnMinHeap(int ele) {
-            minHeap.add(ele);
+            minHeap.offer(ele);
             if(minHeap.size()- maxHeap.size() == 2){
                 maxHeap.add(minHeap.poll());
             }
