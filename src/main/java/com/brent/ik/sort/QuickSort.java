@@ -3,6 +3,8 @@ package com.brent.ik.sort;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static java.util.Collections.swap;
+
 public class QuickSort extends Sorter {
     private static ArrayList<Integer> createAuxArray(int start, int end) {
         var aux = new ArrayList<Integer>();

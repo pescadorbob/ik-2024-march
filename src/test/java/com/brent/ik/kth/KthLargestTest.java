@@ -6,9 +6,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import static com.brent.ik.sort.QuickSortLomutosPartition.lomutosPartition;
+import static java.util.Collections.swap;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class KthLargestTest {
@@ -46,6 +48,26 @@ public class KthLargestTest {
             helper(array,pivot+1,end,k);
         }
 
+    }
+    public static int lomutosPartition(ArrayList<Integer> arr, int start, int end) {
+        int pivotIndex = pickPivot(start, end);
+        int pivot = arr.get(pivotIndex);
+        int smaller = start;
+        int larger = start ;
+        swap(arr, pivotIndex, start);
+        while (larger <= end) {
+            if (arr.get(larger) < pivot) {
+                smaller++;
+                swap(arr, smaller, larger);
+            }
+            larger++;
+
+        }
+        swap(arr, start, smaller);
+        return smaller;
+    }
+    private static int pickPivot(int from,int to){
+        return new Random(System.currentTimeMillis()).nextInt(from,to);
     }
 
 
