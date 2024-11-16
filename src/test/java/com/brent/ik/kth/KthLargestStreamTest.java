@@ -48,6 +48,7 @@ public class KthLargestStreamTest {
         }
 
         public Integer add(int ele) {
+            if(minHeap.peek()>ele) return minHeap.peek();
             minHeap.add(ele);
             while(minHeap.size()>k){
                 minHeap.remove();
