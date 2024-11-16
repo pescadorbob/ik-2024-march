@@ -5,6 +5,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static com.brent.ik.sort.QuickSortLomutosPartition.lomutosPartition;
@@ -35,7 +36,7 @@ public class KthLargestTest {
     }
     private void helper(ArrayList<Integer> array, Integer start, Integer end, Integer k){
         // base case
-        if(start == end) return ;
+        if(Objects.equals(start, end)) return ;
 
         var pivot = lomutosPartition(array,start, end);
         if(pivot==k) return ; // lucky case!
