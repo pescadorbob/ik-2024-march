@@ -2,7 +2,7 @@ package com.brent.ik.sort;
 
 import java.util.ArrayList;
 
-public class InsertionSort extends Sorter {
+public class InsertionSort implements Sorter {
     private static String items(ArrayList<Integer> items) {
         String printout = "";
         for (int item : items) {

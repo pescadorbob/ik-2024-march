@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class MergeSort extends Sorter {
+public class MergeSort implements Sorter {
     public ArrayList<Integer> sort(ArrayList<Integer> arr) {
         helper(arr,0,arr.size()-1);
         return arr;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import static java.util.Collections.swap;
 
-public class HeapSort extends Sorter {
+public class HeapSort implements Sorter  {
     public ArrayList<Integer> sort(ArrayList<Integer> arr) {
         var maxHeap = new MaxHeap();
         maxHeap.create(arr);

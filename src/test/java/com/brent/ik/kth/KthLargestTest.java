@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static com.brent.ik.sort.QuickSortLomutosPartition.lomutosPartition;
 import static java.util.Collections.swap;
 import static org.assertj.core.api.Assertions.assertThat;
 

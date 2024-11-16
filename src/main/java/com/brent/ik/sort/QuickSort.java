@@ -5,7 +5,7 @@ import java.util.Random;
 
 import static java.util.Collections.swap;
 
-public class QuickSort extends Sorter {
+public class QuickSort implements Sorter {
     private static ArrayList<Integer> createAuxArray(int start, int end) {
         var aux = new ArrayList<Integer>();
         while (aux.size() < end - start + 1) aux.add(null);

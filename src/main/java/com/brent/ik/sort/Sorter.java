@@ -2,7 +2,7 @@ package com.brent.ik.sort;
 
 import java.util.ArrayList;
 
-public abstract class Sorter {
+public interface  Sorter {
 
-    abstract ArrayList<Integer> sort(ArrayList<Integer> items);
+    ArrayList<Integer> sort(ArrayList<Integer> items);
 }
