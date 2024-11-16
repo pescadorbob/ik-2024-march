@@ -26,7 +26,9 @@ public class MergeTest2 {
         int k = second.size() - 1;
 
         int i = first.size() - 1;
-        int j = i; // same number of entries in both array are populated //but in the second array-- last non zero in second aray
+        // same number of entries in both array are populated
+        // but in the second array-- last non-zero in second array
+        int j = i;
 
 
         while (k >= 0 && i >= 0) {

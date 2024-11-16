@@ -1,54 +1,47 @@
 package com.brent.ik.sort;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class MergeSort extends Sorter {
     public ArrayList<Integer> sort(ArrayList<Integer> arr) {
-        helper(arr, 0, arr.size() - 1);
-
+        helper(arr,0,arr.size()-1);
         return arr;
     }
+    private void helper(ArrayList<Integer> arr,int start, int end){
+        if(start == end) return ;
+        int mid = start + ((end-start)/2);
+        helper(arr,start,mid);
+        helper(arr,mid+1,end);
 
-    private void helper(ArrayList<Integer> arr, int start, int end) {
-        // leaf worker
-        if (start == end) return; // all done here
-        // internal node worker
-        var mid = (start + end) / 2;
-        helper(arr, start, mid);
-        helper(arr, mid + 1, end);
-        // merge the two sorted halves
-        var left = start;
-        var right = mid + 1;
-
-        var aux = new ArrayList<Integer>(end - start + 1);
-        while (left <= mid && right <= end) {
-
-            if (arr.get(left) <= arr.get(right)) {
-                aux.add(arr.get(left)); // move left one down
-                left++;
-            } else { // right is smaller
-                // move right one down
-                aux.add(arr.get(right));
-                right++;
+        var aux = new ArrayList<Integer>();
+        int l = start;
+        int r = mid+1;
+        while(l<=mid && r<=end){
+            if(arr.get(l) <= arr.get(r)){
+                aux.add(arr.get(l));
+                l++;
+            } else {
+                aux.add(arr.get(r));
+                r++;
             }
-
         }
-        // copy remaining left ones
-        while (left <= mid) {
-            aux.add(arr.get(left++));
+        // copy the rest
+        while(l<=mid){
+            aux.add(arr.get(l));
+            l++;
         }
-        // copy remaining right ones
-        while (right <= end) {
-            aux.add(arr.get(right++));
+        while(r<=end){
+            aux.add(arr.get(r));
+            r++;
         }
-        //copy aux back to original
-        var copyAuxIndex = 0;
-        var originalIndex = start;
-        while (originalIndex <= end) {
-            arr.set(originalIndex++, aux.get(copyAuxIndex++));
+        // copy aux back
+        for(int i=0;i<aux.size();i++){
+            arr.set(start + i,aux.get(i));
         }
     }
+
 
 
 }

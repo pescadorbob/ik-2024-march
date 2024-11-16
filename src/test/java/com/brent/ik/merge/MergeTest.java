@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import static java.util.Arrays.stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MergeTest {
@@ -21,12 +22,12 @@ public class MergeTest {
     }
 
     private static ArrayList<Integer> list(Integer... array) {
-        return new ArrayList<>(java.util.Arrays.stream(array).toList());
+        return new ArrayList<>(stream(array).toList());
     }
 
     static ArrayList<Integer> merge_one_into_another(ArrayList<Integer> first, ArrayList<Integer> second) {
         var f = first.size() - 1;
-        var s = f; // the 2 subarrays are the same
+        var s = f; // the 2 sub-arrays are the same
         var z = second.size() - 1;
         while (z >= 0 && f >= 0) {
             if (s >= 0 && second.get(s) >= first.get(f)) {
