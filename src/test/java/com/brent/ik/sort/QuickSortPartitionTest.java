@@ -13,17 +13,17 @@ public class QuickSortPartitionTest extends SortTest implements Sorter {
         helper(arr,0,arr.size()-1);
         return arr;
     }
-    private void helper(ArrayList<Integer> arr, int start, int end){
+    private void helper(ArrayList<Integer> arr,int start, int end){
         if(start>=end) return;
         int pivot = partition(arr,start,end);
         helper(arr,start,pivot-1);
         helper(arr,pivot+1,end);
     }
     private int partition(ArrayList<Integer> arr,int start,int end){
-        int smaller = start;
         int pivot = new Random(System.currentTimeMillis()).nextInt(start,end);
-        swap(arr,pivot,start);
-        for(int larger = start;larger<=end;larger++){
+        swap(arr,start,pivot);
+        int smaller = start;
+        for(int larger = smaller;larger<=end;larger++){
             if(arr.get(larger)<arr.get(start)){
                 smaller++;
                 swap(arr,smaller,larger);
@@ -32,7 +32,6 @@ public class QuickSortPartitionTest extends SortTest implements Sorter {
         swap(arr,start,smaller);
         return smaller;
     }
-
 
     @Override
     Sorter getSorter() {
