@@ -15,18 +15,21 @@ public class QuickSortPartitionTest extends SortTest implements Sorter {
     }
     private void helper(ArrayList<Integer> arr,int start, int end){
         if(start>=end) return;
+
         int pivot = partition(arr,start,end);
         helper(arr,start,pivot-1);
         helper(arr,pivot+1,end);
     }
-    private int partition(ArrayList<Integer> arr,int start,int end){
-        int pivot = new Random(System.currentTimeMillis()).nextInt(start,end);
-        swap(arr,start,pivot);
+    private int partition(ArrayList<Integer> arr,int start, int end){
         int smaller = start;
-        for(int larger = smaller;larger<=end;larger++){
-            if(arr.get(larger)<arr.get(start)){
+
+        int pivot = new Random(System.currentTimeMillis()).nextInt(start,end);
+        int pivotValue = arr.get(pivot);
+        swap(arr,pivot,start);
+        for(int larger = start;larger<=end;larger++){
+            if(arr.get(larger)<pivotValue){
                 smaller++;
-                swap(arr,smaller,larger);
+                swap(arr,larger,smaller);
             }
         }
         swap(arr,start,smaller);
