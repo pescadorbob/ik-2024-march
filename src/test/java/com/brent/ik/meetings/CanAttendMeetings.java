@@ -31,36 +31,27 @@ public class CanAttendMeetings {
     static ArrayList<Integer> list(Integer... list){
         return new ArrayList<>(Arrays.asList(list));
     }
-    /*
-                      1                   2
-  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
-0   [       ]
-        1   [     ]
-                    2 [         ]
-        if(start <= otherEnd && otherStart < end){
-     0 -- 1
-     1 <= 8 true && 5 <= 5 true >> true overlaps!
-*/
+
 
     static Integer can_attend_all_meetings(ArrayList<ArrayList<Integer>> intervals) {
-        for(var interval:intervals){
-            for(var otherInterval:intervals){
-                if(interval!=otherInterval){
-                    if( overlaps(interval,otherInterval)) return 0;
-                }
+        for(int i=0;i<intervals.size();i++){
+            var interval1 = intervals.get(i);
+
+            for(int j=i+1;j<intervals.size();j++){
+                var interval2 = intervals.get(j);
+                if(overlaps(interval1,interval2)) return 0;
             }
+
         }
         return 1;
     }
+    static boolean overlaps(ArrayList<Integer> interval1,ArrayList<Integer> interval2){
+        int start = 0;
+        int end = 1;
+        return interval1.get(start) < interval2.get(end) &&
+           interval2.get(start) < interval1.get(end);
 
-    /*
-          <------------>
-          a____b c_____d
-     */
-    private static boolean overlaps(ArrayList<Integer> interval, ArrayList<Integer> otherInterval) {
-        var start=0;
-        var end=1;
-        return interval.get(start) < otherInterval.get(end) &&
-                otherInterval.get(start)  < interval.get(end);
     }
+
+
 }
