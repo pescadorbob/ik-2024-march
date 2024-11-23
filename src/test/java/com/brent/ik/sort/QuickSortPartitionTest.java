@@ -26,7 +26,7 @@ public class QuickSortPartitionTest extends SortTest implements Sorter {
         int pivot = new Random(System.currentTimeMillis()).nextInt(start,end);
         int pivotValue = arr.get(pivot);
         swap(arr,pivot,start);
-        for(int larger = start;larger<=end;larger++){
+        for(int larger = start+1;larger<=end;larger++){
             if(arr.get(larger)<pivotValue){
                 smaller++;
                 swap(arr,larger,smaller);
