@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public class CanAttendMeetingsTransformAndConquerLineSweepTest extends CanAttendMeetingsAlgorithmTest {
-    static CanAttendMeetingsAlgorithm getAlgorithmRealization(Metrics metrics){
+    static CanAttendMeetingsAlgorithm getAlgorithmRealization(Metrics metrics) {
         return new CanAttendMeetingsAlgorithm() {
             @Override
             Integer can_attend_all_meetings(List<List<Integer>> intervals) {
@@ -14,10 +14,14 @@ public class CanAttendMeetingsTransformAndConquerLineSweepTest extends CanAttend
                 metrics.comparisons += (int) (intervals.size() * Math.log(intervals.size()));
                 metrics.inputSize = intervals.size();
                 for (int i = 0; i < intervals.size() - 1; i++) {
-                    var interval1 = intervals.get(i);
-                    var interval2 = intervals.get(i + 1);
+                    int nextStart;
+                    if (i == intervals.size() - 1) {
+                        nextStart = Integer.MAX_VALUE;
+                    } else {
+                        nextStart = intervals.get(i + 1).get(0);
+                    }
                     metrics.comparisons++;
-                    if (overlaps(interval1, interval2)) return 0;
+                    if (intervals.get(i).get(1) > nextStart) return 0;
 
                 }
                 return 1;
