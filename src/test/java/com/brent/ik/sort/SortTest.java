@@ -58,7 +58,7 @@ public abstract class SortTest {
         }
 
     }
-    public static class TestInput {
+    static class TestInput {
         Integer[] arr;
 
         public Integer[] getArr() {

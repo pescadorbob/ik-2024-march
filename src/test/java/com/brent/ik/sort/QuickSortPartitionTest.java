@@ -25,11 +25,11 @@ public class QuickSortPartitionTest extends SortTest implements Sorter {
     private int partition(ArrayList<Integer> arr, int start, int end) {
         int smaller = start;
 
-        int pivot = new Random(System.currentTimeMillis()).nextInt(start, end);
-        int pivotValue = arr.get(pivot);
-        swap(arr, pivot, start);
+        int pivotIndex = new Random(System.currentTimeMillis()).nextInt(start, end);
+        int pivot = arr.get(pivotIndex);
+        swap(arr, pivotIndex, start);
         for (int larger = start + 1; larger <= end; larger++) {
-            if (arr.get(larger) < pivotValue) {
+            if (arr.get(larger) < pivot) {
                 smaller++;
                 swap(arr, larger, smaller);
             }

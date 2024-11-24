@@ -39,12 +39,12 @@ public class KthLargestTest {
         // base case
         if(Objects.equals(start, end)) return ;
 
-        var pivot = lomutosPartition(array,start, end);
-        if(pivot==k) return ; // lucky case!
-        if(k < pivot){
-            helper(array,start,pivot-1,k);
+        var pivotIndex = lomutosPartition(array,start, end);
+        if(pivotIndex==k) return ; // lucky case!
+        if(k < pivotIndex){
+            helper(array,start,pivotIndex-1,k);
         } else {
-            helper(array,pivot+1,end,k);
+            helper(array,pivotIndex+1,end,k);
         }
 
     }
