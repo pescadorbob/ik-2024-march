@@ -2,7 +2,7 @@ package com.brent.ik.meetings;
 
 import java.util.List;
 
-public class CanAttendMeetingsAlgorithmTestReduceAndConquerTest extends CanAttendMeetingsAlgorithmTest {
+public class CanAttendMeetingsReduceAndConquerTest extends CanAttendMeetingsAlgorithmTest {
 
 
 
@@ -32,6 +32,6 @@ public class CanAttendMeetingsAlgorithmTestReduceAndConquerTest extends CanAtten
 
     @Override
     CanAttendMeetingsAlgorithm getAlgorithm(Metrics metrics) {
-        return CanAttendMeetingsAlgorithmTestReduceAndConquerTest.getAlgorithmRealization(metrics);
+        return CanAttendMeetingsReduceAndConquerTest.getAlgorithmRealization(metrics);
     }
 }

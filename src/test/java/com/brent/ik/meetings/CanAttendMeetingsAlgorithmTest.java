@@ -1,7 +1,6 @@
 package com.brent.ik.meetings;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -19,8 +18,8 @@ public abstract class CanAttendMeetingsAlgorithmTest {
 
     private static Stream<Arguments> testLongIntervalWithTimeout() {
         var metrics = new Metrics();
-        var transformAndConquerLineSweepAlgoithm = CanAttendMeetingsAlgorithmTestTransformAndConquerLineSweepTest.getAlgorithmRealization(metrics);
-        var reduceAndConquerLineSweepAlgoithm = CanAttendMeetingsAlgorithmTestReduceAndConquerTest.getAlgorithmRealization(metrics);
+        var transformAndConquerLineSweepAlgoithm = CanAttendMeetingsTransformAndConquerLineSweepTest.getAlgorithmRealization(metrics);
+        var reduceAndConquerLineSweepAlgoithm = CanAttendMeetingsReduceAndConquerTest.getAlgorithmRealization(metrics);
         return Stream.of(
                 Arguments.of("Transform and Conquer line sweep",
                         load("com/brent/ik/meetings/input023.txt"),

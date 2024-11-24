@@ -1,11 +1,10 @@
 package com.brent.ik.meetings;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 
-public class CanAttendMeetingsAlgorithmTestTransformAndConquerLineSweepTest extends CanAttendMeetingsAlgorithmTest {
+public class CanAttendMeetingsTransformAndConquerLineSweepTest extends CanAttendMeetingsAlgorithmTest {
     static CanAttendMeetingsAlgorithm getAlgorithmRealization(Metrics metrics){
         return new CanAttendMeetingsAlgorithm() {
             @Override
@@ -46,6 +45,6 @@ handle intervals up to the start of the next interval.
 */
     @Override
     CanAttendMeetingsAlgorithm getAlgorithm(Metrics metrics) {
-        return CanAttendMeetingsAlgorithmTestTransformAndConquerLineSweepTest.getAlgorithmRealization(metrics);
+        return CanAttendMeetingsTransformAndConquerLineSweepTest.getAlgorithmRealization(metrics);
     }
 }
