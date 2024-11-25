@@ -17,6 +17,7 @@ public class RequiredConcurrentMeetingsTest {
     private static Stream<Arguments> shouldCalculateConcurrentMeetings_givenOverlappingMeetings() {
         return Stream.of(
                 Arguments.of(asList(asList(0, 5), asList(1, 6), asList(2, 7), asList(9, 10)),3),
+                Arguments.of(asList(asList(0, 30), asList(5,10), asList(15,20)),2),
                 Arguments.of(asList(asList(0, 5), asList(5, 6), asList(6, 7), asList(9, 10)),1)
         );
     }
@@ -33,7 +34,7 @@ public class RequiredConcurrentMeetingsTest {
 
     private int concurrentMeetings(List<List<Integer>> intervals) {
         intervals.sort(Comparator.comparingInt(a -> a.get(0)));
-        var minHeap = new PriorityQueue<Integer>((a, b) -> b - a);
+        var minHeap = new PriorityQueue<Integer>();
         var globalMax = 0;
         for (int i = 0; i <= intervals.size() - 1; i++) {
             int nextStart;
