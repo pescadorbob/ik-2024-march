@@ -18,6 +18,7 @@ public class RequiredConcurrentMeetingsTest {
         return Stream.of(
                 Arguments.of(asList(asList(0, 5), asList(1, 6), asList(2, 7), asList(9, 10)),3),
                 Arguments.of(asList(asList(0, 30), asList(5,10), asList(15,20)),2),
+                Arguments.of(asList(asList(-30, 30), asList(5,10), asList(15,20)),2),
                 Arguments.of(asList(asList(0, 5), asList(5, 6), asList(6, 7), asList(9, 10)),1)
         );
     }
