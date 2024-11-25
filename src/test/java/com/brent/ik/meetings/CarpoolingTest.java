@@ -35,29 +35,31 @@ public class CarpoolingTest {
 
     private boolean carpoolHasCapacity(List<List<Integer>> intervals,Integer capacity) {
         intervals.sort(Comparator.comparingInt(a -> a.get(1)));
-        var minHeap = new PriorityQueue<List<Integer>>((a,b)->b.get(0)-a.get(0));
-        var globalMax = 0; // how many people are in the car right now.
+            int Q_END_TIME = 0;
+            int Q_NUM_PASSENGERS = 1;
+        var minHeap = new PriorityQueue<List<Integer>>((a,b)->b.get(Q_END_TIME)-a.get(Q_END_TIME));
+        var numPassengersInCar = 0; // how many people are in the car right now.
         for (int i = 0; i <= intervals.size() - 1; i++) {
             // start meeting [num_passengers, start_location, end_location]
-            int num_passengers = 0;
-            int start_location = 1;
-            int end_location = 2;
+            int NUM_PASSENGERS = 0;
+            int START_LOCATION = 1;
+            int END_LOCATION = 2;
             int nextStart;
             if (i == intervals.size() - 1) {
                 nextStart = Integer.MAX_VALUE;
             } else {
-                nextStart = intervals.get(i + 1).get(start_location);
+                nextStart = intervals.get(i + 1).get(START_LOCATION);
             }
-            minHeap.add(asList(intervals.get(i).get(end_location),intervals.get(i).get(num_passengers)));
-            globalMax += intervals.get(i).get(num_passengers);
-            if(globalMax > capacity){
+            minHeap.add(asList(intervals.get(i).get(END_LOCATION),intervals.get(i).get(NUM_PASSENGERS)));
+            numPassengersInCar += intervals.get(i).get(NUM_PASSENGERS);
+            if(numPassengersInCar > capacity){
                 return false;
             }
 
-            // end all meetings that end before the start of the next one
-            while (!minHeap.isEmpty() && minHeap.peek().get(0) <= nextStart) {
+            // terminate trips up to next start location
+            while (!minHeap.isEmpty() && minHeap.peek().get(Q_END_TIME) <= nextStart) {
                 var carload = minHeap.remove();
-                globalMax -= carload.get(1);
+                numPassengersInCar -= carload.get(Q_NUM_PASSENGERS);
             }
         }
         return true;
