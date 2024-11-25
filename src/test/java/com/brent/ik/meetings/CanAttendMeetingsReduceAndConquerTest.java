@@ -6,17 +6,15 @@ public class CanAttendMeetingsReduceAndConquerTest extends CanAttendMeetingsAlgo
 
 
 
-    static CanAttendMeetingsAlgorithm getAlgorithmRealization(Metrics metrics) {
+    static CanAttendMeetingsAlgorithm getAlgorithmRealization() {
         return new CanAttendMeetingsAlgorithm() {
             @Override
             Integer can_attend_all_meetings(List<List<Integer>> intervals) {
-                metrics.inputSize = intervals.size();
                 for (int i = 0; i < intervals.size(); i++) {
                     var interval1 = intervals.get(i);
 
                     for (int j = i + 1; j < intervals.size(); j++) {
                         var interval2 = intervals.get(j);
-                        metrics.comparisons++;
                         if (overlaps(interval1, interval2)) {
                             return 0;
                         }
@@ -31,7 +29,7 @@ public class CanAttendMeetingsReduceAndConquerTest extends CanAttendMeetingsAlgo
 
 
     @Override
-    CanAttendMeetingsAlgorithm getAlgorithm(Metrics metrics) {
-        return CanAttendMeetingsReduceAndConquerTest.getAlgorithmRealization(metrics);
+    CanAttendMeetingsAlgorithm getAlgorithm() {
+        return CanAttendMeetingsReduceAndConquerTest.getAlgorithmRealization();
     }
 }

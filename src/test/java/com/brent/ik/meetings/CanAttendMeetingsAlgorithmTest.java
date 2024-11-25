@@ -17,24 +17,21 @@ import static org.assertj.core.api.Fail.fail;
 public abstract class CanAttendMeetingsAlgorithmTest {
 
     private static Stream<Arguments> testLongIntervalWithTimeout() {
-        var metrics = new Metrics();
-        var transformAndConquerLineSweepAlgoithm = CanAttendMeetingsTransformAndConquerLineSweepTest.getAlgorithmRealization(metrics);
-        var reduceAndConquerLineSweepAlgoithm = CanAttendMeetingsReduceAndConquerTest.getAlgorithmRealization(metrics);
+        var transformAndConquerLineSweepAlgoithm = CanAttendMeetingsTransformAndConquerLineSweepTest.getAlgorithmRealization();
+        var reduceAndConquerLineSweepAlgoithm = CanAttendMeetingsReduceAndConquerTest.getAlgorithmRealization();
         return Stream.of(
                 Arguments.of("Transform and Conquer line sweep",
                         load("com/brent/ik/meetings/input023.txt"),
                         1,
                         false,
                         1,
-                        transformAndConquerLineSweepAlgoithm,
-                        metrics),
+                        transformAndConquerLineSweepAlgoithm),
                 Arguments.of("Reduce and Conquer",
                         load("com/brent/ik/meetings/input023.txt"),
                         1,
                         true,
                         1,
-                        reduceAndConquerLineSweepAlgoithm,
-                        metrics)
+                        reduceAndConquerLineSweepAlgoithm)
         );
     }
     @ParameterizedTest
@@ -44,13 +41,11 @@ public abstract class CanAttendMeetingsAlgorithmTest {
                                      int expected,
                                      boolean isTimeoutExpected,
                                      int timeoutValue,
-                                     CanAttendMeetingsAlgorithm algorithm,
-                                     Metrics metrics) throws Exception {
+                                     CanAttendMeetingsAlgorithm algorithm) throws Exception {
 
         var timeoutUnit = TimeUnit.SECONDS;
         try {
             var actual = callWithTimeout(() -> algorithm.can_attend_all_meetings(intervals), timeoutValue, TimeUnit.SECONDS);
-            System.out.printf("Metrics: Size:[%d] Comparisons:[%d]%n", metrics.inputSize, metrics.comparisons);
             assertThat(actual).isEqualTo(expected);
         } catch (TimeoutException e) {
             if (!isTimeoutExpected) {
@@ -103,14 +98,12 @@ public abstract class CanAttendMeetingsAlgorithmTest {
     @ParameterizedTest
     @MethodSource
     void testIntervals(List<List<Integer>> intervals, int expected) {
-        var metrics = new Metrics();
-        var algorithm = getAlgorithm(metrics);
+        var algorithm = getAlgorithm();
         var actual = algorithm.can_attend_all_meetings(intervals);
-        System.out.printf("Metrics: Size:[%d] Comparisons:[%d]%n", metrics.inputSize, metrics.comparisons);
         assertThat(actual).isEqualTo(expected);
     }
 
-    abstract CanAttendMeetingsAlgorithm getAlgorithm(Metrics metrics);
+    abstract CanAttendMeetingsAlgorithm getAlgorithm();
 
     static abstract class CanAttendMeetingsAlgorithm {
         /*
@@ -130,11 +123,6 @@ public abstract class CanAttendMeetingsAlgorithmTest {
     */
         abstract Integer can_attend_all_meetings(List<List<Integer>> intervals);
 
-    }
-
-    static class Metrics {
-        int inputSize = 0;
-        int comparisons = 0;
     }
 
     static ArrayList<Integer> list(Integer... list) {

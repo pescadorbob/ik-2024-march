@@ -5,24 +5,23 @@ import java.util.List;
 
 
 public class CanAttendMeetingsTransformAndConquerLineSweepTest extends CanAttendMeetingsAlgorithmTest {
-    static CanAttendMeetingsAlgorithm getAlgorithmRealization(Metrics metrics) {
+    static CanAttendMeetingsAlgorithm getAlgorithmRealization() {
         return new CanAttendMeetingsAlgorithm() {
             @Override
             Integer can_attend_all_meetings(List<List<Integer>> intervals) {
-                // instead of reduce and conquer, let's try to pre-sort it and conquer
+
                 intervals.sort(Comparator.comparingInt(interval -> interval.get(0)));
-                metrics.comparisons += (int) (intervals.size() * Math.log(intervals.size()));
-                metrics.inputSize = intervals.size();
                 for (int i = 0; i < intervals.size() - 1; i++) {
+                    // handle intervals[i] up to the start of the next interval -> intervals[i+1][0]
                     int nextStart;
                     if (i == intervals.size() - 1) {
                         nextStart = Integer.MAX_VALUE;
                     } else {
                         nextStart = intervals.get(i + 1).get(0);
                     }
-                    metrics.comparisons++;
+                    // start my interval
                     if (intervals.get(i).get(1) > nextStart) return 0;
-
+                    // end all intervals before start of next interval
                 }
                 return 1;
             }
@@ -48,7 +47,7 @@ for each interval, after you sort it,
 handle intervals up to the start of the next interval.
 */
     @Override
-    CanAttendMeetingsAlgorithm getAlgorithm(Metrics metrics) {
-        return CanAttendMeetingsTransformAndConquerLineSweepTest.getAlgorithmRealization(metrics);
+    CanAttendMeetingsAlgorithm getAlgorithm() {
+        return CanAttendMeetingsTransformAndConquerLineSweepTest.getAlgorithmRealization();
     }
 }
