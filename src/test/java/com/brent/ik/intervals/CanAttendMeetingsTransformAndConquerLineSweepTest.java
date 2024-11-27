@@ -1,4 +1,4 @@
-package com.brent.ik.meetings;
+package com.brent.ik.intervals;
 
 import java.util.Comparator;
 import java.util.List;

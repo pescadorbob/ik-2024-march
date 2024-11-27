@@ -1,4 +1,4 @@
-package com.brent.ik.meetings;
+package com.brent.ik.intervals;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,13 +21,13 @@ public abstract class CanAttendMeetingsAlgorithmTest {
         var reduceAndConquerLineSweepAlgoithm = CanAttendMeetingsReduceAndConquerTest.getAlgorithmRealization();
         return Stream.of(
                 Arguments.of("Transform and Conquer line sweep",
-                        load("com/brent/ik/meetings/input023.txt"),
+                        load("com/brent/ik/intervals/input023.txt"),
                         1,
                         false,
                         1,
                         transformAndConquerLineSweepAlgoithm),
                 Arguments.of("Reduce and Conquer",
-                        load("com/brent/ik/meetings/input023.txt"),
+                        load("com/brent/ik/intervals/input023.txt"),
                         1,
                         true,
                         1,
@@ -56,8 +56,8 @@ public abstract class CanAttendMeetingsAlgorithmTest {
 
     private static Stream<Arguments> testIntervals() {
         return Stream.of(
-                Arguments.of(load("com/brent/ik/meetings/input016.txt"), 0),
-                Arguments.of(load("com/brent/ik/meetings/input025.json"), 0),
+                Arguments.of(load("com/brent/ik/intervals/input016.txt"), 0),
+                Arguments.of(load("com/brent/ik/intervals/input025.json"), 0),
                 Arguments.of(new ArrayList<>(asList(list(1, 5), list(5, 8), list(10, 15))), 1),
                 Arguments.of(new ArrayList<>(asList(list(1, 5), list(5, 8), list(10, 15))), 1),
                 Arguments.of(new ArrayList<>(asList(list(1, 6), list(5, 8), list(10, 15))), 0)
