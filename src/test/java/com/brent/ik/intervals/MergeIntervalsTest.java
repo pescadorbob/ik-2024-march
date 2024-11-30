@@ -48,12 +48,21 @@ public class MergeIntervalsTest {
                 // NO OVERLAP
                 result.add(intervals.get(i));
             } else {
-                getLast(result).set(END,max(getLast(result).get(END),intervals.get(i).get(END)));
+                // result[-1] = (result[-1][0], max(result[-1][1],intervals[i][1]
+                result.set(last(result),asList(result.get(last(result)).get(0),
+                        max(result.get(last(result)).get(1),intervals.get(i).get(END))));
+//                getLast(result).set(END,max(getLast(result).get(END),intervals.get(i).get(END)));
             }
         }
+
         return result;
 
     }
+
+    private int last(List<List<Integer>> list){
+        return list.size()-1;
+    }
+
 
     private List<Integer> getLast(ArrayList<List<Integer>> result) {
         return result.get(result.size()-1);
