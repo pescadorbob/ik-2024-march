@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /*
 this solution just uses one result and merges the next interval with the last one in the result.
  */
-public class MergedIntervalsNoAuxiliaryTempSpaceTest {
+public class MergeIntervalsTest {
     private static Stream<Arguments> input() {
         return Stream.of(
                 Arguments.of(asList(asList(1, 3), asList(2, 6), asList(8, 10), asList(15, 18)), asList(asList(1, 6), asList(8, 10), asList(15, 18))),
@@ -32,14 +32,14 @@ public class MergedIntervalsNoAuxiliaryTempSpaceTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    int START = 0;
+    int END = 1;
     private List<List<Integer>> mergeOverlappingIntervals(List<List<Integer>> intervals) {
         intervals.sort(Comparator.comparingInt(a -> a.get(0)));
 
         var result = new ArrayList<List<Integer>>();
         result.add(intervals.get(0));
 
-        int START=0;
-        int END=1;
         for (int i = 0; i <= intervals.size() - 1; i++) {
             if(getLast(result).get(END) < intervals.get(i).get(START) ||
                     intervals.get(i).get(END)< getLast(result).get(START)){
@@ -48,8 +48,6 @@ public class MergedIntervalsNoAuxiliaryTempSpaceTest {
             } else {
                 getLast(result).set(END,max(getLast(result).get(END),intervals.get(i).get(END)));
             }
-
-
         }
         return result;
 
