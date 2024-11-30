@@ -19,6 +19,7 @@ this solution just uses one result and merges the next interval with the last on
 public class MergeIntervalsTest {
     private static Stream<Arguments> input() {
         return Stream.of(
+                Arguments.of(asList(asList(1, 3), asList(2,5), asList(6,9)), asList(asList(1, 5),asList(6,9))),
                 Arguments.of(asList(asList(1, 5), asList(2, 3)), asList(asList(1, 5))),
                 Arguments.of(asList(asList(1, 3), asList(2, 6), asList(8, 10), asList(15, 18)), asList(asList(1, 6), asList(8, 10), asList(15, 18))),
                 Arguments.of(asList(asList(1, 3), asList(2, 6), asList(8, 10), asList(15, 18), asList(17, 19)), asList(asList(1, 6), asList(8, 10), asList(15, 19))),
