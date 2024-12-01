@@ -74,11 +74,13 @@ public class EmployeeFreeTimeTest {
 
 
         private List<Interval> freeTimeImpl(List<List<Interval>> schedules) {
-            var minHeap = new EmployeeScheduleMinHeap();
-            for (List<Interval> employeeSchedule : schedules) {
-                var firstElement = getNextIntervalFromEmployeeScheduleIfExists(employeeSchedule, 0);
-                minHeap.add(firstElement, employeeSchedule, 0);
-            }
+            var minHeap = initializeMinHeapOfEmployeeScheduleIndexes(schedules);
+            var mergedSchedules = mergeSchedules(minHeap);
+            return calculateIntervalGaps(mergedSchedules);
+
+        }
+
+        private ArrayList<Interval> mergeSchedules(EmployeeScheduleMinHeap minHeap) {
             var result = new ArrayList<Interval>();
             while (!minHeap.isEmpty()) {
                 var tracker = minHeap.remove();
@@ -87,8 +89,16 @@ public class EmployeeFreeTimeTest {
                 merge(result, interval);
                 addNextIntervalToMinHeapFromScheduleIfExists(schedule, tracker.index, minHeap);
             }
-            return calculateIntervalGaps(result);
+            return result;
+        }
 
+        private EmployeeScheduleMinHeap initializeMinHeapOfEmployeeScheduleIndexes(List<List<Interval>> schedules) {
+            var minHeap = new EmployeeScheduleMinHeap();
+            for (List<Interval> employeeSchedule : schedules) {
+                var firstElement = getNextIntervalFromEmployeeScheduleIfExists(employeeSchedule, 0);
+                minHeap.add(firstElement, employeeSchedule, 0);
+            }
+            return minHeap;
         }
 
         private void addNextIntervalToMinHeapFromScheduleIfExists(List<Interval> schedule,
@@ -112,7 +122,7 @@ public class EmployeeFreeTimeTest {
         }
 
         private void merge(List<Interval> existing, Interval interval) {
-            if (existing.size() == 0) {
+            if (existing.isEmpty()) {
                 existing.add(interval);
             }
             var last = existing.get(existing.size() - 1);
@@ -137,7 +147,7 @@ public class EmployeeFreeTimeTest {
             }
         }
 
-        private class EmployeeScheduleMinHeap {
+        private static class EmployeeScheduleMinHeap {
 
             PriorityQueue<EmployeeScheduleTracker> minHeap;
 
@@ -163,7 +173,7 @@ public class EmployeeFreeTimeTest {
                 return minHeap.remove();
             }
 
-            private class EmployeeScheduleTracker {
+            private static class EmployeeScheduleTracker {
                 private final Interval interval;
                 private final List<Interval> employeeSchedule;
                 private final int index;
