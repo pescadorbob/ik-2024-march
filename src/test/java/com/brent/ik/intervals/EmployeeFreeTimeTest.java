@@ -71,26 +71,26 @@ public class EmployeeFreeTimeTest {
 
     static class EmployeeFreeTime {
 
-        Map<List<Interval>, Integer> indexes = new HashMap<>();
 
         private List<Interval> freeTimeImpl(List<List<Interval>> schedules) {
             var intervalToScheduleMap = new HashMap<Interval, List<Interval>>();
             var minHeap = employeeScheduleMinHeap();
             for (List<Interval> employeeSchedule : schedules) {
-                var firstElement = removeFirst(employeeSchedule);
-                indexes.put(employeeSchedule, 1);
+                var firstElement = getNextIntervalFromEmployeeSchedule(employeeSchedule,0);
                 minHeap.add(firstElement,employeeSchedule,1);
                 intervalToScheduleMap.put(firstElement, employeeSchedule);
             }
             var result = new ArrayList<Interval>();
             while (!minHeap.isEmpty()) {
-                var interval = minHeap.remove().interval;
+                var tracker = minHeap.remove();
+                var interval = tracker.interval;
                 var schedule = intervalToScheduleMap.get(interval);
                 merge(result, interval);
-                var firstElement = removeFirst(schedule);
-                if (firstElement != null) {
-                    minHeap.add(firstElement,schedule,indexes.get(schedule));
-                    intervalToScheduleMap.put(firstElement, schedule);
+                var nextElement = getNextIntervalFromEmployeeSchedule(schedule,tracker.index);
+
+                if (nextElement != null) {
+                    minHeap.add(nextElement,schedule,tracker.index+1);
+                    intervalToScheduleMap.put(nextElement, schedule);
                 }
             }
             return calculateIntervalGaps(result);
@@ -128,16 +128,9 @@ public class EmployeeFreeTimeTest {
             last.end = max(last.end, interval.end);
         }
 
-        private Interval removeFirst(List<Interval> schedule) {
-            var currentIndex = 0;
-            if (indexes.containsKey(schedule)) {
-                currentIndex = indexes.get(schedule);
-
-            }
-            if (currentIndex < schedule.size()) {
-                var interval = schedule.get(currentIndex);
-                indexes.put(schedule, ++currentIndex);
-                return interval;
+        private Interval getNextIntervalFromEmployeeSchedule(List<Interval> schedule,int index) {
+            if (index < schedule.size()) {
+                return schedule.get(index);
             } else {
                 return null;
             }
