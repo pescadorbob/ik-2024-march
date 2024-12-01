@@ -14,16 +14,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class EmployeeFreeTimeTest {
     @Test
     void shouldCreateEmployeeFreeTime_givenWorkTimeIntervals() {
-        var schedules = new ArrayList<List<Interval>>();
-        schedule(schedules, anInterval(1, 2), anInterval(5, 6));
-        schedule(schedules, anInterval(1, 3));
-        schedule(schedules, anInterval(4,10));
+        var schedules = schedules(
+                schedule(anInterval(1, 2), anInterval(5, 6)),
+                schedule(anInterval(1,3)),
+                schedule(anInterval(4,10)));
 
 
         var expected = schedule(anInterval(3,4));
         var actual = freeTime(schedules);
         assertThat(actual).usingRecursiveFieldByFieldElementComparator().isEqualTo(expected);
 
+    }
+
+    private static ArrayList<List<Interval>> schedules(List<Interval>... schedules) {
+        var result = new ArrayList<List<Interval>>();
+        addAll(result,schedules);
+        return result;
     }
 
     private static ArrayList<Interval> schedule(Interval ... intervals) {
