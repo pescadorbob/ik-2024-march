@@ -73,24 +73,21 @@ public class EmployeeFreeTimeTest {
 
 
         private List<Interval> freeTimeImpl(List<List<Interval>> schedules) {
-            var intervalToScheduleMap = new HashMap<Interval, List<Interval>>();
             var minHeap = employeeScheduleMinHeap();
             for (List<Interval> employeeSchedule : schedules) {
                 var firstElement = getNextIntervalFromEmployeeSchedule(employeeSchedule,0);
                 minHeap.add(firstElement,employeeSchedule,1);
-                intervalToScheduleMap.put(firstElement, employeeSchedule);
             }
             var result = new ArrayList<Interval>();
             while (!minHeap.isEmpty()) {
                 var tracker = minHeap.remove();
                 var interval = tracker.interval;
-                var schedule = intervalToScheduleMap.get(interval);
+                var schedule = tracker.employeeSchedule;
                 merge(result, interval);
                 var nextElement = getNextIntervalFromEmployeeSchedule(schedule,tracker.index);
 
                 if (nextElement != null) {
                     minHeap.add(nextElement,schedule,tracker.index+1);
-                    intervalToScheduleMap.put(nextElement, schedule);
                 }
             }
             return calculateIntervalGaps(result);
