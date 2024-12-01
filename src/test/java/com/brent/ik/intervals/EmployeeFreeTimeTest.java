@@ -17,35 +17,36 @@ public class EmployeeFreeTimeTest {
     private static Stream<Arguments> input() {
         return Stream.of(
                 Arguments.of(schedules(
-                        schedule(anInterval(1, 2), anInterval(5, 6)),
-                        schedule(anInterval(1,3)),
-                        schedule(anInterval(4,10))),
-                        schedule(anInterval(3,4))),
+                                schedule(anInterval(1, 2), anInterval(5, 6)),
+                                schedule(anInterval(1, 3)),
+                                schedule(anInterval(4, 10))),
+                        schedule(anInterval(3, 4))),
                 Arguments.of(schedules(
-                        schedule(anInterval(1, 3), anInterval(6, 7)),
-                        schedule(anInterval(2,4)),
-                        schedule(anInterval(2,5),anInterval(9,12))),
-                        schedule(anInterval(5,6),anInterval(7,9)))
+                                schedule(anInterval(1, 3), anInterval(6, 7)),
+                                schedule(anInterval(2, 4)),
+                                schedule(anInterval(2, 5), anInterval(9, 12))),
+                        schedule(anInterval(5, 6), anInterval(7, 9)))
         );
     }
 
     @MethodSource("input")
     @ParameterizedTest
-    void shouldCreateEmployeeFreeTime_givenWorkTimeIntervalLists(List<List<Interval>> schedules,List<Interval> expected) {
+    void shouldCreateEmployeeFreeTime_givenWorkTimeIntervalLists(List<List<Interval>> schedules, List<Interval> expected) {
 
         var actual = freeTime(schedules);
         assertThat(actual).usingRecursiveFieldByFieldElementComparator().isEqualTo(expected);
 
     }
+
     @Test
     void shouldCreateEmployeeFreeTime_givenWorkTimeIntervals() {
         var schedules = schedules(
                 schedule(anInterval(1, 2), anInterval(5, 6)),
-                schedule(anInterval(1,3)),
-                schedule(anInterval(4,10)));
+                schedule(anInterval(1, 3)),
+                schedule(anInterval(4, 10)));
 
 
-        var expected = schedule(anInterval(3,4));
+        var expected = schedule(anInterval(3, 4));
         var actual = freeTime(schedules);
         assertThat(actual).usingRecursiveFieldByFieldElementComparator().isEqualTo(expected);
 
@@ -53,13 +54,13 @@ public class EmployeeFreeTimeTest {
 
     private static ArrayList<List<Interval>> schedules(List<Interval>... schedules) {
         var result = new ArrayList<List<Interval>>();
-        addAll(result,schedules);
+        addAll(result, schedules);
         return result;
     }
 
-    private static ArrayList<Interval> schedule(Interval ... intervals) {
+    private static ArrayList<Interval> schedule(Interval... intervals) {
         var expected = new ArrayList<Interval>();
-        addAll(expected,intervals);
+        addAll(expected, intervals);
         return expected;
     }
 
@@ -75,8 +76,8 @@ public class EmployeeFreeTimeTest {
         private List<Interval> freeTimeImpl(List<List<Interval>> schedules) {
             var minHeap = new EmployeeScheduleMinHeap();
             for (List<Interval> employeeSchedule : schedules) {
-                var firstElement = getNextIntervalFromEmployeeScheduleIfExists(employeeSchedule,0);
-                minHeap.add(firstElement,employeeSchedule,1);
+                var firstElement = getNextIntervalFromEmployeeScheduleIfExists(employeeSchedule, 0);
+                minHeap.add(firstElement, employeeSchedule, 0);
             }
             var result = new ArrayList<Interval>();
             while (!minHeap.isEmpty()) {
@@ -84,19 +85,19 @@ public class EmployeeFreeTimeTest {
                 var interval = tracker.interval;
                 var schedule = tracker.employeeSchedule;
                 merge(result, interval);
-                addNextIntervalToMinHeapFromScheduleIfExists(schedule, tracker, minHeap);
+                addNextIntervalToMinHeapFromScheduleIfExists(schedule, tracker.index, minHeap);
             }
             return calculateIntervalGaps(result);
 
         }
 
         private void addNextIntervalToMinHeapFromScheduleIfExists(List<Interval> schedule,
-                                                                  EmployeeScheduleMinHeap.EmployeeScheduleTracker tracker,
+                                                                  int index,
                                                                   EmployeeScheduleMinHeap minHeap) {
-            var nextInterval = getNextIntervalFromEmployeeScheduleIfExists(schedule, tracker.index);
+            var nextInterval = getNextIntervalFromEmployeeScheduleIfExists(schedule, index);
 
             if (nextInterval != null) {
-                minHeap.add(nextInterval, schedule, tracker.index+1);
+                minHeap.add(nextInterval, schedule, index + 1);
             }
         }
 
@@ -144,8 +145,13 @@ public class EmployeeFreeTimeTest {
                 minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a.interval.start));
             }
 
-            public void add(Interval element, List<Interval> employeeSchedule, int index) {
-                var tracker = new EmployeeScheduleTracker(element,employeeSchedule,index);
+            /**
+             * @param interval
+             * @param employeeSchedule
+             * @param index            of where it was in the 'employeeSchedule'
+             */
+            public void add(Interval interval, List<Interval> employeeSchedule, int index) {
+                var tracker = new EmployeeScheduleTracker(interval, employeeSchedule, index);
                 minHeap.add(tracker);
             }
 
