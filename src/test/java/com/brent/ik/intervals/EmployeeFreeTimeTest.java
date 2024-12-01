@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static java.util.Arrays.asList;
 import static java.util.Collections.addAll;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -64,44 +63,42 @@ public class EmployeeFreeTimeTest {
         return expected;
     }
 
-    private static void schedule(ArrayList<List<Interval>> schedules, Interval... intervals) {
-        var schedule = new ArrayList<Interval>();
-        addAll(schedule, intervals);
-        schedules.add(schedule);
-    }
-
     static List<Interval> freeTime(List<List<Interval>> schedules) {
         var algo = new EmployeeFreeTime();
         return algo.freeTimeImpl(schedules);
     }
 
-    static class EmployeeFreeTime {
 
+    static class EmployeeFreeTime {
 
         Map<List<Interval>, Integer> indexes = new HashMap<>();
 
         private List<Interval> freeTimeImpl(List<List<Interval>> schedules) {
-            var sToIMap = new HashMap<Interval, List<Interval>>();
-            var minHeap = new PriorityQueue<Interval>((a, b) -> a.start - b.end);
-            for (List<Interval> schedule : schedules) {
-                var firstElement = removeFirst(schedule);
-                indexes.put(schedule, 1);
-                minHeap.add(firstElement);
-                sToIMap.put(firstElement, schedule);
+            var intervalToScheduleMap = new HashMap<Interval, List<Interval>>();
+            var minHeap = employeeScheduleMinHeap();
+            for (List<Interval> employeeSchedule : schedules) {
+                var firstElement = removeFirst(employeeSchedule);
+                indexes.put(employeeSchedule, 1);
+                minHeap.add(firstElement,employeeSchedule,1);
+                intervalToScheduleMap.put(firstElement, employeeSchedule);
             }
             var result = new ArrayList<Interval>();
             while (!minHeap.isEmpty()) {
-                var interval = minHeap.remove();
-                var schedule = sToIMap.get(interval);
+                var interval = minHeap.remove().interval;
+                var schedule = intervalToScheduleMap.get(interval);
                 merge(result, interval);
                 var firstElement = removeFirst(schedule);
                 if (firstElement != null) {
-                    minHeap.add(firstElement);
-                    sToIMap.put(firstElement, schedule);
+                    minHeap.add(firstElement,schedule,indexes.get(schedule));
+                    intervalToScheduleMap.put(firstElement, schedule);
                 }
             }
             return calculateIntervalGaps(result);
 
+        }
+
+        private EmployeeScheduleMinHeap employeeScheduleMinHeap() {
+            return new EmployeeScheduleMinHeap();
         }
 
         private List<Interval> calculateIntervalGaps(List<Interval> intervals) {
@@ -143,6 +140,40 @@ public class EmployeeFreeTimeTest {
                 return interval;
             } else {
                 return null;
+            }
+        }
+
+        private class EmployeeScheduleMinHeap {
+
+            PriorityQueue<EmployeeScheduleTracker> minHeap;
+
+            public EmployeeScheduleMinHeap() {
+                minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a.interval.start));
+            }
+
+            public void add(Interval element, List<Interval> employeeSchedule, int index) {
+                var tracker = new EmployeeScheduleTracker(element,employeeSchedule,index);
+                minHeap.add(tracker);
+            }
+
+            public boolean isEmpty() {
+                return minHeap.isEmpty();
+            }
+
+            public EmployeeScheduleTracker remove() {
+                return minHeap.remove();
+            }
+
+            private class EmployeeScheduleTracker {
+                private final Interval interval;
+                private final List<Interval> employeeSchedule;
+                private final int index;
+
+                public EmployeeScheduleTracker(Interval interval, List<Interval> employeeSchedule, int index) {
+                    this.interval = interval;
+                    this.employeeSchedule = employeeSchedule;
+                    this.index = index;
+                }
             }
         }
     }
