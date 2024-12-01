@@ -1,17 +1,43 @@
 package com.brent.ik.intervals;
 
-import com.brent.ik.trees.BST;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.*;
-import java.util.regex.MatchResult;
+import java.util.stream.Stream;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import static java.util.Arrays.asList;
 import static java.util.Collections.addAll;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EmployeeFreeTimeTest {
+    private static Stream<Arguments> input() {
+        return Stream.of(
+                Arguments.of(schedules(
+                        schedule(anInterval(1, 2), anInterval(5, 6)),
+                        schedule(anInterval(1,3)),
+                        schedule(anInterval(4,10))),
+                        schedule(anInterval(3,4))),
+                Arguments.of(schedules(
+                        schedule(anInterval(1, 3), anInterval(6, 7)),
+                        schedule(anInterval(2,4)),
+                        schedule(anInterval(2,5),anInterval(9,12))),
+                        schedule(anInterval(5,6),anInterval(7,9)))
+        );
+    }
+
+    @MethodSource("input")
+    @ParameterizedTest
+    void shouldCreateEmployeeFreeTime_givenWorkTimeIntervalLists(List<List<Interval>> schedules,List<Interval> expected) {
+
+        var actual = freeTime(schedules);
+        assertThat(actual).usingRecursiveFieldByFieldElementComparator().isEqualTo(expected);
+
+    }
     @Test
     void shouldCreateEmployeeFreeTime_givenWorkTimeIntervals() {
         var schedules = schedules(
