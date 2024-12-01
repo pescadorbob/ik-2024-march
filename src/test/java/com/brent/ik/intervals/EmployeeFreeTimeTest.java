@@ -73,9 +73,9 @@ public class EmployeeFreeTimeTest {
 
 
         private List<Interval> freeTimeImpl(List<List<Interval>> schedules) {
-            var minHeap = employeeScheduleMinHeap();
+            var minHeap = new EmployeeScheduleMinHeap();
             for (List<Interval> employeeSchedule : schedules) {
-                var firstElement = getNextIntervalFromEmployeeSchedule(employeeSchedule,0);
+                var firstElement = getNextIntervalFromEmployeeScheduleIfExists(employeeSchedule,0);
                 minHeap.add(firstElement,employeeSchedule,1);
             }
             var result = new ArrayList<Interval>();
@@ -84,19 +84,22 @@ public class EmployeeFreeTimeTest {
                 var interval = tracker.interval;
                 var schedule = tracker.employeeSchedule;
                 merge(result, interval);
-                var nextElement = getNextIntervalFromEmployeeSchedule(schedule,tracker.index);
-
-                if (nextElement != null) {
-                    minHeap.add(nextElement,schedule,tracker.index+1);
-                }
+                addNextIntervalToMinHeapFromScheduleIfExists(schedule, tracker, minHeap);
             }
             return calculateIntervalGaps(result);
 
         }
 
-        private EmployeeScheduleMinHeap employeeScheduleMinHeap() {
-            return new EmployeeScheduleMinHeap();
+        private void addNextIntervalToMinHeapFromScheduleIfExists(List<Interval> schedule,
+                                                                  EmployeeScheduleMinHeap.EmployeeScheduleTracker tracker,
+                                                                  EmployeeScheduleMinHeap minHeap) {
+            var nextInterval = getNextIntervalFromEmployeeScheduleIfExists(schedule, tracker.index);
+
+            if (nextInterval != null) {
+                minHeap.add(nextInterval, schedule, tracker.index+1);
+            }
         }
+
 
         private List<Interval> calculateIntervalGaps(List<Interval> intervals) {
             var result = new ArrayList<Interval>();
@@ -125,7 +128,7 @@ public class EmployeeFreeTimeTest {
             last.end = max(last.end, interval.end);
         }
 
-        private Interval getNextIntervalFromEmployeeSchedule(List<Interval> schedule,int index) {
+        private Interval getNextIntervalFromEmployeeScheduleIfExists(List<Interval> schedule, int index) {
             if (index < schedule.size()) {
                 return schedule.get(index);
             } else {
@@ -170,7 +173,6 @@ public class EmployeeFreeTimeTest {
 
     @Test
     void testRemoveMethodOnArrayListShouldRemoveEfficiently() {
-        var schedules = new ArrayList<List<Interval>>();
         var schedule = new ArrayList<Interval>();
         schedule.add(anInterval(1, 2));
         schedule.add(anInterval(5, 6));
