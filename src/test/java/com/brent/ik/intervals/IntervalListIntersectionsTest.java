@@ -27,6 +27,9 @@ public class IntervalListIntersectionsTest {
                 Arguments.of(asList(asList(1,7)),
                         asList( asList(3,10)),
                         asList(asList(3,7))),
+                Arguments.of(asList(asList(0, 2), asList(5,5), asList(6, 10), asList(13, 23), asList(24, 25)),
+                        asList(asList(1, 5), asList(8, 12), asList(15, 24), asList(25, 26)),
+                        asList(asList(1, 2), asList(5, 5), asList(8, 10), asList(15, 23), asList(24, 24), asList(25, 25))),
                 Arguments.of(asList(asList(0, 2), asList(5, 10), asList(13, 23), asList(24, 25)),
                         asList(asList(1, 5), asList(8, 12), asList(15, 24), asList(25, 26)),
                         asList(asList(1, 2), asList(5, 5), asList(8, 10), asList(15, 23), asList(24, 24), asList(25, 25)))
