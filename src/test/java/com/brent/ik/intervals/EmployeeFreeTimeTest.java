@@ -22,6 +22,12 @@ public class EmployeeFreeTimeTest {
                                 schedule(anInterval(4, 10))),
                         schedule(anInterval(3, 4))),
                 Arguments.of(schedules(
+                                schedule(),// this employee is never scheduled
+                                schedule(anInterval(1, 2), anInterval(5, 6)),
+                                schedule(anInterval(1, 3)),
+                                schedule(anInterval(4, 10))),
+                        schedule(anInterval(3, 4))),
+                Arguments.of(schedules(
                                 schedule(anInterval(1, 3), anInterval(6, 7)),
                                 schedule(anInterval(2, 4)),
                                 schedule(anInterval(2, 5), anInterval(9, 12))),
@@ -96,7 +102,9 @@ public class EmployeeFreeTimeTest {
             var minHeap = new EmployeeScheduleMinHeap();
             for (List<Interval> employeeSchedule : schedules) {
                 var firstElement = getNextIntervalFromEmployeeScheduleIfExists(employeeSchedule, 0);
-                minHeap.add(firstElement, employeeSchedule, 0);
+                if(firstElement != null){
+                    minHeap.add(firstElement, employeeSchedule, 0);
+                }
             }
             return minHeap;
         }
