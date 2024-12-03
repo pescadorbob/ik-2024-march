@@ -1,9 +1,13 @@
 package com.brent.ik.intervals;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -12,11 +16,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class IntervalListIntersectionsTest {
 
-    @Test
-    void shouldFindIntersectedIntervals_GivenDisjointedAndSortedSets() {
-        var f = asList(asList(0, 2), asList(5, 10), asList(13, 23), asList(24, 25));
-        var s = asList(asList(1, 5), asList(8, 12), asList(15, 24), asList(25, 26));
-        var expected = asList(asList(1, 2), asList(5, 5), asList(8, 10), asList(15, 23), asList(24, 24), asList(25, 25));
+    private static Stream<Arguments> input() {
+        return Stream.of(
+                Arguments.of(asList(asList(1,3), asList(5,9)),
+                        asList(),
+                        asList()),
+                Arguments.of(asList(asList(0, 2), asList(5, 10), asList(13, 23), asList(24, 25)),
+                        asList(asList(1, 5), asList(8, 12), asList(15, 24), asList(25, 26)),
+                        asList(asList(1, 2), asList(5, 5), asList(8, 10), asList(15, 23), asList(24, 24), asList(25, 25)))
+        );
+    }
+
+    @MethodSource("input")
+    @ParameterizedTest
+    void shouldFindIntersectedIntervals_GivenDisjointedAndSortedSets(List<List<Integer>> f,List<List<Integer>> s,List<List<Integer>> expected) {
 
         var actual = intersectIntervals(f, s);
         assertThat(actual).isEqualTo(expected);
