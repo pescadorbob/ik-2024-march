@@ -15,15 +15,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class KthLargestTest {
     private static Stream<Arguments> provideArrays() {
         return Stream.of(
-                Arguments.of(list(1, 3, 5),2,3),
-                Arguments.of(list(10, 10, 10),2,10),
-                Arguments.of(list(9,33,4,22,11,44,55,66,1,2,3),2,55)
+                Arguments.of(list(1, 3, 5), 2, 3),
+                Arguments.of(list(10, 10, 10), 2, 10),
+                Arguments.of(list(9, 33, 4, 22, 11, 44, 55, 66, 1, 2, 3), 2, 55)
         );
     }
 
     private static ArrayList<Integer> list(Integer... array) {
         return new ArrayList<>(java.util.Arrays.stream(array).toList());
     }
+
     @ParameterizedTest
     @MethodSource("provideArrays")
     void test_kth_largest(ArrayList<Integer> array, Integer k, Integer expected) {
@@ -32,37 +33,38 @@ public class KthLargestTest {
     }
 
     private Integer kthLargest(ArrayList<Integer> nums, Integer k) {
-         helper(nums,0,nums.size()-1,nums.size()-k);
-         return nums.get(nums.size()-k);
+        helper(nums, 0, nums.size() - 1, nums.size() - k);
+        return nums.get(nums.size() - k);
     }
-    private void helper(ArrayList<Integer> nums,int start, int end, int index){
+
+    private void helper(ArrayList<Integer> nums, int start, int end, int index) {
         // base case
-        if(end == start) return;
-        var pivot = partition(nums,start,end);
-        if(pivot == index) { // lucky case!
-            return ;
+        if (end == start) return;
+        var pivot = partition(nums, start, end);
+        if (pivot == index) { // lucky case!
+            return;
         } else {
-            if(index < pivot){
-                helper(nums,start,pivot-1,index);
+            if (index < pivot) {
+                helper(nums, start, pivot - 1, index);
             } else {
-                helper(nums, pivot+1,end,index);
+                helper(nums, pivot + 1, end, index);
             }
         }
     }
 
     private Integer partition(ArrayList<Integer> nums, int start, int end) {
-        var pivot = new Random(System.currentTimeMillis()).nextInt(start,end);
-        swap(nums,start,pivot);
+        var pivot = new Random(System.currentTimeMillis()).nextInt(start, end);
+        swap(nums, start, pivot);
         var smaller = start;
-        var larger = start+1;
-        while(larger <= end){
-            if(nums.get(larger) < nums.get(start)){
-                smaller ++;
-                swap(nums,smaller,larger);
+        var larger = start + 1;
+        while (larger <= end) {
+            if (nums.get(larger) < nums.get(start)) {
+                smaller++;
+                swap(nums, smaller, larger);
             }
-            larger ++;
+            larger++;
         }
-        swap(nums,start,smaller);
+        swap(nums, start, smaller);
         return smaller;
     }
 
