@@ -33,11 +33,10 @@ public class KClosestPointsToOriginTest {
     }
 
     private List<List<Integer>> kClosest(List<List<Integer>> points, Integer k) {
-        var pointsWithDistance = calculateDistance(points);
-        helper(pointsWithDistance,0,pointsWithDistance.size()-1,k);
+        helper(points,0,points.size()-1,k);
         var results = new ArrayList<List<Integer>>();
         for(int i=0;i<k;i++){
-            results.add(asList(pointsWithDistance.get(i).get(0),pointsWithDistance.get(i).get(1)));
+            results.add(asList(points.get(i).get(0),points.get(i).get(1)));
         }
         return results;
     }
@@ -58,9 +57,9 @@ public class KClosestPointsToOriginTest {
         int pIndex = new Random(System.currentTimeMillis()).nextInt(start,end);
         int smaller = start;
         swap(points,start,pIndex);
-        int pivot = points.get(start).get(2);
+        int pivot = squared(points.get(start));
         for(int larger = smaller+1;larger<=end;larger++){
-            if(points.get(larger).get(2) < pivot){
+            if(squared(points.get(larger)) < pivot){
                 smaller ++;
                 swap(points,smaller,larger);
             }
@@ -69,15 +68,9 @@ public class KClosestPointsToOriginTest {
         return smaller;
     }
 
-    private List<List<Integer>> calculateDistance(List<List<Integer>> points) {
-        var results = new ArrayList<List<Integer>>();
-        for(var c : points){
-            results.add(asList(c.get(0),c.get(1),squared(c)));
-        }
-        return results;
-    }
 
-    private Integer squared(List<Integer> c) {
+
+    private static Integer squared(List<Integer> c) {
         return c.get(0)*c.get(0) + c.get(1)*c.get(1);
     }
 
