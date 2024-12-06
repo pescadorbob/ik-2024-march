@@ -70,7 +70,6 @@ public class KClosestPointsToOriginTest {
     }
     private static boolean compare(List<List<Integer>> points, int larger, int pivot){
         return (squared(points.get(larger)) < squared(points.get(pivot)));
-
     }
 
     private static Integer squared(List<Integer> c) {
