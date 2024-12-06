@@ -5,6 +5,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -32,12 +33,12 @@ public class KthLargestTest {
         assertThat(actual).isEqualTo(expected);
     }
 
-    private Integer kthLargest(ArrayList<Integer> nums, Integer k) {
+    public static Integer kthLargest(List<Integer> nums, Integer k) {
         helper(nums, 0, nums.size() - 1, nums.size() - k);
         return nums.get(nums.size() - k);
     }
 
-    private void helper(ArrayList<Integer> nums, int start, int end, int index) {
+    private static void helper(List<Integer> nums, int start, int end, int index) {
         // base case
         if (end == start) return;
         var pivot = partition(nums, start, end);
@@ -52,7 +53,7 @@ public class KthLargestTest {
         }
     }
 
-    private Integer partition(ArrayList<Integer> nums, int start, int end) {
+    private static Integer partition(List<Integer> nums, int start, int end) {
         var pivot = new Random(System.currentTimeMillis()).nextInt(start, end);
         swap(nums, start, pivot);
         var smaller = start;
