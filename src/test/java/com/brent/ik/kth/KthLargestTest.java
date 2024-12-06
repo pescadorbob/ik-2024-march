@@ -31,42 +31,39 @@ public class KthLargestTest {
         assertThat(actual).isEqualTo(expected);
     }
 
-    private Integer kthLargest(ArrayList<Integer> array, Integer k) {
-        helper(array,0,array.size()-1,array.size()-k);
-        return array.get(array.size()-k);
+    private Integer kthLargest(ArrayList<Integer> nums, Integer k) {
+         helper(nums,0,nums.size()-1,nums.size()-k);
+         return nums.get(nums.size()-k);
     }
-    private void helper(ArrayList<Integer> array, Integer start, Integer end, Integer k){
+    private void helper(ArrayList<Integer> nums,int start, int end, int index){
         // base case
-        if(Objects.equals(start, end)) return ;
-
-        var pivotIndex = lomutosPartition(array,start, end);
-        if(pivotIndex==k) return ; // lucky case!
-        if(k < pivotIndex){
-            helper(array,start,pivotIndex-1,k);
+        if(end == start) return;
+        var pivot = partition(nums,start,end);
+        if(pivot == index) { // lucky case!
+            return ;
         } else {
-            helper(array,pivotIndex+1,end,k);
-        }
-
-    }
-    public static int lomutosPartition(ArrayList<Integer> arr, int start, int end) {
-        int pivotIndex = pickPivot(start, end);
-        int pivot = arr.get(pivotIndex);
-        int smaller = start;
-        int larger = start ;
-        swap(arr, pivotIndex, start);
-        while (larger <= end) {
-            if (arr.get(larger) < pivot) {
-                smaller++;
-                swap(arr, smaller, larger);
+            if(index < pivot){
+                helper(nums,start,pivot-1,index);
+            } else {
+                helper(nums, pivot+1,end,index);
             }
-            larger++;
-
         }
-        swap(arr, start, smaller);
-        return smaller;
     }
-    private static int pickPivot(int from,int to){
-        return new Random(System.currentTimeMillis()).nextInt(from,to);
+
+    private Integer partition(ArrayList<Integer> nums, int start, int end) {
+        var pivot = new Random(System.currentTimeMillis()).nextInt(start,end);
+        swap(nums,start,pivot);
+        var smaller = start;
+        var larger = start+1;
+        while(larger <= end){
+            if(nums.get(larger) < nums.get(start)){
+                smaller ++;
+                swap(nums,smaller,larger);
+            }
+            larger ++;
+        }
+        swap(nums,start,smaller);
+        return smaller;
     }
 
 
