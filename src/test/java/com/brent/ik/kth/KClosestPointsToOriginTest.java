@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import static java.lang.Math.pow;
 import static java.util.Arrays.asList;
 import static java.util.Collections.swap;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,7 +60,7 @@ public class KClosestPointsToOriginTest {
         swap(points, start, pIndex);
 
         for (int larger = smaller + 1; larger <= end; larger++) {
-            if (compare(points,larger,pIndex)) {
+            if (compare(points, larger, pIndex)) {
                 smaller++;
                 swap(points, smaller, larger);
             }
@@ -68,10 +69,8 @@ public class KClosestPointsToOriginTest {
         return smaller;
     }
     private static boolean compare(List<List<Integer>> points, int larger, int pivot){
-        return (points.get(larger).get(0)*points.get(larger).get(0) +
-                points.get(larger).get(1)*points.get(larger).get(1) <
-                points.get(pivot).get(0)*points.get(pivot).get(0) +
-                        points.get(pivot).get(1)*points.get(pivot).get(1));
+        return (squared(points.get(larger)) < squared(points.get(pivot)));
+
     }
 
     private static Integer squared(List<Integer> c) {
