@@ -19,7 +19,9 @@ public class TopKFrequentWordsTest {
 
     private static Stream<Arguments> provideArrays() {
         return Stream.of(
-                Arguments.of(asList("i", "love", "leetcode", "i", "love", "coding"),2,asList("i", "love"))
+                Arguments.of(asList("i", "love", "leetcode", "i", "love", "coding"),2,asList("i", "love")),
+                Arguments.of(asList("the","day","is","sunny","the","the","the","sunny","is","is"),4,asList("the","is","sunny","day")),
+                Arguments.of(asList("the","the","is","is","a","a","brat","brat","brat","brat"),3,asList("brat", "a","is"))
         );
     }
 
@@ -48,7 +50,7 @@ public class TopKFrequentWordsTest {
     }
 
     private void sortToK(List<List> pairs, int k) {
-        helperSort(pairs, 0, k);
+        helperSort(pairs, 0, k-1);
     }
 
     private void helperSort(List<List> pairs, int start, int end) {
