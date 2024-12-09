@@ -7,48 +7,43 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FourSumTest {
-    private static ArrayList<ArrayList<Integer>> lists(ArrayList<Integer>... array) {
-        return new ArrayList<ArrayList<Integer>>(Arrays.stream(array).toList());
-    }
 
-    private static ArrayList<Integer> list(Integer... array) {
-        return new ArrayList<>(java.util.Arrays.stream(array).toList());
-    }
 
     private static Stream<Arguments> shouldFindUniqueQuadruplesThatSumUpToGivenValue() {
         return Stream.of(
-                Arguments.of(list(0, 0, 1, 3, 2, -1), 3, lists(list(-1, 0, 1, 3), list(0, 0, 1, 2))),
-                Arguments.of(list(-3, 0, 0, 1, 3, 2, -1), 3,
-                        lists(
-                                list(-1, 0, 1, 3),
-                                list(-3, 1, 2, 3),
-                                list(0, 0, 1, 2))),
-                Arguments.of(list(-3, 0, 0, 1, 6, 2, -1), 3,
-                        lists(list(0, 0, 1, 2),
-                                list(-3, 0, 0, 6),
-                                list(-3, -1, 1, 6)))
+                Arguments.of(asList(0, 0, 1, 3, 2, -1), 3, asList(asList(-1, 0, 1, 3), asList(0, 0, 1, 2))),
+                Arguments.of(asList(-3, 0, 0, 1, 3, 2, -1), 3,
+                        asList(
+                                asList(-1, 0, 1, 3),
+                                asList(-3, 1, 2, 3),
+                                asList(0, 0, 1, 2))),
+                Arguments.of(asList(-3, 0, 0, 1, 6, 2, -1), 3,
+                        asList(asList(0, 0, 1, 2),
+                                asList(-3, 0, 0, 6),
+                                asList(-3, -1, 1, 6)))
 
         );
     }
 
     @ParameterizedTest
     @MethodSource
-    void shouldFindUniqueQuadruplesThatSumUpToGivenValue(ArrayList arr, int target, ArrayList<ArrayList<Integer>> expected) {
+    void shouldFindUniqueQuadruplesThatSumUpToGivenValue(List arr, int target, List<List<Integer>> expected) {
 
         var actual = fourSum(arr, target);
         assertThat(actual).containsOnlyElementsOf(expected);
     }
 
-    private ArrayList<ArrayList<Integer>> fourSum(ArrayList<Integer> arr, int target) {
+    private List<List<Integer>> fourSum(List<Integer> arr, int target) {
         sort(arr);
         // -1,0,0,1,2
         // try the first one [-1], then find 3 numbers that add to target minus first one
         var leftIndex = 0;
         var rightIndex = arr.size() - 1;
-        var results = new HashSet<ArrayList<Integer>>();
+        var results = new HashSet<List<Integer>>();
         while (leftIndex < rightIndex - 1) {
             var firstOne = arr.get(leftIndex);
             var threeSumTarget = target - firstOne;
@@ -60,7 +55,7 @@ public class FourSumTest {
 
     }
 
-    private void addThreeSumResultToFirstOne(Integer firstOne, ArrayList<ArrayList<Integer>> otherThree, Set<ArrayList<Integer>> results) {
+    private void addThreeSumResultToFirstOne(Integer firstOne, List<List<Integer>> otherThree, Set<List<Integer>> results) {
         otherThree.forEach(it -> {
             var result = new ArrayList<Integer>();
             result.add(firstOne);
@@ -70,12 +65,12 @@ public class FourSumTest {
 
     }
 
-    private static void sort(ArrayList<Integer> arr) {
+    private static void sort(List<Integer> arr) {
         Collections.sort(arr);
     }
 
-    private ArrayList<ArrayList<Integer>> threeSum(ArrayList<Integer> arr, int left, int right, int threeSumTarget) {
-        var results = new ArrayList<ArrayList<Integer>>();
+    private List<List<Integer>> threeSum(List<Integer> arr, int left, int right, int threeSumTarget) {
+        var results = new ArrayList<List<Integer>>();
         while (left < right - 1) {
             var firstOne = arr.get(left);
             var twoSumTarget = threeSumTarget - firstOne;
@@ -85,12 +80,12 @@ public class FourSumTest {
         return results;
     }
 
-    private static void twoSum(ArrayList<Integer> arr, int left, int right, int newTarget, ArrayList<ArrayList<Integer>> results, Integer firstOne) {
+    private static void twoSum(List<Integer> arr, int left, int right, int newTarget, List<List<Integer>> results, Integer firstOne) {
         while (left < right) {
 
             var sum = arr.get(left) + arr.get(right);
             if (sum == newTarget) {
-                results.add(new ArrayList(Arrays.asList(firstOne, arr.get(left), arr.get(right))));
+                results.add(new ArrayList(asList(firstOne, arr.get(left), arr.get(right))));
                 left++;
             } else if (sum > newTarget) {
                 right--;
