@@ -1,22 +1,32 @@
 package com.brent.ik.kth;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.swap;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TopKFrequentWordsTest {
-    @Test
-    void testShouldReturnTopKFrequentWordsAndSortedLexicographicallyIfSameFrequency_givenWords() {
-        var words = asList("i", "love", "leetcode", "i", "love", "coding");
-        var k = 2;
-        var expected = asList("i", "love");
+
+    private static Stream<Arguments> provideArrays() {
+        return Stream.of(
+                Arguments.of(asList("i", "love", "leetcode", "i", "love", "coding"),2,asList("i", "love"))
+        );
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("provideArrays")
+    void testShouldReturnTopKFrequentWordsAndSortedLexicographicallyIfSameFrequency_givenWords(List<String> words,int k, List<String>expected) {
         var actual = topKFrequentWords(words, k);
         assertThat(actual).isEqualTo(expected);
     }
