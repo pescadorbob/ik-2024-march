@@ -19,14 +19,13 @@ public class TwoSumSorted {
     }
 
     /*
-    167. Two Sum Il - Input array is sorted
-    Easy 6 1 207 Q 487 0 Favorite CJ Share
+    167. Two Sum II - Input array is sorted
     Given an array of integers that is already sorted in ascending order, find two numbers such that they
     add up to a specific target number.
     The function twoSum should return indices of the two numbers such that they add up to the target,
-    where indexl must be less than index2.
+    where index1 must be less than index2.
     Note:
-    • Your returned answers (both indexl and index2) are not zero-based.
+    • Your returned answers (both index1 and index2) are not zero-based.
     • You may assume that each input would have exactly one solution and you may not use the same
     element twice.
     Example:
@@ -49,7 +48,7 @@ public class TwoSumSorted {
         while(i<j){
             int sum = nums.get(i) + nums.get(j);
             if(sum == target){
-                return new ArrayList<>(asList(i+1,j+1));
+                return asList(i+1,j+1);
             } else if (sum < target){
                 // increase from the left to make the sum greater
                 i++;
