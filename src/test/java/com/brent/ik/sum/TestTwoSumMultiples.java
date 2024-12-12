@@ -26,6 +26,8 @@ public class TestTwoSumMultiples {
     /*
     Given an array of numbers, find all the unique pairs that add up to a sum.
     For easy comparison, the pairs should always be sorted in increasing order.
+    Complexity: Sorting O(nlogn), shifting windows O(n), these inner loops, shrink the problem.
+
          */
     @ParameterizedTest
     @MethodSource("params")
