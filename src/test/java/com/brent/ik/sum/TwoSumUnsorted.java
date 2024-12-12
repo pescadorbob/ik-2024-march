@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class TwoSumUnsorted {
@@ -20,21 +22,19 @@ return [0, 1].
      */
     @Test
     void shouldProduceIndices_0_1_given_2_7_11_15_andTarget_9() {
-        var nums = new ArrayList(Arrays.asList(2, 7, 11, 15));
+        var nums = new ArrayList(asList(2, 7, 11, 15));
         var target = 9;
-        var expected = Arrays.asList(0,1);
+        var expected = asList(0,1);
         var actual = twoSum(nums,target);
         assertThat(actual).isEqualTo(expected);
     }
-    private ArrayList<Integer> twoSum(ArrayList<Integer> nums, int target){
-        var hashed = new HashMap<Integer,Integer>();
-        for (int i=0;i<nums.size();i++){
-            hashed.put(nums.get(i),i);
-        }
-        for(int num:nums){
-            var complement = target - num;
-            if(hashed.containsKey(complement)){
-                return new ArrayList<Integer>(Arrays.asList(hashed.get(num),hashed.get(complement)));
+    private List<Integer> twoSum(ArrayList<Integer> nums, int target){
+        var hset = new HashMap<Integer,Integer>(); // value -> index
+        for(int m=0;m<nums.size();m++){
+            if(hset.containsKey( target-nums.get(m) )){
+                return asList(hset.get(target-nums.get(m)),m);
+            } else {
+                hset.put(nums.get(m),m);
             }
         }
         return null;
