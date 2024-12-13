@@ -16,6 +16,8 @@ public class FourSumTest {
 
     private static Stream<Arguments> shouldFindUniqueQuadruplesThatSumUpToGivenValue() {
         return Stream.of(
+                Arguments.of(asList(0, 0, 1, 1, 1, 1, 1, 1, 1, 3, 2, -1,-6,7), 3,
+                        asList(asList(-6,-1,3,7),asList(-6,0,2,7),asList(-1, 0, 1, 3))),
                 Arguments.of(asList(0, 0, 1, 1, 1, 1, 1, 1, 1, 3, 2, -1), 3,
                         asList(asList(-1, 0, 1, 3))),
                 Arguments.of(asList(-3, 0, 0, 1, 3, 2, -1), 3,
@@ -47,7 +49,7 @@ public class FourSumTest {
         while (leftIndex < rightIndex - 1) {
             var firstOne = arr.get(leftIndex);
             var threeSumTarget = target - firstOne;
-            threeSum(arr, incrementLeftUntilUnique(leftIndex,arr), rightIndex, threeSumTarget, results, firstOne);
+            threeSum(arr, incrementLeftUntilUnique(leftIndex,arr), threeSumTarget, results, firstOne);
             leftIndex = incrementLeftUntilUnique(leftIndex, arr);
         }
         return new ArrayList<>(results);
@@ -55,8 +57,9 @@ public class FourSumTest {
     }
 
 
-    private void threeSum(List<Integer> arr, int left, int right, int threeSumTarget, List<List<Integer>> results, Integer fourVal) {
-        while (left < right - 1) {
+    private void threeSum(List<Integer> arr, int left, int threeSumTarget, List<List<Integer>> results, Integer fourVal) {
+        int right = arr.size()-1;
+        while (left < right) {
             var firstOne = arr.get(left);
             var twoSumTarget = threeSumTarget - firstOne;
             twoSum(arr, incrementLeftUntilUnique(left,arr),  twoSumTarget, results, fourVal, firstOne);
