@@ -41,12 +41,11 @@ public class FourSumTest {
 
     private List<List<Integer>> fourSum(List<Integer> arr, int target) {
         sort(arr);
-        // -1,0,0,1,3
-        // try the first one [-1], then find 3 numbers that add to target minus first one
+
         var leftIndex = 0;
         var rightIndex = arr.size() - 1;
         var results = new ArrayList<List<Integer>>();
-        while (leftIndex < rightIndex - 1) {
+        while (leftIndex < rightIndex ) {
             var firstOne = arr.get(leftIndex);
             var threeSumTarget = target - firstOne;
             threeSum(arr, incrementLeftUntilUnique(leftIndex,arr), threeSumTarget, results, firstOne);
