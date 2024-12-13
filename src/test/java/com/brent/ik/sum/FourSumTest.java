@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.sort;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FourSumTest {
@@ -15,15 +16,14 @@ public class FourSumTest {
 
     private static Stream<Arguments> shouldFindUniqueQuadruplesThatSumUpToGivenValue() {
         return Stream.of(
-                Arguments.of(asList(0, 0, 1, 3, 2, -1), 3, asList(asList(-1, 0, 1, 3), asList(0, 0, 1, 2))),
+                Arguments.of(asList(0, 0, 1, 1, 1, 1, 1, 1, 1, 3, 2, -1), 3,
+                        asList(asList(-1, 0, 1, 3))),
                 Arguments.of(asList(-3, 0, 0, 1, 3, 2, -1), 3,
                         asList(
                                 asList(-1, 0, 1, 3),
-                                asList(-3, 1, 2, 3),
-                                asList(0, 0, 1, 2))),
+                                asList(-3, 1, 2, 3))),
                 Arguments.of(asList(-3, 0, 0, 1, 6, 2, -1), 3,
-                        asList(asList(0, 0, 1, 2),
-                                asList(-3, 0, 0, 6),
+                        asList(
                                 asList(-3, -1, 1, 6)))
 
         );
@@ -31,7 +31,7 @@ public class FourSumTest {
 
     @ParameterizedTest
     @MethodSource
-    void shouldFindUniqueQuadruplesThatSumUpToGivenValue(List arr, int target, List<List<Integer>> expected) {
+    void shouldFindUniqueQuadruplesThatSumUpToGivenValue(List<Integer> arr, int target, List<List<Integer>> expected) {
 
         var actual = fourSum(arr, target);
         assertThat(actual).containsOnlyElementsOf(expected);
@@ -39,59 +39,57 @@ public class FourSumTest {
 
     private List<List<Integer>> fourSum(List<Integer> arr, int target) {
         sort(arr);
-        // -1,0,0,1,2
+        // -1,0,0,1,3
         // try the first one [-1], then find 3 numbers that add to target minus first one
         var leftIndex = 0;
         var rightIndex = arr.size() - 1;
-        var results = new HashSet<List<Integer>>();
+        var results = new ArrayList<List<Integer>>();
         while (leftIndex < rightIndex - 1) {
             var firstOne = arr.get(leftIndex);
             var threeSumTarget = target - firstOne;
-            var otherThree = threeSum(arr, leftIndex + 1, rightIndex, threeSumTarget);
-            addThreeSumResultToFirstOne(firstOne, otherThree, results);
-            leftIndex++;
+            threeSum(arr, incrementLeftUntilUnique(leftIndex,arr), rightIndex, threeSumTarget, results, firstOne);
+            leftIndex = incrementLeftUntilUnique(leftIndex, arr);
         }
         return new ArrayList<>(results);
 
     }
 
-    private void addThreeSumResultToFirstOne(Integer firstOne, List<List<Integer>> otherThree, Set<List<Integer>> results) {
-        otherThree.forEach(it -> {
-            var result = new ArrayList<Integer>();
-            result.add(firstOne);
-            result.addAll(it);
-            results.add(result);
-        });
 
-    }
-
-    private static void sort(List<Integer> arr) {
-        Collections.sort(arr);
-    }
-
-    private List<List<Integer>> threeSum(List<Integer> arr, int left, int right, int threeSumTarget) {
-        var results = new ArrayList<List<Integer>>();
+    private void threeSum(List<Integer> arr, int left, int right, int threeSumTarget, List<List<Integer>> results, Integer fourVal) {
         while (left < right - 1) {
             var firstOne = arr.get(left);
             var twoSumTarget = threeSumTarget - firstOne;
-            twoSum(arr, left + 1, right, twoSumTarget, results, firstOne);
-            left++;
+            twoSum(arr, incrementLeftUntilUnique(left,arr),  twoSumTarget, results, fourVal, firstOne);
+            left = incrementLeftUntilUnique(left, arr);
         }
-        return results;
     }
 
-    private static void twoSum(List<Integer> arr, int left, int right, int newTarget, List<List<Integer>> results, Integer firstOne) {
+    private static void twoSum(List<Integer> arr, int left, int newTarget,
+                               List<List<Integer>> results,
+                               Integer fourVal,
+                               Integer threeVal) {
+        int n = arr.size();
+        int right = n-1;
         while (left < right) {
 
             var sum = arr.get(left) + arr.get(right);
             if (sum == newTarget) {
-                results.add(new ArrayList(asList(firstOne, arr.get(left), arr.get(right))));
-                left++;
+
+                results.add(asList(fourVal, threeVal, arr.get(left), arr.get(right)));
+                left = incrementLeftUntilUnique(left, arr);
             } else if (sum > newTarget) {
                 right--;
             } else {
                 left++;
             }
         }
+    }
+
+    private static int incrementLeftUntilUnique(int left, List<Integer> arr) {
+        var curr = arr.get(left);
+        while (left < arr.size() && (int) arr.get(left) == curr) {
+            left++;
+        }
+        return left;
     }
 }

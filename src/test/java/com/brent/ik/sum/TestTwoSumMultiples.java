@@ -34,7 +34,7 @@ public class TestTwoSumMultiples {
     void shouldProduceIndices_1_2_given_2_7_11_15_andTarget_9(List<Integer> nums, int target, List<List<Integer>> expected) {
 
         var actual = twoSum(nums, target);
-        assertThat(actual).usingRecursiveFieldByFieldElementComparator().containsOnlyElementsOf(expected);
+        assertThat(actual).containsOnlyElementsOf(expected);
     }
 
     private List<List<Integer>> twoSum(List<Integer> nums, int target) {
