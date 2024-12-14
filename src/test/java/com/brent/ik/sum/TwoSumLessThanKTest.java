@@ -1,6 +1,5 @@
 package com.brent.ik.sum;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -37,19 +36,34 @@ public class TwoSumLessThanKTest {
 
     private int twoSumLessThanK(List<Integer> nums, int target) {
         sort(nums);
-        var best = -1;
+        var maximum = -1;
         int l = 0;
         int r = nums.size()-1;
         while(l<r){
             var sum = nums.get(l) + nums.get(r);
             if(sum<target){
-                best = max(sum,best);
-                l++;
+                maximum = replaceMaximumIfSumIsGreater(maximum, sum);
+                l = eliminateRightMostColumn(l);
             } else {
-                r--;
+                r = eliminateTopMostColumn(r);
             }
         }
-        return best;
+        return maximum;
+    }
+
+    private static int eliminateTopMostColumn(int r) {
+        r--;
+        return r;
+    }
+
+    private static int eliminateRightMostColumn(int l) {
+        l++;
+        return l;
+    }
+
+    private static int replaceMaximumIfSumIsGreater(int maximum, int sum) {
+        maximum = max(sum, maximum);
+        return maximum;
     }
 
     private List<Integer> twoSum(ArrayList<Integer> nums, int target){
