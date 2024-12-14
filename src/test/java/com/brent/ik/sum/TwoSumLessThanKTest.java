@@ -30,7 +30,7 @@ public class TwoSumLessThanKTest {
          */
     @ParameterizedTest
     @MethodSource("nums")
-    void shouldFind24_givenCandidates(List<Integer> nums,int target, int expected) {
+    void shouldFindClosestTarget_givenCandidates(List<Integer> nums,int target, int expected) {
         var actual = twoSumLessThanK(nums,target);
         assertThat(actual).isEqualTo(expected);
     }
