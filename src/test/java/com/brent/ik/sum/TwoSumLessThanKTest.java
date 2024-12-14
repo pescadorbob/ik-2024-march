@@ -19,7 +19,8 @@ public class TwoSumLessThanKTest {
     public static Stream<Arguments> nums() {
         return Stream.of(
                 Arguments.of(asList(34,23,1,24),25,24),
-                Arguments.of(asList(34,23,1,24,75,33,54,8),60,58)
+                Arguments.of(asList(34,23,1,24,75,33,54,8),60,58),
+                Arguments.of(asList(10,20,30),15,-1)
         );
     }
 
