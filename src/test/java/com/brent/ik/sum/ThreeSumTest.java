@@ -17,7 +17,8 @@ public class ThreeSumTest {
     public static Stream<Arguments> inputs() {
         return Stream.of(
                 Arguments.of(asList(0, 1, 2, 4, -15, -40), 0, 3),
-                Arguments.of(asList(-1,2,1,-4), 1, 2)
+                Arguments.of(asList(-1,2,1,-4), 1, 2),
+                Arguments.of(asList(0,0,0), 1, 0)
         );
     }
 
