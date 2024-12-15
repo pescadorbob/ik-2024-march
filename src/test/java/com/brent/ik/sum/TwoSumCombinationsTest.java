@@ -1,19 +1,26 @@
 package com.brent.ik.sum;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TwoSumCombinationsTest {
-    @Test
-    void shouldCountPairsOfNumbersAddToGivenTargetIncludingAllCombinations(){
-        var nums = asList(2,2,2,3,3,3);
-        var target = 5;
-        var expected = 9;
+
+    public static Stream<Arguments> input() {
+        return Stream.of(Arguments.of(asList(2,2,2,3,3,3),5,9));
+    }
+
+    @ParameterizedTest
+    @MethodSource("input")
+    void shouldCountPairsOfNumbersAddToGivenTargetIncludingAllCombinations(List<Integer> nums, int target, int expected){
         var actual = twoSumCountWithCombinations(nums,target);
         assertThat(actual).isEqualTo(expected);
     }
