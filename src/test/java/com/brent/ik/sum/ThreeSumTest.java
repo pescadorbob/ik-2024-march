@@ -17,8 +17,8 @@ public class ThreeSumTest {
     public static Stream<Arguments> inputs() {
         return Stream.of(
                 Arguments.of(asList(0, 1, 2, 4, -15, -40), 0, 3),
-                Arguments.of(asList(-1,2,1,-4), 1, 2),
-                Arguments.of(asList(0,0,0), 1, 0)
+                Arguments.of(asList(-1, 2, 1, -4), 1, 2),
+                Arguments.of(asList(0, 0, 0), 1, 0)
         );
     }
 
@@ -31,32 +31,27 @@ public class ThreeSumTest {
 
     private int threeSumClosest(List<Integer> nums, int target) {
         sort(nums);
-        return helper(nums, target, 0, nums.size() - 2, nums.size() - 1);
-    }
-
-    private int helper(List<Integer> nums, int target, int i, int j, int k) {
         var closest = Integer.MAX_VALUE;
-        while (k > 1) {
-            var localTarget = target - nums.get(k);
+        for (int m = 2; m < nums.size(); m++) {
+            int i=0;
+            int j=m-1;
+            var localTarget = target - nums.get(m);
             while (i < j) {
                 var sum = nums.get(i) + nums.get(j);
                 if (sum < localTarget) {
 
                     // increment i to get bigger numbers
-                    closest = updateClosest(closest, sum + nums.get(k), target);
+                    closest = updateClosest(closest, sum + nums.get(m), target);
                     i++;
                 } else if (sum == localTarget) // lucky!
                 {
-                    return sum + nums.get(k);
+                    return sum + nums.get(m);
                 } else {
                     // decrement j to get smaller numbers
-                    closest = updateClosest(closest, sum + nums.get(k), target);
+                    closest = updateClosest(closest, sum + nums.get(m), target);
                     j--;
                 }
             }
-            k--;
-            i = 0;
-            j = k - 1;
         }
         return closest;
     }
