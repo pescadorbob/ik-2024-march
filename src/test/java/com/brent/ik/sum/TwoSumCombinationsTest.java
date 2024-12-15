@@ -17,6 +17,7 @@ public class TwoSumCombinationsTest {
     public static Stream<Arguments> input() {
         return Stream.of(
                 Arguments.of(asList(2,2,2,3,3,3),5,9),
+                Arguments.of(asList(2,3,2,3,2,3),5,9),
                 Arguments.of(asList(-1,4,5,10,-1,-10,10),9,5)
         );
     }
