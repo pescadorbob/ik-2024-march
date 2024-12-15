@@ -15,7 +15,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TwoSumCombinationsTest {
 
     public static Stream<Arguments> input() {
-        return Stream.of(Arguments.of(asList(2,2,2,3,3,3),5,9));
+        return Stream.of(
+                Arguments.of(asList(2,2,2,3,3,3),5,9),
+                Arguments.of(asList(-1,4,5,10,-1,-10,10),9,5)
+        );
     }
 
     @ParameterizedTest
@@ -26,6 +29,7 @@ public class TwoSumCombinationsTest {
     }
 
     private int twoSumCountWithCombinations(List<Integer> nums, int target) {
+
         var count = 0;
         var frequencyMap = new HashMap<Integer,Integer>();
         for(int m=0;m<nums.size();m++){
