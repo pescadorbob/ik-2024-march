@@ -12,8 +12,8 @@ import static java.lang.Math.min;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IsSortedWithSpecificAlphabet_solutionTest {
-    public static Stream<Arguments> shouldReportSorted_givenAlphabetAndSortedWords() {
+public class IsSortedWithSpecificAlphabetShould {
+    public static Stream<Arguments> reportIfSorted_givenWordsAndACustomAlphabet() {
         return Stream.of(
                 Arguments.of(asList("cat", "bat", "tab"), "cbat", true),
                 Arguments.of(asList("bat", "cat", "tab"), "cbat", false),
@@ -26,7 +26,7 @@ public class IsSortedWithSpecificAlphabet_solutionTest {
 
     @ParameterizedTest
     @MethodSource
-    void shouldReportSorted_givenAlphabetAndSortedWords(List<String> words, String alphabet, boolean expected) {
+    void reportIfSorted_givenWordsAndACustomAlphabet(List<String> words, String alphabet, boolean expected) {
 
         var actual = isSorted(words, alphabet);
         assertThat(actual).isEqualTo(expected);
