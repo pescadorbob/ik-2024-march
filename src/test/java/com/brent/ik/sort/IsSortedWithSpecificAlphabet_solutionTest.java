@@ -6,15 +6,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
-import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IsSortedWithSpecificAlphabet_solution {
+public class IsSortedWithSpecificAlphabet_solutionTest {
     public static Stream<Arguments> shouldReportSorted_givenAlphabetAndSortedWords() {
         return Stream.of(
                 Arguments.of(asList("cat", "bat", "tab"), "cbat", true),
@@ -60,18 +58,13 @@ public class IsSortedWithSpecificAlphabet_solution {
                 return true;
             }
         }
-        // after checking the letters, if you get here, the letters are the same
+        // after checking the letters, if you get here, the letters are the same up to the point where they have the same
+        // number of letters. After that, if the first word is longer than the second, it isn't sorted
         // e.g. hello, hell
-        // the 'h' is the same
-        // the 'e' is the same
-        // the 'l' is the same
-        // the 'l' is the same
+        // the 'hell' is the same
         // the 'o' and the blank space are different.
         // if the first word is longer than the second => not sorted
         // otherwise, sorted
-
-
-
         return word1.length() > word2.length();
 
     }
