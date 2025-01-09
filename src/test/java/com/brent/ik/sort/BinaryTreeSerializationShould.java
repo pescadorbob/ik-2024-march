@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.lang.Math.max;
+import static java.lang.Math.pow;
 import static java.util.Arrays.asList;
 import static java.util.Collections.nCopies;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,6 +21,8 @@ public class BinaryTreeSerializationShould {
         return Stream.of(
                 Arguments.of(aNode(4).withLeft(aNode(5).build()).withRight(aNode(4).withRight(aNode(90).build()).build()).build(),
                         asList(4, 5, 4, null, null, null, 90)),
+                Arguments.of(aNode(4).withLeft(aNode(5).build()).withRight(aNode(3).withRight(aNode(90).withLeft(aNode(6).build()).withRight(aNode(1).build()).build()).build()).build(),
+                        asList(4, 5, 3, null, null, null, 90, null, null, null, null, null, null, 6, 1)),
                 Arguments.of(aNode(9).withLeft(aNode(5).build()).withRight(aNode(4).withRight(aNode(900).build()).build()).build(),
                         asList(9, 5, 4, null, null, null, 900))
         );
@@ -46,20 +50,21 @@ public class BinaryTreeSerializationShould {
     }
 
     private void deserializeHelper(List<Integer> sd, int offset, TreeNode root) {
-        if(sd.size()<offset+1) return;
+        if (sd.size() < offset + 1) return;
         if (sd.get(offset) != null) {
             root.left = aNode(sd.get(offset)).build();
             deserializeHelper(sd, 2 * (offset + 1), root.left);
         }
         if (sd.get(offset + 1) != null) {
             root.right = aNode(sd.get(offset + 1)).build();
-            deserializeHelper(sd, 2 * (offset+1) + 1, root.right);
+            deserializeHelper(sd, 2 * (offset + 1) + 1, root.right);
         }
     }
 
     private List<Integer> serialize(TreeNode tree) {
         var level = maxLevel(tree);
-        var result = new ArrayList<Integer>(nCopies((level + 1) * 2 + 1, null));
+        var numNodes = (int) (pow(2,(level))-1);
+        var result = new ArrayList<Integer>(nCopies(numNodes, null));
         helper(tree, result, 0);
         return result;
     }
@@ -72,7 +77,13 @@ public class BinaryTreeSerializationShould {
     }
 
     private Integer maxLevel(TreeNode tree) {
-        return 2;
+        if (tree == null) {
+            return 0;
+        } else {
+            var left = maxLevel(tree.left);
+            var right = maxLevel(tree.right);
+            return 1 + max(left, right);
+        }
     }
 
     public static class TreeNode {
