@@ -29,7 +29,7 @@ public class SkienaPermutationsShould {
     }
 
     private void backtrack(List<List<Integer>> result, int[] nums, int[] solution, boolean[] used, int k) {
-        if (is_a_solution(nums, k)) {
+        if (is_a_solution(solution,k,nums)) {
             process_solution(result, nums, solution);
         } else {
             int[] candidates = construct_candidates(nums, solution, used, k);
@@ -42,8 +42,8 @@ public class SkienaPermutationsShould {
         }
     }
 
-    private boolean is_a_solution(int[] nums, int k) {
-        return k == nums.length;
+    private boolean is_a_solution(int[] partialSolution,int k, int[] input) {
+        return k == input.length;
     }
 
     private int[] construct_candidates(int[] nums, int[] solution, boolean[] used, int k) {
