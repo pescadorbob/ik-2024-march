@@ -9,12 +9,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static java.lang.Math.pow;
 import static java.util.Arrays.asList;
 import static java.util.Collections.swap;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class KClosestPointsToOriginTest {
+public class KClosestPointsToOriginShould {
     private static Stream<Arguments> provideArrays() {
         return Stream.of(
                 Arguments.of(asList(asList(1, 3), asList(-2, 2)), 1, asList(asList(-2, 2))),
@@ -26,7 +25,7 @@ public class KClosestPointsToOriginTest {
 
     @ParameterizedTest
     @MethodSource("provideArrays")
-    void testKClosestPointsToOrigin(List<List<Integer>> points, Integer k, List<List<Integer>> expected) {
+    void produceKClosestPointsToOrigin_givenKAndPoints(List<List<Integer>> points, Integer k, List<List<Integer>> expected) {
         var actual = kClosest(points, k);
         assertThat(actual).containsOnlyElementsOf(expected);
     }
@@ -69,7 +68,7 @@ public class KClosestPointsToOriginTest {
         return smaller;
     }
     private static boolean compare(List<List<Integer>> points, int larger, int pivot){
-        return (squared(points.get(larger)) < squared(points.get(pivot)));
+        return squared(points.get(larger)) < squared(points.get(pivot));
     }
 
     private static Integer squared(List<Integer> c) {
