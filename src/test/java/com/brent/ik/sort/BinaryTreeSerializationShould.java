@@ -63,16 +63,16 @@ public class BinaryTreeSerializationShould {
 
     private List<Integer> serialize(TreeNode tree) {
         var level = maxLevel(tree);
-        var numNodes = (int) (pow(2,(level))-1);
+        var numNodes = (int) pow(2,level)-1;
         var result = new ArrayList<Integer>(nCopies(numNodes, null));
-        helper(tree, result, 0);
+        serializeHelper(tree, result, 0);
         return result;
     }
 
-    private void helper(TreeNode node, List<Integer> result, int offset) {
+    private void serializeHelper(TreeNode node, List<Integer> result, int offset) {
         result.set(offset, node.value);
-        if (node.left != null) helper(node.left, result, 2 * offset + 1);
-        if (node.right != null) helper(node.right, result, 2 * offset + 2);
+        if (node.left != null) serializeHelper(node.left, result, 2 * offset + 1);
+        if (node.right != null) serializeHelper(node.right, result, 2 * offset + 2);
 
     }
 
