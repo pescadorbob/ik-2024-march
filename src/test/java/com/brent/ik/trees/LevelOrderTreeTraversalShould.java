@@ -1,19 +1,30 @@
 package com.brent.ik.trees;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayDeque;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LevelOrderTreeTraversalShould {
-    @Test
-    void produceTheTreeByLevel_givenATree() {
-        var tree = aNode('A')
-                .left(aNode('B').build())
-                .right(aNode('C')
-                        .right(aNode('D').build()).build()).build();
-        var expected = "ABCD";
+
+    static Stream<Arguments> testArguments() {
+        return Stream.of(
+                Arguments.of(aNode('A')
+                        .withLeft('B')
+                        .withRight(aNode('C').withRight('D')).build(), "ABCD"),
+                Arguments.of(aNode('A')
+                                .withLeft(aNode('B').withLeft('C').withRight('D')).build()
+                        , "ABCD")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("testArguments")
+    void produceTheTreeByLevel_givenATree(TreeNode tree, String expected) {
         var actual = levelOrderTraversal(tree);
         assertThat(actual).isEqualTo(expected);
     }
@@ -22,13 +33,13 @@ public class LevelOrderTreeTraversalShould {
         var q = new ArrayDeque<TreeNode>();
         q.add(tree);
         var result = new StringBuffer();
-        while(!q.isEmpty()){
+        while (!q.isEmpty()) {
             var node = q.poll();
             result.append(node.value);
-            if(node.left != null){
+            if (node.left != null) {
                 q.add(node.left);
             }
-            if(node.right != null){
+            if (node.right != null) {
                 q.add(node.right);
             }
         }
@@ -40,30 +51,37 @@ public class LevelOrderTreeTraversalShould {
     }
 
     public static class TreeNodeBuilder {
-        Character value;
-        TreeNode left;
-        TreeNode right;
+        private TreeNode node;
 
-        private TreeNodeBuilder(Character value) {
-            this.value = value;
+        private TreeNodeBuilder(Character val) {
+            node = new TreeNode(val);
         }
 
-        public TreeNodeBuilder left(TreeNode node) {
-            left = node;
+        public TreeNodeBuilder withLeft(Character val) {
+            node.left = new TreeNode(val);
             return this;
         }
 
-        public TreeNodeBuilder right(TreeNode node) {
-            right = node;
+        public TreeNodeBuilder withRight(Character val) {
+            node.right = new TreeNode(val);
             return this;
         }
 
+        public TreeNodeBuilder withLeft(TreeNodeBuilder leftBuilder) {
+            node.left = leftBuilder.build();
+            return this;
+        }
+
+        public TreeNodeBuilder withRight(TreeNodeBuilder rightBuilder) {
+            node.right = rightBuilder.build();
+            return this;
+        }
 
         public TreeNode build() {
-            return new TreeNode(value, left, right);
+            return node;
         }
-
     }
+
 
     public static class TreeNode {
         Character value;
@@ -74,6 +92,10 @@ public class LevelOrderTreeTraversalShould {
             this.value = value;
             this.left = left;
             this.right = right;
+        }
+
+        public TreeNode(Character value) {
+            this.value = value;
         }
 
         public Character getValue() {
