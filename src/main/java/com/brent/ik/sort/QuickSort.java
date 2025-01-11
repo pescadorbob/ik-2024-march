@@ -25,9 +25,9 @@ public class QuickSort implements Sorter {
         int smaller = start;
         // lomutos
         swap(arr,start,pivotIndex);
-        int pivot = arr.get(start);
+
         for(int larger = start+1;larger<=end;larger++){
-            if(arr.get(larger)<pivot){
+            if(arr.get(larger)<arr.get(start)){
                 smaller++;
                 swap(arr,smaller,larger);
             }

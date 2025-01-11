@@ -59,7 +59,7 @@ public class KClosestPointsToOriginShould {
         swap(points, start, pIndex);
 
         for (int larger = smaller + 1; larger <= end; larger++) {
-            if (compare(points, larger, pIndex)) {
+            if (lessThan(points, larger, start)) {
                 smaller++;
                 swap(points, smaller, larger);
             }
@@ -67,8 +67,10 @@ public class KClosestPointsToOriginShould {
         swap(points, start, smaller);
         return smaller;
     }
-    private static boolean compare(List<List<Integer>> points, int larger, int pivot){
-        return squared(points.get(larger)) < squared(points.get(pivot));
+    private static boolean lessThan(List<List<Integer>> points, int larger, int pivot){
+        var largerDistance = squared(points.get(larger));
+        var pivotDistance = squared(points.get(pivot));
+        return largerDistance < pivotDistance;
     }
 
     private static Integer squared(List<Integer> c) {
