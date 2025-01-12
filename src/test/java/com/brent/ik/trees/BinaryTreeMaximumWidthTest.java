@@ -29,7 +29,7 @@ public class BinaryTreeMaximumWidthTest {
         assertThat(actual).isEqualTo(expectedWidth);
     }
 
-    GTreeNode createTestTree() {
+    GTreeNode<Integer> createTestTree() {
         return aNode(11)
                 .withRight(aNode(2).withRight(aNode(5).withRight(aNode(6)
                         .withRight(aNode(1).withRight(14)))))
