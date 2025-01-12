@@ -1,36 +1,47 @@
 package com.brent.ik.trees;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Objects;
 
-public class BST {
-    private TreeNode root;
-
-    public BST(Builder builder) {
-        root = builder.root;
-    }
+public class BST<T extends Comparable<T>> {
+    private GTreeNode<T> root;
 
     public BST() {
 
     }
 
-    private static void postOrder(TreeNode node, StringBuffer sb) {
+    public static class Builder<T extends Comparable<T>> {
+        BST<T> node;
+        public Builder(){
+            node = new BST<>();
+        }
+        public Builder<T> withRootNode(T value){
+            node.root = new GTreeNode<>(value);
+            return this;
+        }
+        public BST<T> build(){
+            return node;
+        }
+    }
+
+    private static void postOrder(GTreeNode node, StringBuffer sb) {
         if (node == null) return;
         postOrder(node.left, sb);
         postOrder(node.right, sb);
-        sb.append(node.key).append(" ");
+        sb.append(node.value).append(" ");
     }
 
-    private static void inOrder(TreeNode node, StringBuffer sb) {
+    private static void inOrder(GTreeNode node, StringBuffer sb) {
         if (node == null) return;
         inOrder(node.left, sb);
-        sb.append(node.key).append(" ");
+        sb.append(node.value).append(" ");
         inOrder(node.right, sb);
     }
 
-    private static void preOrder(TreeNode node, StringBuffer sb) {
+    private static void preOrder(GTreeNode node, StringBuffer sb) {
         if (node == null) return;
-        sb.append(node.key).append(" ");
+        sb.append(node.value).append(" ");
         preOrder(node.left, sb);
         preOrder(node.right, sb);
     }
@@ -55,12 +66,12 @@ public class BST {
 
     public String levelOrderPrint() {
         if (root == null) return "";
-        var q = new LinkedList<TreeNode>();
+        var q = new LinkedList<GTreeNode>();
         var output = new StringBuffer();
         q.push(root);
         while (q.size() > 0) {
             var node = q.poll();
-            output.append(node.key).append(" ");
+            output.append(node.value).append(" ");
             if (node.left != null) {
                 q.offer(node.left);
             }
@@ -71,12 +82,12 @@ public class BST {
         return output.toString().trim();
     }
 
-    public TreeNode search(int key) {
+    public GTreeNode<T> search(T value) {
         var curr = getRoot();
         while (curr != null) {
-            if (key == curr.key) {
+            if (value == curr.value) {
                 return curr;
-            } else if (key < curr.key) {
+            } else if (Objects.compare(value , curr.value, Comparator.naturalOrder())<0) {
                 curr = curr.left;
             } else {
                 curr = curr.right;
@@ -85,20 +96,20 @@ public class BST {
         return null;
     }
 
-    public void insert(int key) {
-        var newNode = new TreeNode(key);
+    public void insert(T value) {
+        var newNode = new GTreeNode(value);
 
-        TreeNode prev = null;
+        GTreeNode<T> prev = null;
         var curr = getRoot();
         if (curr == null) {
             root = newNode;
             return;
         }
         while (curr != null) {
-            if (key == curr.key) {
-                // key already exists
+            if (value == curr.value) {
+                // value already exists
                 return;
-            } else if (key < curr.key) {
+            } else if (Objects.compare(value, curr.value,Comparator.naturalOrder())<0) {
                 prev = curr;
                 curr = curr.left;
             } else {
@@ -107,7 +118,7 @@ public class BST {
             }
         }
         if (prev != null) {
-            if (key < prev.key) {
+            if (Objects.compare(value, prev.value,Comparator.naturalOrder())<0) {
                 prev.left = newNode;
 
             } else {
@@ -118,44 +129,44 @@ public class BST {
 
     }
 
-    public Integer min() {
+    public T min() {
         if (getRoot() == null) return null;
         var curr = root;
         while (curr.left != null) {
             curr = curr.left;
         }
-        return curr.key;
+        return curr.value;
     }
 
-    public Integer max() {
+    public T max() {
         if (getRoot() == null) return null;
         var curr = root;
         while (curr.right != null) {
             curr = curr.right;
         }
-        return curr.key;
+        return curr.value;
     }
 
-    public Integer successor(Integer key) {
+    public T successor(T value) {
         if (root == null) return null;
-        var p = search(key);
+        var p = search(value);
         if (p == null) return null;
-        TreeNode curr = null;
+        GTreeNode<T> curr = null;
         // if the node has a right node, then the successor is the one furthest right.
         if (p.right != null) {
             curr = p.right;
             while (curr.left != null) {
                 curr = curr.left;
             }
-            return curr.key;
+            return curr.value;
         }
         // if it wasn't found, then we must look back through the tree to the furthest left ancestor
         // that has a right ancestor
         // search for p, starting from root
-        TreeNode ancestor = null;
+        GTreeNode<T> ancestor = null;
         curr = root;
-        while (curr.key != p.key) {
-            if (p.key < curr.key) {
+        while (curr.value != p.value) {
+            if (Objects.compare(p.value, curr.value,Comparator.naturalOrder())<0) {
                 ancestor = curr;
                 curr = curr.left;
             } else {
@@ -163,31 +174,31 @@ public class BST {
             }
         }
         if (ancestor != null) {
-            return ancestor.key;
+            return ancestor.value;
         }
         return null;
     }
 
-    public Integer predecessor(Integer key) {
+    public T predecessor(T value) {
         if (root == null) return null;
-        var p = search(key);
+        var p = search(value);
         if (p == null) return null;
-        TreeNode curr = null;
+        GTreeNode<T> curr = null;
         // if the node has a left node, then the successor is the one furthest left.
         if (p.left != null) {
             curr = p.left;
             while (curr.right != null) {
                 curr = curr.right;
             }
-            return curr.key;
+            return curr.value;
         }
         // if it wasn't found, then we must look back through the tree to the furthest right ancestor
         // that has a left ancestor
         // search for p, starting from root
-        TreeNode ancestor = null;
+        GTreeNode<T> ancestor = null;
         curr = root;
-        while (curr.key != p.key) {
-            if (p.key < curr.key) {
+        while (curr.value != p.value) {
+            if (Objects.compare(p.value, curr.value,Comparator.naturalOrder())<0) {
                 curr = curr.left;
             } else {
                 ancestor = curr;
@@ -195,19 +206,19 @@ public class BST {
             }
         }
         if (ancestor != null) {
-            return ancestor.key;
+            return ancestor.value;
         }
         return null;
     }
 
-    public TreeNode delete(Integer key) {
+    public GTreeNode<T> delete(T value) {
         // find the node
         var curr = getRoot();
-        TreeNode prev = null;
+        GTreeNode<T> prev = null;
         while (curr != null) {
-            if (key == curr.key) {
+            if (value == curr.value) {
                 break; // found it
-            } else if (key < curr.key) {
+            } else if (Objects.compare(value, curr.value,Comparator.naturalOrder())<0) {
                 prev = curr;
                 curr = curr.left;
             } else {
@@ -235,7 +246,7 @@ public class BST {
             return root;
         }
         // case 2: node has one child
-        TreeNode child = null;
+        GTreeNode<T> child = null;
         if (curr.left == null && curr.right != null) {
             child = curr.right;
         }
@@ -265,7 +276,7 @@ public class BST {
                 succ = succ.left;
             }
 
-            curr.key = succ.key;
+            curr.value = succ.value;
             if (succ == prev.left) {
                 prev.left = succ.right;
             } else { //succ is prev right
@@ -284,7 +295,7 @@ public class BST {
         return Objects.equals(root, bst.root);
     }
 
-    public TreeNode getRoot() {
+    public GTreeNode<T> getRoot() {
         return root;
     }
 
@@ -292,95 +303,4 @@ public class BST {
         return String.format("Root %s", root);
     }
 
-    public static class TreeNode {
-
-        int key;
-        TreeNode right;
-        TreeNode left;
-
-        public TreeNode(int key) {
-            this.key = key;
-        }
-
-        public static String toString(TreeNode node, int level) {
-            if (node != null) {
-                return node.toString(level);
-            } else {
-                return "-";
-            }
-        }
-
-        public void setKey(int key) {
-            this.key = key;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            TreeNode treeNode = (TreeNode) o;
-            if (key != treeNode.key) return false;
-            return Objects.equals(((TreeNode) o).right, this.right) &&
-                    Objects.equals(((TreeNode) o).left, this.left);
-        }
-
-        public TreeNode setRight(TreeNode rightNode) {
-            this.right = rightNode;
-            return this;
-        }
-
-        @Override
-        public String toString() {
-            return toString(0);
-        }
-
-        public String toString(int level) {
-            return "[" + level + "]{" +
-                    "key=" + key +
-                    ", left=" + toString(left, level + 1) +
-                    ", right=" + toString(right, level + 1) +
-                    '}';
-        }
-
-        public TreeNode addRight(int key) {
-            var node = new TreeNode(key);
-            this.setRight(node);
-            return node;
-        }
-
-        public TreeNode addLeft(int key) {
-            var node = new TreeNode(key);
-            this.setLeft(node);
-            return node;
-        }
-
-        private void setLeft(TreeNode node) {
-            this.left = node;
-        }
-    }
-
-    public static class Builder {
-        TreeNode root;
-        TreeNode curr;
-
-        public Builder() {
-        }
-
-        public Builder withRootNode(int key) {
-            root = new TreeNode(key);
-            root.setKey(key);
-            curr = root;
-            return this;
-        }
-
-        public BST build() {
-            return new BST(this);
-        }
-
-        public Builder withRightNode(int key) {
-            var rightNode = new TreeNode(key);
-            curr.setRight(rightNode);
-            return this;
-        }
-    }
 }
