@@ -1,21 +1,18 @@
 package com.brent.ik.sort;
 
-import com.brent.ik.trees.GTreeNode;
+import com.brent.ik.trees.TreeNode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.brent.ik.trees.GTreeNodeBuilder.aNode;
+import static com.brent.ik.trees.TreeNodeBuilder.aNode;
 import static java.lang.Math.max;
-import static java.lang.Math.pow;
 import static java.util.Arrays.asList;
-import static java.util.Collections.nCopies;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -39,7 +36,7 @@ public class BinaryTreeLevelOrderSerializationShould {
 
     @ParameterizedTest
     @MethodSource("serializationTestData")
-    void serializeBT_givenTree(GTreeNode<Integer> tree, List<Integer> expected) {
+    void serializeBT_givenTree(TreeNode<Integer> tree, List<Integer> expected) {
         var actualSerialized = serialize(tree);
 
         assertThat(actualSerialized).usingRecursiveComparison().isEqualTo(expected);
@@ -47,32 +44,32 @@ public class BinaryTreeLevelOrderSerializationShould {
 
     @ParameterizedTest
     @MethodSource("serializationTestData")
-    void deserializeBt_givenTree(GTreeNode<Integer> expected, List<Integer> serializedBT) {
+    void deserializeBt_givenTree(TreeNode<Integer> expected, List<Integer> serializedBT) {
         var actualSerialized = deserialize(serializedBT);
         assertThat(actualSerialized).usingRecursiveComparison().isEqualTo(expected);
     }
 
-    private GTreeNode<Integer> deserialize(List<Integer> data) {
+    private TreeNode<Integer> deserialize(List<Integer> data) {
         if (data == null || data.isEmpty()) {
             return null;
         }
-        var q = new LinkedList<GTreeNode<Integer>>();
+        var q = new LinkedList<TreeNode<Integer>>();
         var index = 0;
-        var root = new GTreeNode<>(data.get(index));
+        var root = new TreeNode<>(data.get(index));
         q.add(root);
         while (!q.isEmpty()) {
             var node = q.poll();
             index++;
             var left = data.get(index);
             if (left != null) {
-                var lNode = new GTreeNode<>(left);
+                var lNode = new TreeNode<>(left);
                 q.add(lNode);
                 node.left = lNode;
             }
             index++;
             var rightValue = data.get(index);
             if (rightValue != null) {
-                var right = new GTreeNode<>(rightValue);
+                var right = new TreeNode<>(rightValue);
                 q.add(right);
                 node.right = right;
             }
@@ -81,9 +78,9 @@ public class BinaryTreeLevelOrderSerializationShould {
         return root;
     }
 
-    private List<Integer> serialize(GTreeNode<Integer> tree) {
+    private List<Integer> serialize(TreeNode<Integer> tree) {
         var result = new ArrayList<Integer>();
-        var q = new LinkedList<GTreeNode<Integer>>();
+        var q = new LinkedList<TreeNode<Integer>>();
         q.add(tree);
         while (!q.isEmpty()) {
             var node = q.poll();

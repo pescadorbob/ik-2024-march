@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 public class BST<T extends Comparable<T>> {
-    private GTreeNode<T> root;
+    private TreeNode<T> root;
 
     public BST() {
 
@@ -17,7 +17,7 @@ public class BST<T extends Comparable<T>> {
             node = new BST<>();
         }
         public Builder<T> withRootNode(T value){
-            node.root = new GTreeNode<>(value);
+            node.root = new TreeNode<>(value);
             return this;
         }
         public BST<T> build(){
@@ -25,21 +25,21 @@ public class BST<T extends Comparable<T>> {
         }
     }
 
-    private static void postOrder(GTreeNode node, StringBuffer sb) {
+    private static void postOrder(TreeNode node, StringBuffer sb) {
         if (node == null) return;
         postOrder(node.left, sb);
         postOrder(node.right, sb);
         sb.append(node.value).append(" ");
     }
 
-    private static void inOrder(GTreeNode node, StringBuffer sb) {
+    private static void inOrder(TreeNode node, StringBuffer sb) {
         if (node == null) return;
         inOrder(node.left, sb);
         sb.append(node.value).append(" ");
         inOrder(node.right, sb);
     }
 
-    private static void preOrder(GTreeNode node, StringBuffer sb) {
+    private static void preOrder(TreeNode node, StringBuffer sb) {
         if (node == null) return;
         sb.append(node.value).append(" ");
         preOrder(node.left, sb);
@@ -66,7 +66,7 @@ public class BST<T extends Comparable<T>> {
 
     public String levelOrderPrint() {
         if (root == null) return "";
-        var q = new LinkedList<GTreeNode>();
+        var q = new LinkedList<TreeNode>();
         var output = new StringBuffer();
         q.push(root);
         while (q.size() > 0) {
@@ -82,7 +82,7 @@ public class BST<T extends Comparable<T>> {
         return output.toString().trim();
     }
 
-    public GTreeNode<T> search(T value) {
+    public TreeNode<T> search(T value) {
         var curr = getRoot();
         while (curr != null) {
             if (value == curr.value) {
@@ -97,9 +97,9 @@ public class BST<T extends Comparable<T>> {
     }
 
     public void insert(T value) {
-        var newNode = new GTreeNode(value);
+        var newNode = new TreeNode(value);
 
-        GTreeNode<T> prev = null;
+        TreeNode<T> prev = null;
         var curr = getRoot();
         if (curr == null) {
             root = newNode;
@@ -151,7 +151,7 @@ public class BST<T extends Comparable<T>> {
         if (root == null) return null;
         var p = search(value);
         if (p == null) return null;
-        GTreeNode<T> curr = null;
+        TreeNode<T> curr = null;
         // if the node has a right node, then the successor is the one furthest right.
         if (p.right != null) {
             curr = p.right;
@@ -163,7 +163,7 @@ public class BST<T extends Comparable<T>> {
         // if it wasn't found, then we must look back through the tree to the furthest left ancestor
         // that has a right ancestor
         // search for p, starting from root
-        GTreeNode<T> ancestor = null;
+        TreeNode<T> ancestor = null;
         curr = root;
         while (curr.value != p.value) {
             if (Objects.compare(p.value, curr.value,Comparator.naturalOrder())<0) {
@@ -183,7 +183,7 @@ public class BST<T extends Comparable<T>> {
         if (root == null) return null;
         var p = search(value);
         if (p == null) return null;
-        GTreeNode<T> curr = null;
+        TreeNode<T> curr = null;
         // if the node has a left node, then the successor is the one furthest left.
         if (p.left != null) {
             curr = p.left;
@@ -195,7 +195,7 @@ public class BST<T extends Comparable<T>> {
         // if it wasn't found, then we must look back through the tree to the furthest right ancestor
         // that has a left ancestor
         // search for p, starting from root
-        GTreeNode<T> ancestor = null;
+        TreeNode<T> ancestor = null;
         curr = root;
         while (curr.value != p.value) {
             if (Objects.compare(p.value, curr.value,Comparator.naturalOrder())<0) {
@@ -211,10 +211,10 @@ public class BST<T extends Comparable<T>> {
         return null;
     }
 
-    public GTreeNode<T> delete(T value) {
+    public TreeNode<T> delete(T value) {
         // find the node
         var curr = getRoot();
-        GTreeNode<T> prev = null;
+        TreeNode<T> prev = null;
         while (curr != null) {
             if (value == curr.value) {
                 break; // found it
@@ -246,7 +246,7 @@ public class BST<T extends Comparable<T>> {
             return root;
         }
         // case 2: node has one child
-        GTreeNode<T> child = null;
+        TreeNode<T> child = null;
         if (curr.left == null && curr.right != null) {
             child = curr.right;
         }
@@ -295,7 +295,7 @@ public class BST<T extends Comparable<T>> {
         return Objects.equals(root, bst.root);
     }
 
-    public GTreeNode<T> getRoot() {
+    public TreeNode<T> getRoot() {
         return root;
     }
 

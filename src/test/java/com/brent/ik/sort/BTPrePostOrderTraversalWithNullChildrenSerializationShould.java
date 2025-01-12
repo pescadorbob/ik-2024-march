@@ -1,6 +1,6 @@
 package com.brent.ik.sort;
 
-import com.brent.ik.trees.GTreeNode;
+import com.brent.ik.trees.TreeNode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.stream.Stream;
 
-import static com.brent.ik.trees.GTreeNodeBuilder.aNode;
+import static com.brent.ik.trees.TreeNodeBuilder.aNode;
 import static java.lang.Math.max;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -33,7 +33,7 @@ public class BTPrePostOrderTraversalWithNullChildrenSerializationShould {
 
     @ParameterizedTest
     @MethodSource("serializationTestData")
-    void serializeBT_givenTree(GTreeNode<Integer>  tree, List<Integer> expected) {
+    void serializeBT_givenTree(TreeNode<Integer> tree, List<Integer> expected) {
 
         var actualSerialized = serialize(tree);
 
@@ -42,22 +42,22 @@ public class BTPrePostOrderTraversalWithNullChildrenSerializationShould {
 
     @ParameterizedTest
     @MethodSource("serializationTestData")
-    void deserializeBt_givenTree(GTreeNode<Integer>  expected, List<Integer> serializedBT) {
+    void deserializeBt_givenTree(TreeNode<Integer> expected, List<Integer> serializedBT) {
         var actualSerialized = deserialize(serializedBT);
         assertThat(actualSerialized).usingRecursiveComparison().isEqualTo(expected);
     }
 
-    private GTreeNode<Integer>  deserialize(List<Integer> sd) {
+    private TreeNode<Integer> deserialize(List<Integer> sd) {
         Queue<Integer> nodes = new LinkedList<>(sd);
         return deserializeHelper(nodes);
     }
 
-    private GTreeNode<Integer>  deserializeHelper(Queue<Integer> sd) {
+    private TreeNode<Integer> deserializeHelper(Queue<Integer> sd) {
         Integer value = sd.poll();
         if(value == null){
             return null;
         }
-        var node = new GTreeNode<Integer> (value);
+        var node = new TreeNode<Integer>(value);
 
         node.left = deserializeHelper(sd);
 
@@ -65,7 +65,7 @@ public class BTPrePostOrderTraversalWithNullChildrenSerializationShould {
         return node;
     }
 
-    private List<Integer> serialize(GTreeNode<Integer>  node) {
+    private List<Integer> serialize(TreeNode<Integer> node) {
         if (node == null) {
             return new ArrayList<>(singletonList(null));
         }

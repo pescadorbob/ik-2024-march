@@ -7,9 +7,9 @@ import java.util.Queue;
 
 public class BinaryTreeMaximumWidth {
 
-    static int find_maximum_width(GTreeNode<Integer> root) {
+    static int find_maximum_width(TreeNode<Integer> root) {
         int maximum_width = 1;
-        Queue<Map.Entry<GTreeNode<Integer>, Integer>> q = new LinkedList<>();
+        Queue<Map.Entry<TreeNode<Integer>, Integer>> q = new LinkedList<>();
         q.add(new AbstractMap.SimpleEntry<>(root, 0));
 
         while (!q.isEmpty()) {
@@ -18,7 +18,7 @@ public class BinaryTreeMaximumWidth {
             int leftmostIndex = 0, rightmostIndex = 0;
 
             for (int i = 0; i < nodesInCurrentLevel; i++) {
-                Map.Entry<GTreeNode<Integer>, Integer> currentNode = q.poll();
+                Map.Entry<TreeNode<Integer>, Integer> currentNode = q.poll();
                 int newId = currentNode.getValue() - startId;
                 System.out.printf("Node:%d pos:%d startId:%d newId:%d%n",
                         currentNode.getKey().value, currentNode.getValue(), startId, newId);
@@ -37,9 +37,9 @@ public class BinaryTreeMaximumWidth {
         return maximum_width;
     }
 
-    static int find_maximum_width_zero_based(GTreeNode<Integer> root) {
+    static int find_maximum_width_zero_based(TreeNode<Integer> root) {
         int maximum_width = 1;
-        Queue<Map.Entry<GTreeNode<Integer>, Integer>> q = new LinkedList<>();
+        Queue<Map.Entry<TreeNode<Integer>, Integer>> q = new LinkedList<>();
         q.add(new AbstractMap.SimpleEntry<>(root, 0));
 
         while (!q.isEmpty()) {
@@ -48,7 +48,7 @@ public class BinaryTreeMaximumWidth {
             int leftmostIndex = 0, rightmostIndex = 0;
 
             for (int i = 0; i < nodesInCurrentLevel; i++) {
-                Map.Entry<GTreeNode<Integer>, Integer> currentNode = q.poll();
+                Map.Entry<TreeNode<Integer>, Integer> currentNode = q.poll();
                 int nodePosition = currentNode.getValue() - startPosition;
                 System.out.printf("Node:%d pos:%d startPosition:%d nodePosition:%d%n",
                         currentNode.getKey().value, currentNode.getValue(), startPosition, nodePosition);

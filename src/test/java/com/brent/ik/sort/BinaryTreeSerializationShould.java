@@ -1,6 +1,6 @@
 package com.brent.ik.sort;
 
-import com.brent.ik.trees.GTreeNode;
+import com.brent.ik.trees.TreeNode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.brent.ik.trees.GTreeNodeBuilder.aNode;
+import static com.brent.ik.trees.TreeNodeBuilder.aNode;
 import static java.lang.Math.max;
 import static java.lang.Math.pow;
 import static java.util.Arrays.asList;
@@ -32,7 +32,7 @@ public class BinaryTreeSerializationShould {
 
     @ParameterizedTest
     @MethodSource("serializationTestData")
-    void serializeBT_givenTree(GTreeNode<Integer>  tree, List<Integer> expected) {
+    void serializeBT_givenTree(TreeNode<Integer> tree, List<Integer> expected) {
         var actualSerialized = serialize(tree);
 
         assertThat(actualSerialized).usingRecursiveComparison().isEqualTo(expected);
@@ -40,18 +40,18 @@ public class BinaryTreeSerializationShould {
 
     @ParameterizedTest
     @MethodSource("serializationTestData")
-    void deserializeBt_givenTree(GTreeNode<Integer>  expected, List<Integer> serializedBT) {
+    void deserializeBt_givenTree(TreeNode<Integer> expected, List<Integer> serializedBT) {
         var actualSerialized = deserialize(serializedBT);
         assertThat(actualSerialized).usingRecursiveComparison().isEqualTo(expected);
     }
 
-    private GTreeNode<Integer>  deserialize(List<Integer> sd) {
+    private TreeNode<Integer> deserialize(List<Integer> sd) {
         var root = aNode(sd.get(0)).build();
         deserializeHelper(sd, 1, root);
         return root;
     }
 
-    private void deserializeHelper(List<Integer> sd, int offset, GTreeNode<Integer>  root) {
+    private void deserializeHelper(List<Integer> sd, int offset, TreeNode<Integer> root) {
         if (sd.size() < offset + 1) return;
         if (sd.get(offset) != null) {
             root.left = aNode(sd.get(offset)).build();
@@ -63,7 +63,7 @@ public class BinaryTreeSerializationShould {
         }
     }
 
-    private List<Integer> serialize(GTreeNode<Integer>  tree) {
+    private List<Integer> serialize(TreeNode<Integer> tree) {
         var level = maxLevel(tree);
         var numNodes = (int) pow(2,level)-1;
         var result = new ArrayList<Integer>(nCopies(numNodes, null));
@@ -71,14 +71,14 @@ public class BinaryTreeSerializationShould {
         return result;
     }
 
-    private void serializeHelper(GTreeNode<Integer>  node, List<Integer> result, int offset) {
+    private void serializeHelper(TreeNode<Integer> node, List<Integer> result, int offset) {
         result.set(offset, node.value);
         if (node.left != null) serializeHelper(node.left, result, 2 * offset + 1);
         if (node.right != null) serializeHelper(node.right, result, 2 * offset + 2);
 
     }
 
-    private Integer maxLevel(GTreeNode<Integer> tree) {
+    private Integer maxLevel(TreeNode<Integer> tree) {
         if (tree == null) {
             return 0;
         } else {

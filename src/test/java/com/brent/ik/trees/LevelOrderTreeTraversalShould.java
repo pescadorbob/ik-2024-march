@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.ArrayDeque;
 import java.util.stream.Stream;
 
-import static com.brent.ik.trees.GTreeNodeBuilder.aNode;
+import static com.brent.ik.trees.TreeNodeBuilder.aNode;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LevelOrderTreeTraversalShould {
@@ -25,13 +25,13 @@ public class LevelOrderTreeTraversalShould {
 
     @ParameterizedTest
     @MethodSource("testArguments")
-    void produceTheTreeByLevel_givenATree(GTreeNode<Character> tree, String expected) {
+    void produceTheTreeByLevel_givenATree(TreeNode<Character> tree, String expected) {
         var actual = levelOrderTraversal(tree);
         assertThat(actual).isEqualTo(expected);
     }
 
-    private String levelOrderTraversal(GTreeNode<Character> tree) {
-        var q = new ArrayDeque<GTreeNode<Character>>();
+    private String levelOrderTraversal(TreeNode<Character> tree) {
+        var q = new ArrayDeque<TreeNode<Character>>();
         q.add(tree);
         var result = new StringBuffer();
         while (!q.isEmpty()) {

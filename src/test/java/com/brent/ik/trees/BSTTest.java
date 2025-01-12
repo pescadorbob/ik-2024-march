@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BSTTest {
 
 
-    Map<BST, Map<Integer, GTreeNode<Integer>>> testBackTracker;
+    Map<BST, Map<Integer, TreeNode<Integer>>> testBackTracker;
 
     private static Stream<Arguments> predecessorProvider() {
         return Stream.of(
@@ -196,38 +196,38 @@ public class BSTTest {
     }
 
     BST createTestTree() {
-        Map<Integer, GTreeNode<Integer>> nodes = new HashMap<>();
+        Map<Integer, TreeNode<Integer>> nodes = new HashMap<>();
         var bst = new BST.Builder<Integer>().withRootNode(44).build();
         testBackTracker.put(bst, nodes);
         var rootNode = bst.getRoot();
         nodes.put(44, rootNode);
-        var _88 = rootNode.right = new GTreeNode<>(88);
+        var _88 = rootNode.right = new TreeNode<>(88);
         nodes.put(88, _88);
-        var _17 = rootNode.left = new GTreeNode<>(17);
+        var _17 = rootNode.left = new TreeNode<>(17);
         nodes.put(17, _17);
-        var _8 = _17.left = new GTreeNode<>(8);
+        var _8 = _17.left = new TreeNode<>(8);
         nodes.put(8, _8);
-        var _32 = _17.right = new GTreeNode<>(32);
+        var _32 = _17.right = new TreeNode<>(32);
         nodes.put(32, _32);
-        var _28 = _32.left = new GTreeNode<>(28);
+        var _28 = _32.left = new TreeNode<>(28);
         nodes.put(28, _28);
-        var _29 = _28.right = new GTreeNode<>(29);
+        var _29 = _28.right = new TreeNode<>(29);
         nodes.put(29, _29);
-        var _97 = _88.right = new GTreeNode<>(97);
+        var _97 = _88.right = new TreeNode<>(97);
         nodes.put(97, _97);
-        var _93 = _97.left = new GTreeNode<>(93);
+        var _93 = _97.left = new TreeNode<>(93);
         nodes.put(93, _93);
-        var _65 = _88.left = new GTreeNode<>(65);
+        var _65 = _88.left = new TreeNode<>(65);
         nodes.put(65, _65);
-        var _54 = _65.left = new GTreeNode<>(54);
+        var _54 = _65.left = new TreeNode<>(54);
         nodes.put(54, _54);
-        var _82 = _65.right = new GTreeNode<>(82);
+        var _82 = _65.right = new TreeNode<>(82);
         nodes.put(82, _82);
-        var _76 = _82.left = new GTreeNode<>(76);
+        var _76 = _82.left = new TreeNode<>(76);
         nodes.put(76, _76);
-        var _68 = _76.left = new GTreeNode<>(68);
+        var _68 = _76.left = new TreeNode<>(68);
         nodes.put(68, _68);
-        var _80 = _76.right = new GTreeNode<>(80);
+        var _80 = _76.right = new TreeNode<>(80);
         nodes.put(80, _80);
         return bst;
     }
@@ -260,7 +260,7 @@ public class BSTTest {
     void shouldInsertNode_given_12() {
         var expectedBST = createTestTree();
         var _8 = bst(expectedBST, 8);
-        _8.right = new GTreeNode<>(12);
+        _8.right = new TreeNode<>(12);
 
         var bst = createTestTree();
 
@@ -269,7 +269,7 @@ public class BSTTest {
 
     }
 
-    private GTreeNode<Integer> bst(BST bst, int key) {
+    private TreeNode<Integer> bst(BST bst, int key) {
         return testBackTracker.get(bst).get(key);
     }
 
