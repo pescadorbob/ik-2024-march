@@ -1,5 +1,6 @@
 package com.brent.ik.sort;
 
+import com.brent.ik.trees.GTreeNode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.stream.Stream;
 
+import static com.brent.ik.trees.GTreeNodeBuilder.aNode;
 import static java.lang.Math.max;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -31,7 +33,7 @@ public class BTPrePostOrderTraversalWithNullChildrenSerializationShould {
 
     @ParameterizedTest
     @MethodSource("serializationTestData")
-    void serializeBT_givenTree(TreeNode tree, List<Integer> expected) {
+    void serializeBT_givenTree(GTreeNode<Integer>  tree, List<Integer> expected) {
 
         var actualSerialized = serialize(tree);
 
@@ -40,22 +42,22 @@ public class BTPrePostOrderTraversalWithNullChildrenSerializationShould {
 
     @ParameterizedTest
     @MethodSource("serializationTestData")
-    void deserializeBt_givenTree(TreeNode expected, List<Integer> serializedBT) {
+    void deserializeBt_givenTree(GTreeNode<Integer>  expected, List<Integer> serializedBT) {
         var actualSerialized = deserialize(serializedBT);
         assertThat(actualSerialized).usingRecursiveComparison().isEqualTo(expected);
     }
 
-    private TreeNode deserialize(List<Integer> sd) {
+    private GTreeNode<Integer>  deserialize(List<Integer> sd) {
         Queue<Integer> nodes = new LinkedList<>(sd);
         return deserializeHelper(nodes);
     }
 
-    private TreeNode deserializeHelper(Queue<Integer> sd) {
-        var value = sd.poll();
+    private GTreeNode<Integer>  deserializeHelper(Queue<Integer> sd) {
+        Integer value = sd.poll();
         if(value == null){
             return null;
         }
-        var node = new TreeNode(value);
+        var node = new GTreeNode<Integer> (value);
 
         node.left = deserializeHelper(sd);
 
@@ -63,7 +65,7 @@ public class BTPrePostOrderTraversalWithNullChildrenSerializationShould {
         return node;
     }
 
-    private List<Integer> serialize(TreeNode node) {
+    private List<Integer> serialize(GTreeNode<Integer>  node) {
         if (node == null) {
             return new ArrayList<>(singletonList(null));
         }
@@ -74,82 +76,5 @@ public class BTPrePostOrderTraversalWithNullChildrenSerializationShould {
         return res;
     }
 
-    static TreeNodeBuilder aNode(Integer value) {
-        return new TreeNodeBuilder(value);
-    }
-
-    public static class TreeNodeBuilder {
-        private TreeNode node;
-
-
-        private TreeNodeBuilder(Integer val) {
-            node = new TreeNode(val);
-        }
-
-        public TreeNodeBuilder withLeft(Integer val) {
-            node.left = new TreeNode(val);
-            return this;
-        }
-
-        public TreeNodeBuilder withRight(Integer val) {
-            node.right = new TreeNode(val);
-            return this;
-        }
-
-        public TreeNodeBuilder withLeft(TreeNodeBuilder leftBuilder) {
-            node.left = leftBuilder.build();
-            return this;
-        }
-
-        public TreeNodeBuilder withRight(TreeNodeBuilder rightBuilder) {
-            node.right = rightBuilder.build();
-            return this;
-        }
-
-        public TreeNode build() {
-            return node;
-        }
-    }
-
-
-    public static class TreeNode {
-        Integer value;
-        TreeNode left;
-        TreeNode right;
-
-        public TreeNode(Integer value, TreeNode left, TreeNode right) {
-            this.value = value;
-            this.left = left;
-            this.right = right;
-        }
-
-        public TreeNode(Integer value) {
-            this.value = value;
-        }
-
-        public Integer getValue() {
-            return value;
-        }
-
-        public void setValue(Integer value) {
-            this.value = value;
-        }
-
-        public TreeNode getLeft() {
-            return left;
-        }
-
-        public void setLeft(TreeNode left) {
-            this.left = left;
-        }
-
-        public TreeNode getRight() {
-            return right;
-        }
-
-        public void setRight(TreeNode right) {
-            this.right = right;
-        }
-    }
 
 }
