@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.ArrayDeque;
 import java.util.stream.Stream;
 
+import static com.brent.ik.trees.GTreeNodeBuilder.aNode;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LevelOrderTreeTraversalShould {
@@ -24,13 +25,13 @@ public class LevelOrderTreeTraversalShould {
 
     @ParameterizedTest
     @MethodSource("testArguments")
-    void produceTheTreeByLevel_givenATree(TreeNode tree, String expected) {
+    void produceTheTreeByLevel_givenATree(GTreeNode<Character> tree, String expected) {
         var actual = levelOrderTraversal(tree);
         assertThat(actual).isEqualTo(expected);
     }
 
-    private String levelOrderTraversal(TreeNode tree) {
-        var q = new ArrayDeque<TreeNode>();
+    private String levelOrderTraversal(GTreeNode<Character> tree) {
+        var q = new ArrayDeque<GTreeNode<Character>>();
         q.add(tree);
         var result = new StringBuffer();
         while (!q.isEmpty()) {
@@ -46,80 +47,6 @@ public class LevelOrderTreeTraversalShould {
         return result.toString();
     }
 
-    public static TreeNodeBuilder aNode(Character value) {
-        return new TreeNodeBuilder(value);
-    }
-
-    public static class TreeNodeBuilder {
-        private TreeNode node;
-
-        private TreeNodeBuilder(Character val) {
-            node = new TreeNode(val);
-        }
-
-        public TreeNodeBuilder withLeft(Character val) {
-            node.left = new TreeNode(val);
-            return this;
-        }
-
-        public TreeNodeBuilder withRight(Character val) {
-            node.right = new TreeNode(val);
-            return this;
-        }
-
-        public TreeNodeBuilder withLeft(TreeNodeBuilder leftBuilder) {
-            node.left = leftBuilder.build();
-            return this;
-        }
-
-        public TreeNodeBuilder withRight(TreeNodeBuilder rightBuilder) {
-            node.right = rightBuilder.build();
-            return this;
-        }
-
-        public TreeNode build() {
-            return node;
-        }
-    }
 
 
-    public static class TreeNode {
-        Character value;
-        TreeNode left;
-        TreeNode right;
-
-        public TreeNode(Character value, TreeNode left, TreeNode right) {
-            this.value = value;
-            this.left = left;
-            this.right = right;
-        }
-
-        public TreeNode(Character value) {
-            this.value = value;
-        }
-
-        public Character getValue() {
-            return value;
-        }
-
-        public void setValue(Character value) {
-            this.value = value;
-        }
-
-        public TreeNode getLeft() {
-            return left;
-        }
-
-        public void setLeft(TreeNode left) {
-            this.left = left;
-        }
-
-        public TreeNode getRight() {
-            return right;
-        }
-
-        public void setRight(TreeNode right) {
-            this.right = right;
-        }
-    }
 }
