@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.brent.ik.trees.BinaryTreeMaximumWidth.find_maximum_width;
 import static com.brent.ik.trees.BinaryTreeMaximumWidth.find_maximum_width_zero_based;
+import static com.brent.ik.trees.GTreeNodeBuilder.aNode;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BinaryTreeMaximumWidthTest {
@@ -28,19 +29,11 @@ public class BinaryTreeMaximumWidthTest {
         assertThat(actual).isEqualTo(expectedWidth);
     }
 
-    TreeNode createTestTree() {
-        var root = new TreeNode(11);
-
-        var _7 = root.addLeft(7);
-        var _2 = root.addRight(2);
-        var _3 = _7.addLeft(3);
-        var _5 = _2.addRight(5);
-        var _9 = _3.addLeft(9);
-        var _6 = _5.addRight(6);
-        var _8 = _9.addLeft(8);
-        var _1 = _6.addRight(1);
-        var _10 = _8.addLeft(10);
-        var _4 = _1.addRight(4);
-        return root;
+    GTreeNode createTestTree() {
+        return aNode(11)
+                .withRight(aNode(2).withRight(aNode(5).withRight(aNode(6)
+                        .withRight(aNode(1).withRight(14)))))
+                .withLeft(aNode(7).withLeft(aNode(3).withLeft(aNode(9)
+                        .withLeft(aNode(8).withLeft(10))))).build();
     }
 }

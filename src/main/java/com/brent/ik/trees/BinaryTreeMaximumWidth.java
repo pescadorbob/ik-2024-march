@@ -7,9 +7,9 @@ import java.util.Queue;
 
 public class BinaryTreeMaximumWidth {
 
-    static int find_maximum_width(TreeNode root) {
+    static int find_maximum_width(GTreeNode root) {
         int maximum_width = 1;
-        Queue<Map.Entry<TreeNode, Integer>> q = new LinkedList<>();
+        Queue<Map.Entry<GTreeNode, Integer>> q = new LinkedList<>();
         q.add(new AbstractMap.SimpleEntry<>(root, 0));
 
         while (!q.isEmpty()) {
@@ -18,10 +18,10 @@ public class BinaryTreeMaximumWidth {
             int leftmostIndex = 0, rightmostIndex = 0;
 
             for (int i = 0; i < nodesInCurrentLevel; i++) {
-                Map.Entry<TreeNode, Integer> currentNode = q.poll();
+                Map.Entry<GTreeNode, Integer> currentNode = q.poll();
                 int newId = currentNode.getValue() - startId;
                 System.out.printf("Node:%d pos:%d startId:%d newId:%d%n",
-                        currentNode.getKey().key, currentNode.getValue(), startId, newId);
+                        currentNode.getKey().value, currentNode.getValue(), startId, newId);
                 leftmostIndex = Math.min(leftmostIndex, newId);
                 rightmostIndex = Math.max(rightmostIndex, newId);
 
@@ -37,9 +37,9 @@ public class BinaryTreeMaximumWidth {
         return maximum_width;
     }
 
-    static int find_maximum_width_zero_based(TreeNode root) {
+    static int find_maximum_width_zero_based(GTreeNode root) {
         int maximum_width = 1;
-        Queue<Map.Entry<TreeNode, Integer>> q = new LinkedList<>();
+        Queue<Map.Entry<GTreeNode, Integer>> q = new LinkedList<>();
         q.add(new AbstractMap.SimpleEntry<>(root, 0));
 
         while (!q.isEmpty()) {
@@ -48,10 +48,10 @@ public class BinaryTreeMaximumWidth {
             int leftmostIndex = 0, rightmostIndex = 0;
 
             for (int i = 0; i < nodesInCurrentLevel; i++) {
-                Map.Entry<TreeNode, Integer> currentNode = q.poll();
+                Map.Entry<GTreeNode, Integer> currentNode = q.poll();
                 int nodePosition = currentNode.getValue() - startPosition;
                 System.out.printf("Node:%d pos:%d startPosition:%d nodePosition:%d%n",
-                        currentNode.getKey().key, currentNode.getValue(), startPosition, nodePosition);
+                        currentNode.getKey().value, currentNode.getValue(), startPosition, nodePosition);
                 leftmostIndex = Math.min(leftmostIndex, nodePosition);
                 rightmostIndex = Math.max(rightmostIndex, nodePosition);
 

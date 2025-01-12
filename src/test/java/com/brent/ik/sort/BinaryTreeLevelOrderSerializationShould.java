@@ -39,7 +39,7 @@ public class BinaryTreeLevelOrderSerializationShould {
 
     @ParameterizedTest
     @MethodSource("serializationTestData")
-    void serializeBT_givenTree(GTreeNode tree, List<Integer> expected) {
+    void serializeBT_givenTree(GTreeNode<Integer> tree, List<Integer> expected) {
         var actualSerialized = serialize(tree);
 
         assertThat(actualSerialized).usingRecursiveComparison().isEqualTo(expected);
@@ -52,8 +52,8 @@ public class BinaryTreeLevelOrderSerializationShould {
         assertThat(actualSerialized).usingRecursiveComparison().isEqualTo(expected);
     }
 
-    private GTreeNode deserialize(List<Integer> data) {
-        if (data == null || data.size() == 0) {
+    private GTreeNode<Integer> deserialize(List<Integer> data) {
+        if (data == null || data.isEmpty()) {
             return null;
         }
         var q = new LinkedList<GTreeNode<Integer>>();
