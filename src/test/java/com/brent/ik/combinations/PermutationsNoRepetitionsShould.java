@@ -50,9 +50,14 @@ public class PermutationsNoRepetitionsShould {
         }
         possibleValues.forEach(letter -> {
             if(isAllowed(partialSolution,letter)){
-                pHelper(possibleValues,partialSolution + letter,results,n-1);
+                var remainingValuesWithThisLetterRemoved = removeLetterFromPossibleValues(possibleValues,letter);
+                pHelper(remainingValuesWithThisLetterRemoved,partialSolution + letter,results,n-1);
             }
         });
+    }
+
+    private List<String> removeLetterFromPossibleValues(List<String> possibleValues, String letter) {
+        return possibleValues.stream().filter(candidate -> candidate.compareTo(letter)!=0).toList();
     }
 
     private boolean moreSolutionsExist(int n, List<String> possibleValues, String partialSolution, ArrayList<String> results) {
