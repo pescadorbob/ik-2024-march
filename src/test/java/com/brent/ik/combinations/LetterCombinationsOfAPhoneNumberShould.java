@@ -21,8 +21,9 @@ public class LetterCombinationsOfAPhoneNumberShould {
     public static Stream<Arguments> input() {
         return Stream.of(
                 Arguments.of("23", asList("ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf")),
-                Arguments.of("", emptyList()
-                ));
+                Arguments.of("", emptyList()),
+                Arguments.of("2", asList("a","b","c"))
+        );
     }
 
     @ParameterizedTest
