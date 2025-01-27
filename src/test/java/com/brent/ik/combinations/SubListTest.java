@@ -1,6 +1,5 @@
 package com.brent.ik.combinations;
 
-import com.brent.ik.dp.Coin;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

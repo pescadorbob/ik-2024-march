@@ -1,4 +1,4 @@
-package com.brent.ik.recursive;
+package com.brent.ik.combinations;
 
 import java.util.HashMap;
 import java.util.Map;
