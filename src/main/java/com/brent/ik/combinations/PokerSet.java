@@ -11,4 +11,19 @@ public class PokerSet {
     public void addChips(String key, Integer integer) {
         chips.put(key,integer);
     }
+
+    public Map<String, Integer> getChips() {
+        return new HashMap<>(chips);
+    }
+    public void removeCoin(Coin coin){
+        var currentValue = chips.get(coin.getColor());
+        chips.put(coin.getColor(),currentValue-1);
+    }
+
+    @Override
+    public String toString() {
+        return "PokerSet{" +
+                "chips=" + chips +
+                '}';
+    }
 }

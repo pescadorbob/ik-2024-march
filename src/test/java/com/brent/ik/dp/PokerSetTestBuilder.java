@@ -25,4 +25,11 @@ public class PokerSetTestBuilder {
         }
         return pokerSet;
     }
+
+    public PokerSetTestBuilder from(PokerSet pokerset) {
+        pokerset.getChips().keySet().forEach(key->{
+            this.colorQuantityMap.put(key,pokerset.getChips().get(key));
+        });
+        return this;
+    }
 }
