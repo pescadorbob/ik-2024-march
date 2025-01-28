@@ -1,4 +1,4 @@
-package com.brent.ik.dp;
+package com.brent.ik.dp.poker;
 
 import com.brent.ik.combinations.Coin;
 import com.brent.ik.combinations.PokerSet;
@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.brent.ik.combinations.ChipDenominationCombinations.chipValueCombinations;
-import static com.brent.ik.dp.PokerSetSolutionTestBuilder.aPokerSetSolution;
-import static com.brent.ik.dp.PokerSetTestBuilder.aPokerSet;
+import static com.brent.ik.dp.poker.PokerSetSolutionTestBuilder.aPokerSetSolution;
+import static com.brent.ik.dp.poker.PokerSetTestBuilder.aPokerSet;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.Arrays.asList;
@@ -83,16 +83,43 @@ public class PokerChipDistributorShould {
             if (bestSolution == null) {
                 bestSolution = solution;
             } else {
+                if (bestSolution.getTotalchips() <= solution.getTotalchips()) {
+                    System.out.println("A best solution found with " + solution.getTotalchips());
+                    printSolution(solution);
+                }
                 if (bestSolution.getTotalchips() < solution.getTotalchips()) {
                     bestSolution = solution;
-                }
-                if(bestSolution.getTotalchips() == solution.getTotalchips()){
-                    System.out.println("A best solution found with " + bestSolution.getTotalchips());
                 }
             }
         }
 
         return bestSolution;
+    }
+
+    private void printSolution(PokerSetSolution bestDistribution) {
+        if (bestDistribution == null) {
+            System.out.println("No valid distribution found!");
+            return;
+        }
+
+        System.out.println("\nOptimal Distribution Found:");
+        System.out.printf("Total chips per player: %d%n", bestDistribution.getTotalchips());
+        System.out.printf("Total value: $%.2f%n", bestDistribution.getTotalValue());
+        System.out.println("\nChip Distribution:");
+
+        // Print in a formatted table
+        System.out.println("Color\t Denomination \t# of chips\t Player Total");
+        for (Coin coin : bestDistribution.getCoinAmount().keySet()) {
+            int count = bestDistribution.getCoinAmount().get(coin);
+            double denom = coin.getDenomination();
+            double total = count * denom;
+            System.out.printf("%s\t $%.2f \t%d\t $%.2f%n",
+                    coin.getColor(), denom, count, total);
+        }
+        System.out.printf("Total\t\t%d\t $%.2f%n",
+                bestDistribution.getTotalchips(),
+                bestDistribution.getTotalValue());
+
     }
 
     private PokerSetSolution calculateMaxChipsForTargetBuyInCoinsAndNumPlayers(PokerSet pokerSet, List<Coin> chipValueCombination, double targetTotal, int numPlayers) {

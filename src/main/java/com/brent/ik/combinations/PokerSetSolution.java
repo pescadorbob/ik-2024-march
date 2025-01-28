@@ -2,6 +2,7 @@ package com.brent.ik.combinations;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PokerSetSolution {
     private Map<Coin, Integer> coinAmount;
@@ -30,5 +31,13 @@ public class PokerSetSolution {
 
     public void setCoinAmount(Map<Coin, Integer> coinAmount) {
         this.coinAmount = coinAmount;
+    }
+
+    public double getTotalValue() {
+        double total = 0.0d;
+        for(Coin key : coinAmount.keySet()){
+            total += key.getDenomination() * coinAmount.get(key);
+        }
+        return total;
     }
 }

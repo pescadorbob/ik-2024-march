@@ -1,4 +1,4 @@
-package com.brent.ik.dp;
+package com.brent.ik.dp.poker;
 
 import com.brent.ik.combinations.PokerSet;
 
