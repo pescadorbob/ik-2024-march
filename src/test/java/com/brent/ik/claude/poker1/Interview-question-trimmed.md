@@ -14,9 +14,10 @@ Given:
 - Maximize the total number of chips each player gets
 - Limited supply of each chip color
 - Each chip color must be assigned exactly one denomination
-- The chip denominations aren't specified to a color, you have to figure out the optimum chip color and denomination to maximize the number of chips each player receives.
-- All players need the same distribution
 - Each denomination must be assigned exactly one color
+- don't use a greedy approach choosing chips, instead use dynamic programming.
+- The chip denominations aren't specified to a color, you have to try all the combinations of chip color to denominations to maximize the number of chips each player receives.
+- All players need the same distribution
 
 Input Example:
 - Target buy-in: $31
