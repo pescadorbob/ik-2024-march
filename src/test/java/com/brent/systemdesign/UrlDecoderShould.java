@@ -12,14 +12,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UrlDecoderShould {
     public static Stream<Arguments> decode_a_url_given_an_encoded_url() {
         return Stream.of(
-                Arguments.of("https://minime.com/0000","https://myUrl.com/some/really/long/url")
+                Arguments.of("0000","https://myUrl.com/some/really/long/url"),
+                Arguments.of("000","https://myUrl.com/some/really/long/url1")
         );
     }
 
     @ParameterizedTest
     @MethodSource
-    void decode_a_url_given_an_encoded_url(String encodedUrl,String expectedUrl){
+    void decode_a_url_given_an_encoded_url(String encodedUrl, String expectedUrl){
         UrlRepository urlRepository = new InMemoryRepository();
+        urlRepository.add(encodedUrl,expectedUrl);
         var decoder = new Decoder(urlRepository);
 
         var actual = decoder.decode(encodedUrl);
@@ -34,7 +36,7 @@ public class UrlDecoderShould {
         }
 
         public String decode(String encodedUrl) {
-            return "https://myUrl.com/some/really/long/url";
+            return urlRepository.get(encodedUrl);
         }
     }
 }
