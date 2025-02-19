@@ -1,22 +1,57 @@
 package com.brent.ik.graphs;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FindGoldenTileShould {
-    @Test
-    void find_the_shortest_path_to_a_golden_tile_given_a_grid() {
-        var grid = """
+    public static Stream<Arguments> input() {
+        return Stream.of(
+                Arguments.of("""
+                o o o o o o o o o o o
+                o o o o o o o o o o o
+                o o o s o o o o o o o
+                o o o o o o o o o o o
+                o o o o o o o g o o o
+                o o o o o o o o o o o
+                o o o o o o o o o o o""","s s e e e e"),
+                Arguments.of("""
                 o o o
                 s x o
-                o o g""";
-        var expected = "s e e";
+                o o g""","s e e"),
+                Arguments.of("""
+                o o o o
+                s x x o
+                o x g o""","n e e e s s w"),
+                Arguments.of("""
+                o o x o
+                o x x o
+                o x x o
+                o x x o
+                o x x o
+                o x x o
+                s x x o
+                o x g o""",""),
+                Arguments.of("""
+                s x g
+                o x o
+                o o o""","s s e e n n")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("input")
+    void find_the_shortest_path_to_a_golden_tile_given_a_grid(String grid, String expected) {
+
         var actual = findGoldenTile(grid);
         assertThat(actual).isEqualTo(expected);
 
@@ -61,7 +96,7 @@ public class FindGoldenTileShould {
 
 
         }
-        throw new IllegalStateException("No path found to the gold");
+        return "";
 
     }
 
