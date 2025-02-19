@@ -1,14 +1,10 @@
 package com.brent.ik.graphs;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,6 +12,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FindGoldenTileShould {
     public static Stream<Arguments> input() {
         return Stream.of(
+                /*
+                [["O","O","X","O","O","O","O"],
+                 ["X","X","O","O","X","O","O"],
+                 ["O","X","X","O","X","O","O"],
+                 ["O","O","O","O","O","O","O"],
+                 ["O","O","O","O","O","O","O"],
+                 ["O","O","O","O","O","X","O"],
+                 ["O","O","O","O","O","O","O"],
+                 ["O","O","O","O","O","X","O"],
+                 ["O","O","*","O","O","X","O"]]
+
+                 */
+                Arguments.of("""
+                o o x o o o o
+                x x o o x o o
+                x x x s x o o
+                o o o o o o o
+                o o o o o o o
+                o o o o o x o
+                o o o o o o o
+                o o o o o x o
+                o o s o o x o""",""),
                 Arguments.of("""
                 o o o o o o o o o o o
                 o o o o o o o o o o o
@@ -63,12 +81,12 @@ public class FindGoldenTileShould {
 
     }
     private static class BFSNode {
-        List<GridNode> visited;
+        List<GridNode> partialPath;
         String path;
         GridNode value;
 
-        public BFSNode(List<GridNode> visited, String path, GridNode value) {
-            this.visited = visited;
+        public BFSNode(List<GridNode> partialPath, String path, GridNode value) {
+            this.partialPath = partialPath;
             this.path = path;
             this.value = value;
         }
@@ -78,7 +96,8 @@ public class FindGoldenTileShould {
         // BFS
         Queue<BFSNode> queue = new LinkedList<>();
         queue.add(new BFSNode(new ArrayList<>(),"",startTile));
-
+        var visited = new HashMap<GridNode,Boolean>();
+        visited.put(startTile,true);
 
         while(!queue.isEmpty()){
             var nextNode = queue.poll();
@@ -86,26 +105,26 @@ public class FindGoldenTileShould {
                 return nextNode.path.trim();
             }
 
-            var partialPath = nextNode.path;
+            var path = nextNode.path;
             var node = nextNode.value;
-            var visited = nextNode.visited;
-            enqueue(nextNode, visited, queue, partialPath, node.north,"n ");
-            enqueue(nextNode, visited, queue, partialPath, node.south,"s ");
-            enqueue(nextNode, visited, queue, partialPath, node.east,"e ");
-            enqueue(nextNode, visited, queue, partialPath, node.west,"w ");
-
+            var partialPath = nextNode.partialPath;
+            enqueue(visited,nextNode, partialPath, queue, path, node.north,"n ");
+            enqueue(visited,nextNode, partialPath, queue, path, node.south,"s ");
+            enqueue(visited,nextNode, partialPath, queue, path, node.east,"e ");
+            enqueue(visited,nextNode, partialPath, queue, path, node.west,"w ");
 
         }
         return "";
 
     }
 
-    private static void enqueue( BFSNode nextNode, List<GridNode> visited, Queue<BFSNode> queue,
+    private static void enqueue( HashMap<GridNode,Boolean> visited1, BFSNode nextNode, List<GridNode> path, Queue<BFSNode> queue,
                                 String partialPath, GridNode edge,String breadCrumb) {
-        if(edge!=null && !nextNode.visited.contains(edge) && !edge.value.equals("x") ){
-            var nVisited = new ArrayList<>(visited);
+        if(edge!=null && !visited1.containsKey(edge) && !edge.value.equals("x") ){
+            var nVisited = new ArrayList<>(path);
             nVisited.add(edge);
             queue.add(new BFSNode(nVisited, partialPath + breadCrumb, edge));
+            visited1.put(edge,true);
         }
     }
 
