@@ -12,18 +12,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FindGoldenTileShould {
     public static Stream<Arguments> input() {
         return Stream.of(
-                /*
-                [["O","O","X","O","O","O","O"],
-                 ["X","X","O","O","X","O","O"],
-                 ["O","X","X","O","X","O","O"],
-                 ["O","O","O","O","O","O","O"],
-                 ["O","O","O","O","O","O","O"],
-                 ["O","O","O","O","O","X","O"],
-                 ["O","O","O","O","O","O","O"],
-                 ["O","O","O","O","O","X","O"],
-                 ["O","O","*","O","O","X","O"]]
 
-                 */
+                Arguments.of("""
+                s x o o o x g
+                o x o x o x o
+                o x o x o x o
+                o x o x o x o
+                o x o x o x o
+                o x o x o x o
+                o x o x o x o
+                o o o x o x o
+                o x o x o x o
+                o x o x o x o
+                o x o x o x o
+                o x o x o x o
+                o x o x o x o
+                o x o x o x o
+                o x o x o x o
+                o x o x o x o
+                o o o o o o o""","s s s s s s s s s s s s s s s s e e e e e e n n n n n n n n n n n n n n n n"),
                 Arguments.of("""
                 o o x o o o o
                 x x o o x o o
