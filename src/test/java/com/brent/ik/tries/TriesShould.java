@@ -19,6 +19,10 @@ class TriesShould {
     public static Stream<Arguments> count_two_instances_of_app_prefix_given_two_inserts() {
         return Stream.of(
                 Arguments.of(asList("apple","apple"),2,"app"),
+                Arguments.of(asList("apple","apple"),2,"apple"),
+                Arguments.of(asList("apple","apple"),0,"apples"),
+                Arguments.of(asList("apple","apples"),2,"apple"),
+                Arguments.of(asList("apple","apples"),1,"apples"),
                 Arguments.of(List.of("apple"),1,"app")
         );
 
