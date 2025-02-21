@@ -123,7 +123,8 @@ class TriesShould {
 
 class TrieNode {
     private Map<Character, TrieNode> value;
-    private int count = 0;
+    private int startCount = 0;
+    private int endCount = 0;
     private boolean isLeaf = false;
 
     public TrieNode() {
@@ -131,8 +132,10 @@ class TrieNode {
     }
     public boolean isLeaf(){return isLeaf;}
     public void setEnd(){isLeaf = true;};
-    public void incrementCount(){count++;}
-    public void decrementCount(){count--;}
+    public void incrementEndCount(){
+        endCount++;}
+    public void decrementEndCount(){
+        endCount--;}
     public boolean hasEdge(Character letter){
         return value.containsKey(letter);
     }
@@ -145,12 +148,20 @@ class TrieNode {
         return edge;
     }
 
-    public int getCount() {
-        return count;
+    public int getEndCount() {
+        return endCount;
     }
 
     public Set<Character> edges() {
         return value.keySet();
+    }
+
+    public void incrementStartCount() {
+        startCount ++;
+    }
+
+    public int getStartCount() {
+        return startCount;
     }
 }
 
@@ -171,10 +182,11 @@ class Trie {
             } else {
                 edge = currentNode.addEdge(letter);
             }
+            edge.incrementStartCount();
             currentNode = edge;
         }
         currentNode.setEnd();
-        currentNode.incrementCount();
+        currentNode.incrementEndCount();
     }
 
     public boolean search(String word){
@@ -202,7 +214,7 @@ class Trie {
     }
     public int countWordsEqualTo(String word) {
         var node = searchWord(word);
-        if(node!=null)return node.getCount();
+        if(node!=null)return node.getEndCount();
         return 0;
     }
 
@@ -211,16 +223,8 @@ class Trie {
     }
     public int countWordsStartingWith(String prefix) {
         var node = searchPrefix(prefix);
-        return countLeaves(node);
-    }
-
-    private int countLeaves(TrieNode currentNode) {
-        if(currentNode == null) return 0;
-        int count = currentNode.isLeaf() ? currentNode.getCount() : 0;
-        for (var key : currentNode.edges()) {
-            count += countLeaves(currentNode.getEdge(key));
-        }
-        return count;
+        if(node==null) return 0;
+        return node.getStartCount();
     }
 
     public void erase(String word) {
@@ -237,7 +241,7 @@ class Trie {
             }
             currentNode = edge;
         }
-        if (wordFound && currentNode.isLeaf()) currentNode.decrementCount();
+        if (wordFound && currentNode.isLeaf()) currentNode.decrementEndCount();
 
 
     }
