@@ -180,6 +180,20 @@ class Trie {
     public boolean search(String word){
         return countWordsEqualTo(word) != 0;
     }
+    public TrieNode searchPrefix(String prefix){
+        var letters = prefix.toCharArray();
+        var currentNode = root;
+        for (var letter : letters) {
+            TrieNode edge;
+            if (currentNode.hasEdge(letter)) {
+                edge = currentNode.getEdge(letter);
+            } else {
+                return null;
+            }
+            currentNode = edge;
+        }
+        return currentNode;
+    }
     public int countWordsEqualTo(String word) {
         var letters = word.toCharArray();
         var currentNode = root;
@@ -202,24 +216,12 @@ class Trie {
         return countWordsStartingWith(prefix)!=0;
     }
     public int countWordsStartingWith(String prefix) {
-        var letters = prefix.toCharArray();
-        var currentNode = root;
-        boolean prefixFound = true;
-        for (var letter : letters) {
-            TrieNode edge;
-            if (currentNode.hasEdge(letter)) {
-                edge = currentNode.getEdge(letter);
-            } else {
-                prefixFound = false;
-                break;
-            }
-            currentNode = edge;
-        }
-        if (prefixFound) return countLeaves(currentNode);
-        return 0;
+        var node = searchPrefix(prefix);
+        return countLeaves(node);
     }
 
     private int countLeaves(TrieNode currentNode) {
+        if(currentNode == null) return 0;
         int count = currentNode.isLeaf() ? currentNode.getCount() : 0;
         for (var key : currentNode.edges()) {
             count += countLeaves(currentNode.getEdge(key));
