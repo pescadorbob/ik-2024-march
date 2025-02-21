@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static java.lang.Math.max;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,9 +21,17 @@ class TriesShould {
 
     public static Stream<Arguments> perform_functions_as_listed() {
         return Stream.of(
+                Arguments.of(asList("insert", "erase", "countWordsStartingWith"),
+                        asList("app", "a", "a"),
+                        asList(null, null, 1)
+                ),
                 Arguments.of(asList("insert", "countWordsEqualTo", "countWordsEqualTo", "countWordsStartingWith", "insert", "countWordsEqualTo"),
                         asList("apple", "apple", "app", "app", "app", "app"),
                         asList(null, 1, 0, 1, null, 1)
+                ),
+                Arguments.of(asList("insert", "insert", "countWordsEqualTo", "erase", "erase", "countWordsEqualTo", "countWordsStartingWith", "countWordsEqualTo", "countWordsStartingWith"),
+                        asList("apps", "app", "app", "app", "app", "app", "apps", "apps", "a"),
+                        asList(null, null, 1, null, null, 0, 1, 1, 1)
                 ),
                 Arguments.of(asList("insert", "search", "search", "startsWith", "insert", "search"),
                         asList("apple", "apple", "app", "app", "app", "app"),
@@ -42,7 +51,7 @@ class TriesShould {
             var output = method.invoke(trie, inputParameters.get(paramsIndex));
             var expected = outputs.get(paramsIndex);
             assertThat(output).isEqualTo(expected);
-            paramsIndex ++;
+            paramsIndex++;
         }
     }
 
@@ -130,19 +139,34 @@ class TrieNode {
     public TrieNode() {
         value = new HashMap<>();
     }
-    public boolean isLeaf(){return isLeaf;}
-    public void setEnd(){isLeaf = true;};
-    public void incrementEndCount(){
-        endCount++;}
-    public void decrementEndCount(){
-        endCount--;}
-    public boolean hasEdge(Character letter){
+
+    public boolean isLeaf() {
+        return isLeaf;
+    }
+
+    public void setEnd() {
+        isLeaf = true;
+    }
+
+    ;
+
+    public void incrementEndCount() {
+        endCount++;
+    }
+
+    public void decrementEndCount() {
+        endCount = max(0, endCount - 1);
+    }
+
+    public boolean hasEdge(Character letter) {
         return value.containsKey(letter);
     }
-    public TrieNode getEdge(Character letter){
+
+    public TrieNode getEdge(Character letter) {
         return value.get(letter);
     }
-    public TrieNode addEdge(Character letter){
+
+    public TrieNode addEdge(Character letter) {
         var edge = new TrieNode();
         value.put(letter, edge);
         return edge;
@@ -157,11 +181,15 @@ class TrieNode {
     }
 
     public void incrementStartCount() {
-        startCount ++;
+        startCount++;
     }
 
     public int getStartCount() {
         return startCount;
+    }
+
+    public void decrementStartCount() {
+        startCount = max(0, startCount - 1);
     }
 }
 
@@ -189,10 +217,11 @@ class Trie {
         currentNode.incrementEndCount();
     }
 
-    public boolean search(String word){
+    public boolean search(String word) {
         return countWordsEqualTo(word) != 0;
     }
-    public TrieNode searchPrefix(String prefix){
+
+    public TrieNode searchPrefix(String prefix) {
         var letters = prefix.toCharArray();
         var currentNode = root;
         for (var letter : letters) {
@@ -206,43 +235,52 @@ class Trie {
         }
         return currentNode;
     }
-    public TrieNode searchWord(String word){
+
+    public TrieNode searchWord(String word) {
         var node = searchPrefix(word);
-        if(node==null)return null;
-        if(node.isLeaf()) return node;
+        if (node == null) return null;
+        if (node.isLeaf()) return node;
         return null;
     }
+
     public int countWordsEqualTo(String word) {
         var node = searchWord(word);
-        if(node!=null)return node.getEndCount();
+        if (node != null) return node.getEndCount();
         return 0;
     }
 
-    public boolean startsWith(String prefix){
-        return countWordsStartingWith(prefix)!=0;
+    public boolean startsWith(String prefix) {
+        return countWordsStartingWith(prefix) != 0;
     }
+
     public int countWordsStartingWith(String prefix) {
         var node = searchPrefix(prefix);
-        if(node==null) return 0;
+        if (node == null) return 0;
         return node.getStartCount();
     }
 
     public void erase(String word) {
         var letters = word.toCharArray();
         var currentNode = root;
-        boolean wordFound = true;
-        for (var letter : letters) {
-            TrieNode edge;
-            if (currentNode.hasEdge(letter)) {
-                edge = currentNode.getEdge(letter);
-            } else {
-                wordFound = false;
-                break;
-            }
-            currentNode = edge;
-        }
-        if (wordFound && currentNode.isLeaf()) currentNode.decrementEndCount();
 
+        for (var letter : letters) {
+            if (!currentNode.hasEdge(letter)) {
+                return;
+            }
+            currentNode = currentNode.getEdge(letter);
+        }
+        if(currentNode.getEndCount()==0){
+            return;
+        }
+        currentNode = root;
+        for (var letter : letters) {
+            if (!currentNode.hasEdge(letter)) {
+                return;
+            }
+            currentNode = currentNode.getEdge(letter);
+            currentNode.decrementStartCount();
+        }
+        currentNode.decrementEndCount();
 
     }
 }
