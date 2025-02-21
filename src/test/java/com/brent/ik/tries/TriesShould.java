@@ -23,7 +23,12 @@ class TriesShould {
                 Arguments.of(asList("insert", "countWordsEqualTo", "countWordsEqualTo", "countWordsStartingWith", "insert", "countWordsEqualTo"),
                         asList("apple", "apple", "app", "app", "app", "app"),
                         asList(null, 1, 0, 1, null, 1)
-                ));
+                ),
+                Arguments.of(asList("insert", "search", "search", "startsWith", "insert", "search"),
+                        asList("apple", "apple", "app", "app", "app", "app"),
+                        asList(null, true, false, true, null, true)
+                )
+        );
     }
 
     @ParameterizedTest
@@ -152,6 +157,9 @@ class Trie {
         currentNode.count++;
     }
 
+    public boolean search(String word){
+        return countWordsEqualTo(word) != 0;
+    }
     public int countWordsEqualTo(String word) {
         var letters = word.toCharArray();
         var currentNode = root;
@@ -170,6 +178,9 @@ class Trie {
         return 0;
     }
 
+    public boolean startsWith(String prefix){
+        return countWordsStartingWith(prefix)!=0;
+    }
     public int countWordsStartingWith(String prefix) {
         var letters = prefix.toCharArray();
         var currentNode = root;
