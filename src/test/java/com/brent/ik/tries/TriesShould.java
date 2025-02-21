@@ -1,6 +1,5 @@
 package com.brent.ik.tries;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
@@ -122,14 +122,36 @@ class TriesShould {
 }
 
 class TrieNode {
-    Map<Character, TrieNode> value;
-    int count = 0;
-    boolean isLeaf = false;
+    private Map<Character, TrieNode> value;
+    private int count = 0;
+    private boolean isLeaf = false;
 
     public TrieNode() {
         value = new HashMap<>();
     }
+    public boolean isLeaf(){return isLeaf;}
+    public void setEnd(){isLeaf = true;};
+    public void incrementCount(){count++;}
+    public void decrementCount(){count--;}
+    public boolean hasEdge(Character letter){
+        return value.containsKey(letter);
+    }
+    public TrieNode getEdge(Character letter){
+        return value.get(letter);
+    }
+    public TrieNode addEdge(Character letter){
+        var edge = new TrieNode();
+        value.put(letter, edge);
+        return edge;
+    }
 
+    public int getCount() {
+        return count;
+    }
+
+    public Set<Character> edges() {
+        return value.keySet();
+    }
 }
 
 class Trie {
@@ -144,17 +166,15 @@ class Trie {
         var currentNode = root;
         for (var letter : letters) {
             TrieNode edge;
-            if (currentNode.value.containsKey(letter)) {
-                edge = currentNode.value.get(letter);
-
+            if (currentNode.hasEdge(letter)) {
+                edge = currentNode.getEdge(letter);
             } else {
-                edge = new TrieNode();
-                currentNode.value.put(letter, edge);
+                edge = currentNode.addEdge(letter);
             }
             currentNode = edge;
         }
-        currentNode.isLeaf = true;
-        currentNode.count++;
+        currentNode.setEnd();
+        currentNode.incrementCount();
     }
 
     public boolean search(String word){
@@ -166,15 +186,15 @@ class Trie {
         boolean wordFound = true;
         for (var letter : letters) {
             TrieNode edge;
-            if (currentNode.value.containsKey(letter)) {
-                edge = currentNode.value.get(letter);
+            if (currentNode.hasEdge(letter)) {
+                edge = currentNode.getEdge(letter);
             } else {
                 wordFound = false;
                 break;
             }
             currentNode = edge;
         }
-        if (wordFound && currentNode.isLeaf) return currentNode.count;
+        if (wordFound && currentNode.isLeaf()) return currentNode.getCount();
         return 0;
     }
 
@@ -187,8 +207,8 @@ class Trie {
         boolean prefixFound = true;
         for (var letter : letters) {
             TrieNode edge;
-            if (currentNode.value.containsKey(letter)) {
-                edge = currentNode.value.get(letter);
+            if (currentNode.hasEdge(letter)) {
+                edge = currentNode.getEdge(letter);
             } else {
                 prefixFound = false;
                 break;
@@ -200,9 +220,9 @@ class Trie {
     }
 
     private int countLeaves(TrieNode currentNode) {
-        int count = currentNode.isLeaf ? currentNode.count : 0;
-        for (var key : currentNode.value.keySet()) {
-            count += countLeaves(currentNode.value.get(key));
+        int count = currentNode.isLeaf() ? currentNode.getCount() : 0;
+        for (var key : currentNode.edges()) {
+            count += countLeaves(currentNode.getEdge(key));
         }
         return count;
     }
@@ -213,15 +233,15 @@ class Trie {
         boolean wordFound = true;
         for (var letter : letters) {
             TrieNode edge;
-            if (currentNode.value.containsKey(letter)) {
-                edge = currentNode.value.get(letter);
+            if (currentNode.hasEdge(letter)) {
+                edge = currentNode.getEdge(letter);
             } else {
                 wordFound = false;
                 break;
             }
             currentNode = edge;
         }
-        if (wordFound && currentNode.isLeaf) currentNode.count--;
+        if (wordFound && currentNode.isLeaf()) currentNode.decrementCount();
 
 
     }
