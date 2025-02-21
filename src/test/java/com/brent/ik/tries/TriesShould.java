@@ -194,21 +194,15 @@ class Trie {
         }
         return currentNode;
     }
+    public TrieNode searchWord(String word){
+        var node = searchPrefix(word);
+        if(node==null)return null;
+        if(node.isLeaf()) return node;
+        return null;
+    }
     public int countWordsEqualTo(String word) {
-        var letters = word.toCharArray();
-        var currentNode = root;
-        boolean wordFound = true;
-        for (var letter : letters) {
-            TrieNode edge;
-            if (currentNode.hasEdge(letter)) {
-                edge = currentNode.getEdge(letter);
-            } else {
-                wordFound = false;
-                break;
-            }
-            currentNode = edge;
-        }
-        if (wordFound && currentNode.isLeaf()) return currentNode.getCount();
+        var node = searchWord(word);
+        if(node!=null)return node.getCount();
         return 0;
     }
 
