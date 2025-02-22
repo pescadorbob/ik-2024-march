@@ -1,5 +1,6 @@
 package com.brent.ik.tries;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -19,12 +20,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TriesShould {
 
 
+    @Test
+    void count_1_word_starting_with_prefix_given_insert_of_word_with_that_prefix_and_erase_of_prefix(){
+        var trie = new Trie();
+        trie.insert("app");
+        trie.erase("a");
+        var expected=1;
+
+        var actual = trie.countWordsStartingWith("a");
+
+        assertThat(actual).isEqualTo(expected);
+    }
     public static Stream<Arguments> perform_functions_as_listed() {
         return Stream.of(
-                Arguments.of(asList("insert", "erase", "countWordsStartingWith"),
-                        asList("app", "a", "a"),
-                        asList(null, null, 1)
-                ),
                 Arguments.of(asList("insert", "countWordsEqualTo", "countWordsEqualTo", "countWordsStartingWith", "insert", "countWordsEqualTo"),
                         asList("apple", "apple", "app", "app", "app", "app"),
                         asList(null, 1, 0, 1, null, 1)
@@ -85,7 +93,6 @@ class TriesShould {
                 Arguments.of("", ""),
                 Arguments.of("apple", "apple")
         );
-
     }
 
     @ParameterizedTest
@@ -159,7 +166,7 @@ class TriesShould {
 
         assertThat(actual).isEqualTo(expected);
     }
-    public static Stream<Arguments> count_zero_word_equalTo_search_string_given_two_inserts_with_shared_prefix_of_search_string() {
+    public static Stream<Arguments> count_zero_word_equal_to_search_string_given_two_inserts_with_shared_prefix_of_search_string() {
         return Stream.of(
                 Arguments.of("apples", "apple"),
                 Arguments.of("bananas", "banana")
@@ -169,7 +176,7 @@ class TriesShould {
 
     @ParameterizedTest
     @MethodSource
-    void count_zero_word_equalTo_search_string_given_two_inserts_with_shared_prefix_of_search_string(String word, String searchString) {
+    void count_zero_word_equal_to_search_string_given_two_inserts_with_shared_prefix_of_search_string(String word, String searchString) {
         var trie = new Trie();
         range(0,2).forEach(it->trie.insert(word));
 
