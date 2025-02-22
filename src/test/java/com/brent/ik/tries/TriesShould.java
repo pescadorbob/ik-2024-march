@@ -21,26 +21,19 @@ class TriesShould {
 
 
     @Test
-    void count_1_word_starting_with_prefix_given_insert_of_word_with_that_prefix_and_erase_of_prefix(){
+    void count_1_word_starting_with_prefix_given_insert_of_word_with_that_prefix_and_erase_of_prefix() {
         var trie = new Trie();
         trie.insert("app");
         trie.erase("a");
-        var expected=1;
+        var expected = 1;
 
         var actual = trie.countWordsStartingWith("a");
 
         assertThat(actual).isEqualTo(expected);
     }
+
     public static Stream<Arguments> perform_functions_as_listed() {
         return Stream.of(
-                Arguments.of(asList("insert", "countWordsEqualTo", "countWordsEqualTo", "countWordsStartingWith", "insert", "countWordsEqualTo"),
-                        asList("apple", "apple", "app", "app", "app", "app"),
-                        asList(null, 1, 0, 1, null, 1)
-                ),
-                Arguments.of(asList("insert", "insert", "countWordsEqualTo", "erase", "erase", "countWordsEqualTo", "countWordsStartingWith", "countWordsEqualTo", "countWordsStartingWith"),
-                        asList("apps", "app", "app", "app", "app", "app", "apps", "apps", "a"),
-                        asList(null, null, 1, null, null, 0, 1, 1, 1)
-                ),
                 Arguments.of(asList("insert", "search", "search", "startsWith", "insert", "search"),
                         asList("apple", "apple", "app", "app", "app", "app"),
                         asList(null, true, false, true, null, true)
@@ -99,13 +92,14 @@ class TriesShould {
     @MethodSource
     void count_two_words_equal_to_search_string_given_two_inserts_of_search_string(String word, String searchString) {
         var trie = new Trie();
-        range(0,2).forEach(it->trie.insert(word));
+        range(0, 2).forEach(it -> trie.insert(word));
         var expected = 2;
 
         var actual = trie.countWordsEqualTo(searchString);
 
         assertThat(actual).isEqualTo(expected);
     }
+
     public static Stream<Arguments> count_zero_instances_of_search_term_given_inserts_excluding_search_term() {
         return Stream.of(
                 Arguments.of(asList("apple", "apple"), 0, ""),
@@ -126,46 +120,38 @@ class TriesShould {
 
         assertThat(actual).isEqualTo(expected);
     }
-    public static Stream<Arguments> count_zero_words_equal_to_empty_search_string_given_two_inserts_of_word() {
-        return Stream.of(
-                Arguments.of("apple",  ""),
-                Arguments.of("banana", "")
-        );
 
+    public static Stream<Arguments> count_zero_words_equal_to_empty_search_string_given_two_inserts_of_non_empty_word() {
+        return Stream.of(
+                Arguments.of("apple"),
+                Arguments.of("banana")
+        );
     }
 
     @ParameterizedTest
     @MethodSource
-    void count_zero_words_equal_to_empty_search_string_given_two_inserts_of_word(String word, String searchString) {
+    void count_zero_words_equal_to_empty_search_string_given_two_inserts_of_non_empty_word(String word) {
         var trie = new Trie();
-        range(0,2).forEach(it->trie.insert(word));
-        var expected = 0;
+        range(0, 2).forEach(it -> trie.insert(word));
 
-        var actual = trie.countWordsEqualTo(searchString);
+        var actual = trie.countWordsEqualTo("");
+
+        assertThat(actual).isZero();
+    }
+
+
+    @Test
+    void count_one_word_equal_to_search_string_given_inserts_of_search_string_and_longer_word_from_search_string() {
+        var trie = new Trie();
+        trie.insert("apple");
+        trie.insert("apples");
+        var expected = 1;
+
+        var actual = trie.countWordsEqualTo("apple");
 
         assertThat(actual).isEqualTo(expected);
     }
 
-    public static Stream<Arguments> count_one_instances_of_word_given_two_inserts_with_shared_prefix() {
-        return Stream.of(
-                Arguments.of(asList("apple", "apples"), 1, "apple"),
-                Arguments.of(asList("apples", "apples"), 0, "apple")
-        );
-
-    }
-
-    @ParameterizedTest
-    @MethodSource
-    void count_one_instances_of_word_given_two_inserts_with_shared_prefix(List<String> words, int expected, String searchString) {
-        var trie = new Trie();
-        for (var word : words) {
-            trie.insert(word);
-        }
-
-        var actual = trie.countWordsEqualTo(searchString);
-
-        assertThat(actual).isEqualTo(expected);
-    }
     public static Stream<Arguments> count_zero_word_equal_to_search_string_given_two_inserts_with_shared_prefix_of_search_string() {
         return Stream.of(
                 Arguments.of("apples", "apple"),
@@ -178,7 +164,7 @@ class TriesShould {
     @MethodSource
     void count_zero_word_equal_to_search_string_given_two_inserts_with_shared_prefix_of_search_string(String word, String searchString) {
         var trie = new Trie();
-        range(0,2).forEach(it->trie.insert(word));
+        range(0, 2).forEach(it -> trie.insert(word));
 
         var expected = 0;
 
@@ -187,29 +173,26 @@ class TriesShould {
         assertThat(actual).isEqualTo(expected);
     }
 
-    public static Stream<Arguments> count_one_instance_of_word_given_two_inserts_of_the_word_and_erasing_one() {
+    public static Stream<Arguments> count_one_instance_of_word_given_two_inserts_and_one_erase_of_the_word() {
         return Stream.of(
-                Arguments.of("apple", 1),
-                Arguments.of("banana", 1)
+                Arguments.of("apple"),
+                Arguments.of("banana")
         );
 
     }
 
     @ParameterizedTest
     @MethodSource
-    void count_one_instance_of_word_given_two_inserts_of_the_word_and_erasing_one(String word, int expected) {
+    void count_one_instance_of_word_given_two_inserts_and_one_erase_of_the_word(String word) {
         var trie = new Trie();
-        range(0,2).forEach(it->{
-            trie.insert(word);
-        });
+        range(0, 2).forEach(it -> trie.insert(word));
         trie.erase(word);
 
         var actual = trie.countWordsEqualTo(word);
 
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isOne();
     }
 }
-
 
 
 class Trie {
@@ -288,7 +271,7 @@ class Trie {
             }
             currentNode = currentNode.getEdge(letter);
         }
-        if(currentNode.getEndCount()==0){
+        if (currentNode.getEndCount() == 0) {
             return;
         }
         currentNode = root;
@@ -302,6 +285,7 @@ class Trie {
         currentNode.decrementEndCount();
 
     }
+
     private static class TrieNode {
         private Map<Character, TrieNode> value;
         private int startCount = 0;
