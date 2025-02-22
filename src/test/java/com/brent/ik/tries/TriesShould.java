@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import static java.lang.Math.max;
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
+import static java.util.stream.IntStream.range;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TriesShould {
@@ -80,22 +80,36 @@ class TriesShould {
         assertThat(actual).isEqualTo(expected);
     }
 
-    public static Stream<Arguments> count_two_instances_of_apple_given_two_inserts() {
+    public static Stream<Arguments> count_two_words_equal_to_search_string_given_two_inserts_of_search_string() {
+        return Stream.of(
+                Arguments.of("", ""),
+                Arguments.of("apple", "apple")
+        );
+
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void count_two_words_equal_to_search_string_given_two_inserts_of_search_string(String word, String searchString) {
+        var trie = new Trie();
+        range(0,2).forEach(it->trie.insert(word));
+        var expected = 2;
+
+        var actual = trie.countWordsEqualTo(searchString);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+    public static Stream<Arguments> count_zero_instances_of_search_term_given_inserts_excluding_search_term() {
         return Stream.of(
                 Arguments.of(asList("apple", "apple"), 0, ""),
-                Arguments.of(asList("", ""), 0, "apple"),
-                Arguments.of(asList("", ""), 2, ""),
-                Arguments.of(asList("apple", "apple"), 2, "apple"),
-                Arguments.of(asList("apple", "apples"), 1, "apple"),
-                Arguments.of(asList("apples", "apples"), 0, "apple"),
-                Arguments.of(List.of("apple"), 1, "apple")
+                Arguments.of(asList("", ""), 0, "apple")
         );
 
     }
 
     @ParameterizedTest
     @MethodSource
-    void count_two_instances_of_apple_given_two_inserts(List<String> words, int expected, String searchString) {
+    void count_zero_instances_of_search_term_given_inserts_excluding_search_term(List<String> words, int expected, String searchString) {
         var trie = new Trie();
         for (var word : words) {
             trie.insert(word);
@@ -105,93 +119,91 @@ class TriesShould {
 
         assertThat(actual).isEqualTo(expected);
     }
-
-    public static Stream<Arguments> count_instances_after_remove_of_apple_given_inserts() {
+    public static Stream<Arguments> count_zero_words_equal_to_empty_search_string_given_two_inserts_of_word() {
         return Stream.of(
-                Arguments.of(asList("apple", "apple"), 1, "apple", "apple"),
-                Arguments.of(asList("apple"), 0, "apple", "apple"),
-                Arguments.of(emptyList(), 0, "apple", "apple")
+                Arguments.of("apple",  ""),
+                Arguments.of("banana", "")
         );
 
     }
 
     @ParameterizedTest
     @MethodSource
-    void count_instances_after_remove_of_apple_given_inserts(List<String> words, int expected, String searchString, String erase) {
+    void count_zero_words_equal_to_empty_search_string_given_two_inserts_of_word(String word, String searchString) {
         var trie = new Trie();
-        for (var word : words) {
-            trie.insert(word);
-        }
-        trie.erase(erase);
+        range(0,2).forEach(it->trie.insert(word));
+        var expected = 0;
 
         var actual = trie.countWordsEqualTo(searchString);
 
         assertThat(actual).isEqualTo(expected);
     }
+
+    public static Stream<Arguments> count_one_instances_of_word_given_two_inserts_with_shared_prefix() {
+        return Stream.of(
+                Arguments.of(asList("apple", "apples"), 1, "apple"),
+                Arguments.of(asList("apples", "apples"), 0, "apple")
+        );
+
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void count_one_instances_of_word_given_two_inserts_with_shared_prefix(List<String> words, int expected, String searchString) {
+        var trie = new Trie();
+        for (var word : words) {
+            trie.insert(word);
+        }
+
+        var actual = trie.countWordsEqualTo(searchString);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+    public static Stream<Arguments> count_zero_word_equalTo_search_string_given_two_inserts_with_shared_prefix_of_search_string() {
+        return Stream.of(
+                Arguments.of("apples", "apple"),
+                Arguments.of("bananas", "banana")
+        );
+
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void count_zero_word_equalTo_search_string_given_two_inserts_with_shared_prefix_of_search_string(String word, String searchString) {
+        var trie = new Trie();
+        range(0,2).forEach(it->trie.insert(word));
+
+        var expected = 0;
+
+        var actual = trie.countWordsEqualTo(searchString);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    public static Stream<Arguments> count_one_instance_of_word_given_two_inserts_of_the_word_and_erasing_one() {
+        return Stream.of(
+                Arguments.of("apple", 1),
+                Arguments.of("banana", 1)
+        );
+
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void count_one_instance_of_word_given_two_inserts_of_the_word_and_erasing_one(String word, int expected) {
+        var trie = new Trie();
+        range(0,2).forEach(it->{
+            trie.insert(word);
+        });
+        trie.erase(word);
+
+        var actual = trie.countWordsEqualTo(word);
+
+        assertThat(actual).isEqualTo(expected);
+    }
 }
 
-class TrieNode {
-    private Map<Character, TrieNode> value;
-    private int startCount = 0;
-    private int endCount = 0;
-    private boolean isLeaf = false;
 
-    public TrieNode() {
-        value = new HashMap<>();
-    }
-
-    public boolean isLeaf() {
-        return isLeaf;
-    }
-
-    public void setEnd() {
-        isLeaf = true;
-    }
-
-    ;
-
-    public void incrementEndCount() {
-        endCount++;
-    }
-
-    public void decrementEndCount() {
-        endCount = max(0, endCount - 1);
-    }
-
-    public boolean hasEdge(Character letter) {
-        return value.containsKey(letter);
-    }
-
-    public TrieNode getEdge(Character letter) {
-        return value.get(letter);
-    }
-
-    public TrieNode addEdge(Character letter) {
-        var edge = new TrieNode();
-        value.put(letter, edge);
-        return edge;
-    }
-
-    public int getEndCount() {
-        return endCount;
-    }
-
-    public Set<Character> edges() {
-        return value.keySet();
-    }
-
-    public void incrementStartCount() {
-        startCount++;
-    }
-
-    public int getStartCount() {
-        return startCount;
-    }
-
-    public void decrementStartCount() {
-        startCount = max(0, startCount - 1);
-    }
-}
 
 class Trie {
     TrieNode root;
@@ -282,6 +294,68 @@ class Trie {
         }
         currentNode.decrementEndCount();
 
+    }
+    private static class TrieNode {
+        private Map<Character, TrieNode> value;
+        private int startCount = 0;
+        private int endCount = 0;
+        private boolean isLeaf = false;
+
+        public TrieNode() {
+            value = new HashMap<>();
+        }
+
+        public boolean isLeaf() {
+            return isLeaf;
+        }
+
+        public void setEnd() {
+            isLeaf = true;
+        }
+
+        ;
+
+        public void incrementEndCount() {
+            endCount++;
+        }
+
+        public void decrementEndCount() {
+            endCount = max(0, endCount - 1);
+        }
+
+        public boolean hasEdge(Character letter) {
+            return value.containsKey(letter);
+        }
+
+        public TrieNode getEdge(Character letter) {
+            return value.get(letter);
+        }
+
+        public TrieNode addEdge(Character letter) {
+            var edge = new TrieNode();
+            value.put(letter, edge);
+            return edge;
+        }
+
+        public int getEndCount() {
+            return endCount;
+        }
+
+        public Set<Character> edges() {
+            return value.keySet();
+        }
+
+        public void incrementStartCount() {
+            startCount++;
+        }
+
+        public int getStartCount() {
+            return startCount;
+        }
+
+        public void decrementStartCount() {
+            startCount = max(0, startCount - 1);
+        }
     }
 }
 
