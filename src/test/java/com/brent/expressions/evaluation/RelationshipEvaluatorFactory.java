@@ -8,6 +8,7 @@ public class RelationshipEvaluatorFactory {
     public RelationshipEvaluator create(RelationshipOperator operator) {
 
         return switch (operator.getType()) {
+            case EQUAL_TO -> (lhs, rhs) -> compareOperands(lhs, rhs, comp -> comp == 0);
             case GREATER_THAN_OR_EQUAL -> (lhs, rhs) -> compareOperands(lhs, rhs, comp -> comp >= 0);
             case GREATER_THAN -> (lhs, rhs) -> compareOperands(lhs, rhs, comp -> comp > 0);
             case LESS_THAN -> (lhs, rhs) -> compareOperands(lhs, rhs, comp -> comp < 0);
