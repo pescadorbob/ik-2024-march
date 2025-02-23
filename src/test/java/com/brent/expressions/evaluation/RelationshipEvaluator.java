@@ -4,5 +4,5 @@ import com.brent.expressions.domain.ExpressionResult;
 import com.brent.expressions.domain.Operand;
 
 public interface RelationshipEvaluator {
-    ExpressionResult evaluate(Operand lhs, Operand rhs);
+    <T extends Comparable<T>> ExpressionResult evaluate(Operand<T> lhs, Operand<T> rhs);
 }

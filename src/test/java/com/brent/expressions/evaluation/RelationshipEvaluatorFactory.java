@@ -2,16 +2,27 @@ package com.brent.expressions.evaluation;
 
 import com.brent.expressions.domain.ExpressionResult;
 import com.brent.expressions.domain.RelationshipOperator;
-import com.brent.expressions.domain.RelationshipType;
+
 
 public class RelationshipEvaluatorFactory {
-    RelationshipEvaluator create(RelationshipOperator operator){
-        if(operator.getType() == RelationshipType.GREATER_THAN){
-            return (lhs, rhs) ->
-                    new ExpressionResult(lhs.compareTo(rhs) > 0);
-        } else {
-            return (lhs, rhs) ->
-                    new ExpressionResult(lhs.compareTo(rhs) < 0);
-        }
+    public RelationshipEvaluator create(RelationshipOperator operator) {
+        return switch (operator.getType()) {
+            case GREATER_THAN -> new RelationshipEvaluator() {
+                @Override
+                public <T extends Comparable<T>> ExpressionResult evaluate(
+                        com.brent.expressions.domain.Operand<T> lhs,
+                        com.brent.expressions.domain.Operand<T> rhs) {
+                    return new ExpressionResult(lhs.compareTo(rhs) > 0);
+                }
+            };
+            case LESS_THAN -> new RelationshipEvaluator() {
+                @Override
+                public <T extends Comparable<T>> ExpressionResult evaluate(
+                        com.brent.expressions.domain.Operand<T> lhs,
+                        com.brent.expressions.domain.Operand<T> rhs) {
+                    return new ExpressionResult(lhs.compareTo(rhs) < 0);
+                }
+            };
+        };
     }
 }
