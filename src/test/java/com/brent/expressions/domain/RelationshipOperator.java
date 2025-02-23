@@ -1,14 +1,14 @@
 package com.brent.expressions.domain;
 
-import static com.brent.expressions.domain.RelationshipType.fromSymbol;
+import static com.brent.expressions.domain.RelationshipOperatorType.fromRepresentation;
 
-public class RelationshipOperator implements ExpressionElement {
-    RelationshipType type;
-    public RelationshipOperator(String relation) {
-        type = fromSymbol(relation);
+public class RelationshipOperator extends Operator {
+    RelationshipOperatorType type;
+    public RelationshipOperator(String operatorRepresentation) {
+        type = fromRepresentation(operatorRepresentation);
     }
 
-    public RelationshipType getType(){
+    public RelationshipOperatorType getType(){
         return type;
     }
 }

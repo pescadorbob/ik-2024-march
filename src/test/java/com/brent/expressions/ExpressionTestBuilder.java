@@ -25,25 +25,41 @@ public class ExpressionTestBuilder {
     public ExpressionTestBuilder from(String tokenizedExpression) {
 
         var tokens = tokenize(tokenizedExpression);
-        var lhs = tokens.getFirst();
+        var lhsToken = tokens.getFirst();
 
-        var relation = tokens.get(1);
-        var rhs = tokens.get(2);
-        var variable = new VariableOperand(lhs);
-        var relationshipOperator = new RelationshipOperator(relation);
-        var literal = new NumericOperand<>(parseInt(rhs));
-        elements.add(variable);
-        elements.add(relationshipOperator);
-        elements.add(literal);
+        var operatorToken = tokens.get(1);
+        var rhsToken = tokens.get(2);
+        var lhsOperand = new VariableOperand(lhsToken);
+        var operator = getOperator(operatorToken);
+        var rhsOperand = new NumericOperand<>(parseInt(rhsToken));
+        elements.add(lhsOperand);
+        elements.add(operator);
+        elements.add(rhsOperand);
         return this;
     }
 
+    private static Operator getOperator(String operatorToken) {
+        Operator operator;
+        if(ArithmeticOperatorType.isRepresentedBy(operatorToken)){
+            operator = new ArithmeticOperator(operatorToken);
+        } else {
+            operator = new RelationshipOperator(operatorToken);
+        }
+        return operator;
+    }
+
     private List<String> tokenize(String tokenizedExpression) {
-        var operators = Arrays.stream(RelationshipType.values()).map(RelationshipType::getSymbol).toList();
+        var operators = getAllOperators();
         var tokens = new ArrayList<String>();
         textToTokens(tokenizedExpression, tokens, operators);
         return tokens;
 
+    }
+
+    private static List<String> getAllOperators() {
+        var operators = new ArrayList<>(Arrays.stream(RelationshipOperatorType.values()).map(RelationshipOperatorType::getSymbol).toList());
+        operators.addAll(Arrays.stream(ArithmeticOperatorType.values()).map(ArithmeticOperatorType::getSymbol).toList());
+        return operators;
     }
 
     private void textToTokens(String tokenizedExpression, ArrayList<String> tokens, List<String> operators) {
@@ -52,7 +68,7 @@ public class ExpressionTestBuilder {
         }
         int nextIndex = addNextOperand(tokenizedExpression, tokens, operators);
         int operatorLength = addNextOperatorIfExists(tokenizedExpression.substring(nextIndex), tokens, operators);
-        textToTokens(tokenizedExpression.substring(nextIndex + operatorLength), tokens, operators);
+        textToTokens(tokenizedExpression.substring(nextIndex + operatorLength).trim(), tokens, operators);
     }
 
     private int addNextOperand(String tokenizedExpression, ArrayList<String> tokens, List<String> operators) {
@@ -63,7 +79,7 @@ public class ExpressionTestBuilder {
         } else {
             operand = tokenizedExpression.substring(0, nextOperatorIndex);
         }
-        tokens.add(operand);
+        tokens.add(operand.trim());
         return operand.length();
     }
 
@@ -78,12 +94,7 @@ public class ExpressionTestBuilder {
                 possibleOperators.add(operator);
             }
         }
-        possibleOperators.sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.length()-o2.length();
-            }
-        });
+        possibleOperators.sort((o1, o2) -> o1.length()-o2.length());
 
         operator = possibleOperators.getLast();
         tokens.add(operator);

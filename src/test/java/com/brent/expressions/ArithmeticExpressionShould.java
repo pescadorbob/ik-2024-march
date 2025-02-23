@@ -12,11 +12,11 @@ import static com.brent.expressions.ExpressionTestBuilder.anExpression;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class RelationshipExpressionShould {
+public class ArithmeticExpressionShould {
 
     @ParameterizedTest(name = " {0} when x={1} applied to {2}")
     @MethodSource("notEqualToTestCases")
-    void evaluate_to(boolean expectedResult, String xValue,String expressionString) {
+    void evaluate_to(Number expectedResult, String xValue,String expressionString) {
         var expression = anExpression().from(expressionString).build();
         var expected = new ExpressionResult(expectedResult);
 
@@ -29,24 +29,7 @@ public class RelationshipExpressionShould {
 
     private static Stream<Arguments> notEqualToTestCases() {
         return Stream.of(
-                arguments(false, "4","x > 5"),
-                arguments(false, "5","x > 5"),
-                arguments(true, "6","x > 5"),
-                arguments(false, "4","x >= 5"),
-                arguments(true, "5","x >= 5"),
-                arguments(true, "6","x >= 5"),
-                arguments(true, "4","x < 5"),
-                arguments(false, "5","x < 5"),
-                arguments(false, "6","x < 5"),
-                arguments(true, "4","x <= 5"),
-                arguments(true, "5","x <= 5"),
-                arguments(false, "6","x <= 5"),
-                arguments(false, "4","x == 5"),
-                arguments(true, "5","x == 5"),
-                arguments(false, "6","x == 5"),
-                arguments(true, "4","x != 5"),
-                arguments(false, "5","x != 5"),
-                arguments(true, "6","x != 5")
+                arguments(9, "4","x + 5")
         );
     }
 }

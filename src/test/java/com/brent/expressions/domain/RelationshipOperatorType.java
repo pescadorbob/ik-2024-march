@@ -1,6 +1,6 @@
 package com.brent.expressions.domain;
 
-public enum RelationshipType {
+public enum RelationshipOperatorType {
     NOT_EQUAL_TO("!="),
     EQUAL_TO("=="),
     LESS_THAN("<"),
@@ -10,12 +10,12 @@ public enum RelationshipType {
 
     private final String symbol;
 
-    RelationshipType(String symbol) {
+    RelationshipOperatorType(String symbol) {
         this.symbol = symbol;
     }
 
-    public static RelationshipType fromSymbol(String symbol) {
-        for (RelationshipType type : values()) {
+    public static RelationshipOperatorType fromRepresentation(String symbol) {
+        for (RelationshipOperatorType type : values()) {
             if (type.symbol.equals(symbol)) {
                 return type;
             }

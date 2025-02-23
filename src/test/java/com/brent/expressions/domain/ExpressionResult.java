@@ -1,13 +1,22 @@
 package com.brent.expressions.domain;
 
 public class ExpressionResult {
-    private final boolean result;
+    private boolean booleanResult;
+    private Number numberResult;
 
     public ExpressionResult(boolean result) {
-        this.result = result;
+        this.booleanResult = result;
     }
 
-    public boolean isResult() {
-        return result;
+    public ExpressionResult(Number expectedResult) {
+        this.numberResult = expectedResult;
+    }
+
+    public boolean isBooleanResult() {
+        return booleanResult;
+    }
+
+    public Number getNumberResult() {
+        return numberResult;
     }
 }
