@@ -1,6 +1,5 @@
 package com.brent.expressions.evaluation;
 
-
 import com.brent.expressions.domain.*;
 
 public class ExpressionEvaluationEngine {
@@ -34,13 +33,15 @@ public class ExpressionEvaluationEngine {
 
         var lhOperand = evaluate(lhs);
         var rhOperand = evaluate(rhs);
-        return relationshipEvaluator.evaluate(lhOperand,rhOperand);
-    }
-    private Operand evaluate(ExpressionElement element){
-        if(element instanceof Operand<?>) return (Operand) element;
-        else throw new IllegalStateException("The expression evaluation only supports operands right now");
+        return relationshipEvaluator.evaluate(lhOperand, rhOperand);
     }
 
+    private Operand<?> evaluate(ExpressionElement element) {
+        if (element instanceof Operand<?> operand) {
+            return operand;
+        }
+        throw new IllegalStateException("The expression evaluation only supports operands right now");
+    }
 
     private Expression populateExpression(Expression expression, ExpressionContext expressionContext) {
         var populatedExpression = new Expression();
