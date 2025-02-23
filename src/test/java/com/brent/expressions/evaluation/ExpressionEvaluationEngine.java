@@ -52,8 +52,7 @@ public class ExpressionEvaluationEngine {
     }
 
     private ExpressionElement assignVariable(ExpressionElement ele,ExpressionContext context) {
-        if(ele instanceof VariableOperand){
-            var var = (VariableOperand)ele;
+        if(ele instanceof VariableOperand var){
             return var.assignVariable(context);
         }
         return ele;
