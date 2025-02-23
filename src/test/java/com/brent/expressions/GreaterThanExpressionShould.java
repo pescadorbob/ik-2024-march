@@ -1,5 +1,7 @@
 package com.brent.expressions;
 
+import com.brent.expressions.domain.ExpressionResult;
+import com.brent.expressions.evaluation.ExpressionEvaluationEngine;
 import org.junit.jupiter.api.Test;
 
 import static com.brent.expressions.ExpressionTestBuilder.anExpression;

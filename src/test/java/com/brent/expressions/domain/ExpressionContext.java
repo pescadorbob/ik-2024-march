@@ -1,4 +1,4 @@
-package com.brent.expressions;
+package com.brent.expressions.domain;
 
 import java.util.HashMap;
 import java.util.Map;

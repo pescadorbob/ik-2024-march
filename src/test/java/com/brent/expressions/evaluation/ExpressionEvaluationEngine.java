@@ -1,5 +1,7 @@
-package com.brent.expressions;
+package com.brent.expressions.evaluation;
 
+
+import com.brent.expressions.domain.*;
 
 public class ExpressionEvaluationEngine {
     private final ExpressionContext expressionContext;

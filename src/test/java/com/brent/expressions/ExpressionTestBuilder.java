@@ -1,5 +1,7 @@
 package com.brent.expressions;
 
+import com.brent.expressions.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package com.brent.expressions;
+package com.brent.expressions.domain;
 
-enum RelationshipType {
+public enum RelationshipType {
     LESS_THAN("<"),
     GREATER_THAN(">");
 

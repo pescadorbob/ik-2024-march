@@ -1,4 +1,4 @@
-package com.brent.expressions;
+package com.brent.expressions.domain;
 
 public abstract class Operand<T> implements ExpressionElement, Comparable<Operand<T>> {
     private T value;

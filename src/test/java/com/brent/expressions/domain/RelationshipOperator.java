@@ -1,6 +1,6 @@
-package com.brent.expressions;
+package com.brent.expressions.domain;
 
-import static com.brent.expressions.RelationshipType.fromSymbol;
+import static com.brent.expressions.domain.RelationshipType.fromSymbol;
 
 public class RelationshipOperator implements ExpressionElement {
     RelationshipType type;
@@ -8,5 +8,8 @@ public class RelationshipOperator implements ExpressionElement {
         type = fromSymbol(relation);
     }
 
+    public RelationshipType getType(){
+        return type;
+    }
 }
 
