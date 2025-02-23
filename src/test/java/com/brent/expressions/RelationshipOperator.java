@@ -1,28 +1,12 @@
 package com.brent.expressions;
 
-public class RelationshipOperator extends ExpressionElement {
+import static com.brent.expressions.RelationshipType.fromSymbol;
+
+public class RelationshipOperator implements ExpressionElement {
     RelationshipType type;
     public RelationshipOperator(String relation) {
-        type = RelationshipType.fromSymbol(relation);
+        type = fromSymbol(relation);
     }
+
 }
 
-enum RelationshipType {
-    LESS_THAN("<"),
-    GREATER_THAN(">");
-
-    private final String representation;
-
-    RelationshipType(String representation) {
-        this.representation = representation;
-    }
-
-    public static RelationshipType fromSymbol(String symbol) {
-        for (RelationshipType type : values()) {
-            if (type.representation.equals(symbol)) {
-                return type;
-            }
-        }
-        throw new IllegalArgumentException("Unknown relation symbol: " + symbol);
-    }
-}

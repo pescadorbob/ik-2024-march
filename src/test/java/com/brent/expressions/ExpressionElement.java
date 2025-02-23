@@ -1,4 +1,4 @@
 package com.brent.expressions;
 
-public class ExpressionElement {
+public interface ExpressionElement {
 }

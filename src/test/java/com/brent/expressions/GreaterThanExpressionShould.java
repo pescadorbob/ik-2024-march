@@ -18,4 +18,15 @@ public class GreaterThanExpressionShould {
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
+    @Test
+    void result_true_given_LHS_is_greater_than_RHS(){
+        var expression = anExpression().from("x > 5").build();
+        var expected = new ExpressionResult(true);
+
+        var expressionEvaluationEngine = new ExpressionEvaluationEngine("x = 6");
+
+        var actual = expressionEvaluationEngine.evaluate(expression);
+
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
 }
