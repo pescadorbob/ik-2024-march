@@ -6,6 +6,7 @@ import com.brent.expressions.domain.RelationshipOperator;
 
 public class RelationshipEvaluatorFactory {
     public RelationshipEvaluator create(RelationshipOperator operator) {
+
         return switch (operator.getType()) {
             case GREATER_THAN_OR_EQUAL -> (lhs, rhs) -> compareOperands(lhs, rhs, comp -> comp >= 0);
             case GREATER_THAN -> (lhs, rhs) -> compareOperands(lhs, rhs, comp -> comp > 0);
