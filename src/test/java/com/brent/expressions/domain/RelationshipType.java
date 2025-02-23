@@ -4,18 +4,22 @@ public enum RelationshipType {
     LESS_THAN("<"),
     GREATER_THAN(">");
 
-    private final String representation;
+    private final String symbol;
 
-    RelationshipType(String representation) {
-        this.representation = representation;
+    RelationshipType(String symbol) {
+        this.symbol = symbol;
     }
 
     public static RelationshipType fromSymbol(String symbol) {
         for (RelationshipType type : values()) {
-            if (type.representation.equals(symbol)) {
+            if (type.symbol.equals(symbol)) {
                 return type;
             }
         }
         throw new IllegalArgumentException("Unknown relation symbol: " + symbol);
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 }
