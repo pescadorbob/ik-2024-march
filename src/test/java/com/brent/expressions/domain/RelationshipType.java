@@ -1,6 +1,7 @@
 package com.brent.expressions.domain;
 
 public enum RelationshipType {
+    NOT_EQUAL_TO("!="),
     EQUAL_TO("=="),
     LESS_THAN("<"),
     LESS_THAN_OR_EQUAL("<="),
