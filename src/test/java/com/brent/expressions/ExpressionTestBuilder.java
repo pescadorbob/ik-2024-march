@@ -2,9 +2,7 @@ package com.brent.expressions;
 
 import com.brent.expressions.domain.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -53,14 +51,14 @@ public class ExpressionTestBuilder {
             return;
         }
         int nextIndex = addNextOperand(tokenizedExpression, tokens, operators);
-        int operatorLength = addNextOperatorIfExists(tokenizedExpression.substring(nextIndex), tokens);
-        textToTokens(tokenizedExpression.substring(nextIndex + operatorLength ),tokens,operators);
+        int operatorLength = addNextOperatorIfExists(tokenizedExpression.substring(nextIndex), tokens, operators);
+        textToTokens(tokenizedExpression.substring(nextIndex + operatorLength), tokens, operators);
     }
 
     private int addNextOperand(String tokenizedExpression, ArrayList<String> tokens, List<String> operators) {
         var nextOperatorIndex = nextOperatorIndex(tokenizedExpression, operators);
-            String operand;
-        if(nextOperatorIndex<0){
+        String operand;
+        if (nextOperatorIndex < 0) {
             operand = tokenizedExpression;
         } else {
             operand = tokenizedExpression.substring(0, nextOperatorIndex);
@@ -69,19 +67,33 @@ public class ExpressionTestBuilder {
         return operand.length();
     }
 
-    private int addNextOperatorIfExists(String tokenizedExpression, ArrayList<String> tokens) {
-        if(tokenizedExpression.length()<=0) return 0;
+    private int addNextOperatorIfExists(String tokenizedExpression, ArrayList<String> tokens, List<String> operators) {
+        if (tokenizedExpression.isEmpty()) return 0;
 
-        var operator = tokenizedExpression.substring(0,1);
+        String operator = "";
+        var possibleOperators = new ArrayList<String>();
+        for(var op:operators){
+            if(tokenizedExpression.contains(op)){
+                operator = op;
+                possibleOperators.add(operator);
+            }
+        }
+        possibleOperators.sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.length()-o2.length();
+            }
+        });
 
+        operator = possibleOperators.getLast();
         tokens.add(operator);
-        return 1;
+        return operator.length();
     }
 
     private int nextOperatorIndex(String expression, List<String> operators) {
         int index = -1;
-        for(var operator:operators){
-            if(expression.contains(operator)){
+        for (var operator : operators) {
+            if (expression.contains(operator)) {
                 index = expression.indexOf(operator);
                 break;
             }
