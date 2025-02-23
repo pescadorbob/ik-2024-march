@@ -3,6 +3,7 @@ package com.brent.expressions.domain;
 public enum RelationshipType {
     LESS_THAN("<"),
     LESS_THAN_OR_EQUAL("<="),
+    GREATER_THAN_OR_EQUAL(">="),
     GREATER_THAN(">");
 
     private final String symbol;

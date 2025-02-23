@@ -22,6 +22,11 @@ public class RelationshipEvaluatorFactory {
                 Comparable<Object> leftValue = (Comparable<Object>) lhs.getValue();
                 return new ExpressionResult(leftValue.compareTo(rhs.getValue()) <= 0);
             };
+            case GREATER_THAN_OR_EQUAL -> (lhs, rhs) -> {
+                @SuppressWarnings("unchecked")
+                Comparable<Object> leftValue = (Comparable<Object>) lhs.getValue();
+                return new ExpressionResult(leftValue.compareTo(rhs.getValue()) >= 0);
+            };
         };
     }
 }
