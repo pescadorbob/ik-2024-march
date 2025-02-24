@@ -25,8 +25,8 @@ public class Expression {
         return expressionElements.getFirst();
     }
 
-    public RelationshipOperator getRelationshipOperator() {
-        return (RelationshipOperator) expressionElements.get(1);
+    public Operator getOperator() {
+        return (Operator) expressionElements.get(1);
     }
 
     public ExpressionElement getRHS() {

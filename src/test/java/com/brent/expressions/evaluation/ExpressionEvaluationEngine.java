@@ -25,11 +25,12 @@ public class ExpressionEvaluationEngine {
 
     private ExpressionResult evaluatePopulatedExpression(Expression populatedExpression) {
         var lhs = populatedExpression.getLHS();
-        var relationshipOperator = populatedExpression.getRelationshipOperator();
+        var operator = populatedExpression.getOperator();
         var rhs = populatedExpression.getRHS();
 
-        var relationshipEvaluatorFactory = new RelationshipEvaluatorFactory();
-        var relationshipEvaluator = relationshipEvaluatorFactory.create(relationshipOperator);
+        var operatorEvaluatorFactory = new OperatorEvaluatorFactoryProducer();
+        var relationshipEvaluatorFactory = OperatorEvaluatorFactoryProducer.getFactory(operator);
+        var relationshipEvaluator = relationshipEvaluatorFactory.create(operator);
 
         var lhOperand = evaluate(lhs);
         var rhOperand = evaluate(rhs);

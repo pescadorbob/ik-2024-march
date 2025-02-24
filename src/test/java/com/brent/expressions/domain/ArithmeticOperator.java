@@ -3,14 +3,10 @@ package com.brent.expressions.domain;
 
 import static com.brent.expressions.domain.ArithmeticOperatorType.fromRepresentation;
 
-public class ArithmeticOperator extends Operator {
-    ArithmeticOperatorType type;
+public class ArithmeticOperator extends Operator<ArithmeticOperatorType> {
     public ArithmeticOperator(String operatorRepresentation) {
-        type = fromRepresentation(operatorRepresentation);
+        super(fromRepresentation(operatorRepresentation));
     }
 
-    public ArithmeticOperatorType getType(){
-        return type;
-    }
 }
 

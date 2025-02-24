@@ -2,12 +2,16 @@ package com.brent.expressions.evaluation;
 
 import com.brent.expressions.domain.ExpressionResult;
 import com.brent.expressions.domain.Operand;
+import com.brent.expressions.domain.Operator;
 import com.brent.expressions.domain.RelationshipOperator;
 
-public class RelationshipEvaluatorFactory {
-    public RelationshipEvaluator create(RelationshipOperator operator) {
+public class RelationshipOperatorEvaluatorFactory implements OperatorEvaluatorFactory {
+    public OperatorEvaluator create(Operator<?> operator) {
+        if (!(operator instanceof RelationshipOperator relationshipOperator)) {
+            throw new IllegalArgumentException("Operator must be a relationship Operator");
+        }
 
-        return switch (operator.getType()) {
+        return switch (relationshipOperator.getType()) {
             case NOT_EQUAL_TO -> (lhs, rhs) -> compareOperands(lhs, rhs, comp -> comp != 0);
             case EQUAL_TO -> (lhs, rhs) -> compareOperands(lhs, rhs, comp -> comp == 0);
             case GREATER_THAN_OR_EQUAL -> (lhs, rhs) -> compareOperands(lhs, rhs, comp -> comp >= 0);

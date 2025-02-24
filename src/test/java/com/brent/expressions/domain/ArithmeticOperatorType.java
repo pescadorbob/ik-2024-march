@@ -1,7 +1,10 @@
 package com.brent.expressions.domain;
 
 public enum ArithmeticOperatorType {
-    PLUS("+");
+    ADD("+"),
+    SUBTRACT("-"),
+    MULTIPLY("*"),
+    DIVIDE("/");
 
     private final String symbol;
 
