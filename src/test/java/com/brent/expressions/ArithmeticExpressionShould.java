@@ -16,20 +16,32 @@ public class ArithmeticExpressionShould {
 
     @ParameterizedTest(name = " {0} when x={1} applied to {2}")
     @MethodSource("notEqualToTestCases")
-    void evaluate_to(Number expectedResult, String xValue,String expressionString) {
+    void evaluate_to(ExpressionResult expectedResult, String xValue,String expressionString) {
         var expression = anExpression().from(expressionString).build();
-        var expected = new ExpressionResult(expectedResult);
+
 
         var expressionEvaluationEngine = new ExpressionEvaluationEngine("x=" + xValue);
 
         var actual = expressionEvaluationEngine.evaluate(expression);
 
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expectedResult);
     }
 
     private static Stream<Arguments> notEqualToTestCases() {
         return Stream.of(
-                arguments(9, "4","x + 5")
+                arguments(num(9), "4","x + 5"),
+                arguments(num(-1), "4","x - 5"),
+                arguments(num(0), "4","x / 5"),
+                arguments(exc("Cannot divide by zero"), "4","x / 0"),
+                arguments(num(20), "4","x * 5")
         );
+    }
+
+    private static ExpressionResult exc(String error) {
+        return new ExpressionResultError(error);
+    }
+
+    private static Object num(Number number) {
+        return new ExpressionResult(number);
     }
 }
