@@ -12,14 +12,6 @@ public class ExpressionResult {
         this.numberResult = expectedResult;
     }
 
-    public boolean isBooleanResult() {
-        return booleanResult;
-    }
-
-    public Number getNumberResult() {
-        return numberResult;
-    }
-
     @Override
     public String toString() {
         if(numberResult!=null) return "" + numberResult;
