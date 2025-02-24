@@ -19,4 +19,10 @@ public class ExpressionResult {
     public Number getNumberResult() {
         return numberResult;
     }
+
+    @Override
+    public String toString() {
+        if(numberResult!=null) return "" + numberResult;
+        return "" + booleanResult;
+    }
 }
