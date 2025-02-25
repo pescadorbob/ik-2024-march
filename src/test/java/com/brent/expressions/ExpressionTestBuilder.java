@@ -4,48 +4,47 @@ import com.brent.expressions.domain.Expression;
 import com.brent.expressions.domain.ExpressionElement;
 import com.brent.expressions.parser.Parser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.brent.expressions.parser.OperandFactory.createOperand;
 
 public class ExpressionTestBuilder {
 
-    List<ExpressionElement> elements;
+    ExpressionElement lhs;
+    ExpressionElement operator;
+    ExpressionElement rhs;
 
     public static ExpressionTestBuilder anExpression() {
         return new ExpressionTestBuilder();
     }
 
     public ExpressionTestBuilder() {
-        elements = new ArrayList<>();
     }
 
     public Expression build() {
-        return new Expression(elements);
+        if(lhs == null || operator == null || rhs == null) throw new IllegalArgumentException("no arguments can be null");
+        return new Expression(lhs,operator,rhs);
     }
 
     public ExpressionTestBuilder withLHS(String lhs) {
-        var lhsOperand = createOperand(lhs);
-        elements.add(lhsOperand);
+        this.lhs = createOperand(lhs);
+
         return this;
     }
 
     public ExpressionTestBuilder withOperator(String operatorString) {
-        var operator = Parser.getOperator(operatorString);
-        elements.add(operator);
+        operator = Parser.getOperator(operatorString);
+
         return this;
     }
 
-    public ExpressionTestBuilder withRHS(String number) {
-        var rhsOperand = createOperand(number);
-        elements.add(rhsOperand);
+    public ExpressionTestBuilder withRHS(String rhs) {
+        this.rhs = createOperand(rhs);
+
         return this;
     }
 
 
     public ExpressionTestBuilder withRHS(Expression x) {
-        elements.add(x);
+        this.rhs = x;
         return this;
     }
 }

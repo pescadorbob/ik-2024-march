@@ -145,10 +145,6 @@ public class Parser {
             rhs = createOperand(rhsToken);
         }
 
-        List<ExpressionElement> elements = new ArrayList<>();
-        elements.add(lhs);
-        elements.add(operator);
-        elements.add(rhs);
-        return new Expression(elements);
+        return new Expression(lhs,operator,rhs);
     }
 }

@@ -1,40 +1,50 @@
 package com.brent.expressions.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+public class Expression implements ExpressionElement {
+    ExpressionElement lhs;
+    ExpressionElement operator;
+    ExpressionElement rhs;
 
-public class Expression implements ExpressionElement{
-    List<ExpressionElement> expressionElements;
-    public Expression(List<ExpressionElement> elements){
-        expressionElements = new ArrayList<>(elements);
+
+    public Expression(ExpressionElement lhs, ExpressionElement operator, ExpressionElement rhs) {
+        assert lhs !=null;
+        assert operator !=null;
+        assert rhs !=null;
+        this.lhs = lhs;
+        this.operator = operator;
+        this.rhs = rhs;
     }
 
     public Expression() {
-        expressionElements = new ArrayList<>();
     }
 
-    public List<ExpressionElement> elements() {
-        return expressionElements;
-    }
-
-    public void add(ExpressionElement expressionElement) {
-        expressionElements.add(expressionElement);
-    }
 
     public ExpressionElement getLHS() {
-        return expressionElements.getFirst();
+        return lhs;
     }
 
     public Operator getOperator() {
-        return (Operator) expressionElements.get(1);
+        return (Operator) operator;
     }
 
     public ExpressionElement getRHS() {
-        return expressionElements.get(2);
+        return rhs;
     }
 
     @Override
     public String toString() {
-        return "" + expressionElements ;
+        return String.format("%s %s %s",lhs,operator,rhs );
+    }
+
+    public void setLHS(ExpressionElement expressionElement) {
+        this.lhs = expressionElement;
+    }
+
+    public void setRHS(ExpressionElement expressionElement) {
+        this.rhs = expressionElement;
+    }
+
+    public void setOperator(ExpressionElement operator) {
+        this.operator = operator;
     }
 }
