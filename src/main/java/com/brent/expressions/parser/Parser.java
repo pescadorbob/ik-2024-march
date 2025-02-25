@@ -6,18 +6,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.brent.expressions.evaluation.OperatorFactory.createOperator;
 import static com.brent.expressions.parser.OperandFactory.createOperand;
-import static java.lang.Integer.parseInt;
 
 public class Parser {
-    public static Operator getOperator(String operatorToken) {
-        Operator operator;
-        if(ArithmeticOperatorType.isRepresentedBy(operatorToken)){
-            operator = new ArithmeticOperator(operatorToken);
-        } else {
-            operator = new RelationshipOperator(operatorToken);
-        }
-        return operator;
+    public static Operator<?> getOperator(String operatorToken) {
+        return createOperator(operatorToken);
     }
     public List<String> tokenize(String tokenizedExpression) {
         var operators = getAllOperators();
