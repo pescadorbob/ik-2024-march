@@ -26,6 +26,7 @@ class ParserShould {
 
     private static Stream<Arguments> testCases() {
         return Stream.of(
+                arguments(anExpression().withLHS("5").withOperator(">").withRHS("x").build(), "5 > x"),
                 arguments(anExpression().withLHS("x").withOperator(">").withRHS("5").build(), "x > 5"),
                 arguments(anExpression().withLHS("x").withOperator(">=").withRHS("5").build(), "x >= 5"),
                 arguments(anExpression().withLHS("x").withOperator("<").withRHS("5").build(), "x < 5"),

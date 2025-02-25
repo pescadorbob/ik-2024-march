@@ -5,6 +5,7 @@ import com.brent.expressions.parser.Parser;
 
 import java.util.*;
 
+import static com.brent.expressions.parser.OperandFactory.createOperand;
 import static java.lang.Integer.parseInt;
 
 public class ExpressionTestBuilder {
@@ -41,7 +42,7 @@ public class ExpressionTestBuilder {
 
 
     public ExpressionTestBuilder withLHS(String lhs) {
-        var lhsOperand = new VariableOperand(lhs);
+        var lhsOperand = createOperand(lhs);
         elements.add(lhsOperand);
         return this;
     }
@@ -53,7 +54,7 @@ public class ExpressionTestBuilder {
     }
 
     public ExpressionTestBuilder withRHS(String number) {
-        var rhsOperand = new NumericOperand<>(parseInt(number));
+        var rhsOperand = createOperand(number);
         elements.add(rhsOperand);
         return this;
     }

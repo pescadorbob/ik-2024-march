@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.brent.expressions.parser.OperandFactory.createOperand;
 import static java.lang.Integer.parseInt;
 
 public class Parser {
@@ -89,9 +90,11 @@ public class Parser {
 
         var operatorToken = tokens.get(1);
         var rhsToken = tokens.get(2);
-        var lhsOperand = new VariableOperand(lhsToken);
+
+        var lhsOperand = createOperand(lhsToken);
         var operator = Parser.getOperator(operatorToken);
-        var rhsOperand = new NumericOperand<>(parseInt(rhsToken));
+        var rhsOperand = createOperand(rhsToken);
+
         List<ExpressionElement> elements = new ArrayList<>();
         elements.add(lhsOperand);
         elements.add(operator);
