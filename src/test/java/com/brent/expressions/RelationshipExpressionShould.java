@@ -33,6 +33,7 @@ public class RelationshipExpressionShould {
                 arguments(true, "4","(5+5) > x"),
                 arguments(true, "4","(5+5) > (x*2)"),
                 arguments(true, "4","(5+5) < (x*3)"),
+                arguments(true, "4","(5+(5-5)) < (x*3)"),
                 arguments(true, "4","5 > x"),
                 arguments(false, "4","x > 5"),
                 arguments(false, "5","x > 5"),
