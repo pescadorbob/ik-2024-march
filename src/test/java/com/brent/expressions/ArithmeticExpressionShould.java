@@ -33,6 +33,7 @@ public class ArithmeticExpressionShould {
         return Stream.of(
                 arguments(num(14), "4","5 + (5 + x)"),
                 arguments(num(19), "4","(5 + 5) + (5 + x)"),
+                arguments(num(90), "4","(5 + 5) * (5 + x)"),
                 arguments(num(9), "4","5 + x"),
                 arguments(num(9), "4","x + 5"),
                 arguments(num(-1), "4","x - 5"),

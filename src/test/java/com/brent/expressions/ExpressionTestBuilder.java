@@ -25,23 +25,6 @@ public class ExpressionTestBuilder {
         return new Expression(elements);
     }
 
-    public ExpressionTestBuilder from(String tokenizedExpression) {
-        var parser = new Parser();
-        var tokens = parser.tokenize(tokenizedExpression);
-        var lhsToken = tokens.getFirst();
-
-        var operatorToken = tokens.get(1);
-        var rhsToken = tokens.get(2);
-        var lhsOperand = createOperand(lhsToken);
-        var operator = Parser.getOperator(operatorToken);
-        var rhsOperand = createOperand(rhsToken);
-        elements.add(lhsOperand);
-        elements.add(operator);
-        elements.add(rhsOperand);
-        return this;
-    }
-
-
     public ExpressionTestBuilder withLHS(String lhs) {
         var lhsOperand = createOperand(lhs);
         elements.add(lhsOperand);
