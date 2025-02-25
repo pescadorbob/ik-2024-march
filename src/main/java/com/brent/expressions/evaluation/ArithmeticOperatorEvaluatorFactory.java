@@ -1,10 +1,7 @@
 package com.brent.expressions.evaluation;
 
 import com.brent.expressions.ExpressionResultError;
-import com.brent.expressions.domain.ArithmeticOperator;
-import com.brent.expressions.domain.ExpressionResult;
-import com.brent.expressions.domain.Operand;
-import com.brent.expressions.domain.Operator;
+import com.brent.expressions.domain.*;
 
 public class ArithmeticOperatorEvaluatorFactory implements OperatorEvaluatorFactory {
     @Override
