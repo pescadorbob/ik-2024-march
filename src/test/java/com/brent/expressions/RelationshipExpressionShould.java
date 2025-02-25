@@ -29,6 +29,7 @@ public class RelationshipExpressionShould {
 
     private static Stream<Arguments> notEqualToTestCases() {
         return Stream.of(
+                arguments(true, "4","5 > x"),
                 arguments(false, "4","x > 5"),
                 arguments(false, "5","x > 5"),
                 arguments(true, "6","x > 5"),
