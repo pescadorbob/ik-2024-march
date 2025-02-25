@@ -2,6 +2,7 @@ package com.brent.expressions;
 
 import com.brent.expressions.domain.*;
 import com.brent.expressions.parser.Parser;
+import com.brent.ik.dp.poker.PokerSetTestBuilder;
 
 import java.util.*;
 
@@ -19,7 +20,7 @@ public class ExpressionTestBuilder {
         elements = new ArrayList<>();
     }
 
-    Expression build() {
+    public Expression build() {
         return new Expression(elements);
     }
 
@@ -40,4 +41,21 @@ public class ExpressionTestBuilder {
     }
 
 
+    public ExpressionTestBuilder withLHS(String lhs) {
+        var lhsOperand = new VariableOperand(lhs);
+        elements.add(lhsOperand);
+        return this;
+    }
+
+    public ExpressionTestBuilder withOperator(String operatorString) {
+        var operator = Parser.getOperator(operatorString);
+        elements.add(operator);
+        return this;
+    }
+
+    public ExpressionTestBuilder withRHS(String number) {
+        var rhsOperand = new NumericOperand<>(parseInt(number));
+        elements.add(rhsOperand);
+        return this;
+    }
 }

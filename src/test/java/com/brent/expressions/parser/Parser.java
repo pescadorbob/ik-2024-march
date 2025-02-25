@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 public class Parser {
     public static Operator getOperator(String operatorToken) {
         Operator operator;
@@ -80,4 +82,20 @@ public class Parser {
         return index;
     }
 
+    public Expression parseExpression(String expression) {
+        var parser = new Parser();
+        var tokens = parser.tokenize(expression);
+        var lhsToken = tokens.getFirst();
+
+        var operatorToken = tokens.get(1);
+        var rhsToken = tokens.get(2);
+        var lhsOperand = new VariableOperand(lhsToken);
+        var operator = Parser.getOperator(operatorToken);
+        var rhsOperand = new NumericOperand<>(parseInt(rhsToken));
+        List<ExpressionElement> elements = new ArrayList<>();
+        elements.add(lhsOperand);
+        elements.add(operator);
+        elements.add(rhsOperand);
+        return new Expression(elements);
+    }
 }
