@@ -2,6 +2,7 @@ package com.brent.expressions;
 
 import com.brent.expressions.domain.ExpressionResult;
 import com.brent.expressions.evaluation.ExpressionEvaluationEngine;
+import com.brent.expressions.parser.Parser;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -17,7 +18,8 @@ public class ArithmeticExpressionShould {
     @ParameterizedTest(name = " {0} when x={1} applied to {2}")
     @MethodSource("testCases")
     void evaluate_to(ExpressionResult expectedResult, String xValue,String expressionString) {
-        var expression = anExpression().from(expressionString).build();
+        var parser = new Parser();
+        var expression = parser.parseExpression(expressionString);
 
 
         var expressionEvaluationEngine = new ExpressionEvaluationEngine("x=" + xValue);
@@ -29,6 +31,8 @@ public class ArithmeticExpressionShould {
 
     private static Stream<Arguments> testCases() {
         return Stream.of(
+                arguments(num(14), "4","5 + (5 + x)"),
+                arguments(num(19), "4","(5 + 5) + (5 + x)"),
                 arguments(num(9), "4","5 + x"),
                 arguments(num(9), "4","x + 5"),
                 arguments(num(-1), "4","x - 5"),

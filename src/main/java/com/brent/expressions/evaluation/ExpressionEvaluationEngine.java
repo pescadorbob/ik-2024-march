@@ -2,6 +2,8 @@ package com.brent.expressions.evaluation;
 
 import com.brent.expressions.domain.*;
 
+import javax.swing.text.Element;
+
 public class ExpressionEvaluationEngine {
     private final ExpressionContext expressionContext;
 
@@ -28,20 +30,26 @@ public class ExpressionEvaluationEngine {
         var operator = populatedExpression.getOperator();
         var rhs = populatedExpression.getRHS();
 
-        var operatorEvaluatorFactory = new OperatorEvaluatorFactoryProducer();
-        var relationshipEvaluatorFactory = OperatorEvaluatorFactoryProducer.getFactory(operator);
-        var relationshipEvaluator = relationshipEvaluatorFactory.create(operator);
+        var operatorEvaluatorFactory = OperatorEvaluatorFactoryProducer.getFactory(operator);
+        var operatorEvaluator = operatorEvaluatorFactory.create(operator);
 
         var lhOperand = evaluate(lhs);
         var rhOperand = evaluate(rhs);
-        return relationshipEvaluator.evaluate(lhOperand, rhOperand);
+        return operatorEvaluator.evaluate(lhOperand, rhOperand);
     }
 
     private Operand<?> evaluate(ExpressionElement element) {
         if (element instanceof Operand<?> operand) {
             return operand;
+        } else if (element instanceof Expression expression){
+            ExpressionResult result = evaluatePopulatedExpression(expression);
+            if(result.getResultType() == ResultType.BOOLEAN){
+                throw new IllegalStateException("The expression evaluation doesn't support boolean operands");
+            } else {
+                return new NumericOperand(result.getNumberResult());
+            }
         }
-        throw new IllegalStateException("The expression evaluation only supports operands right now");
+        throw new IllegalArgumentException(String.format("The expression evaluation %s isn't supported", element));
     }
 
     private Expression populateExpression(Expression expression, ExpressionContext expressionContext) {
@@ -55,6 +63,8 @@ public class ExpressionEvaluationEngine {
     private ExpressionElement assignVariable(ExpressionElement ele,ExpressionContext context) {
         if(ele instanceof VariableOperand var){
             return var.assignVariable(context);
+        } else if(ele instanceof Expression expression){
+            return populateExpression(expression,context);
         }
         return ele;
     }
