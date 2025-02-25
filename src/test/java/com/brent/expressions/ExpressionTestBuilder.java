@@ -31,9 +31,9 @@ public class ExpressionTestBuilder {
 
         var operatorToken = tokens.get(1);
         var rhsToken = tokens.get(2);
-        var lhsOperand = new VariableOperand(lhsToken);
+        var lhsOperand = createOperand(lhsToken);
         var operator = Parser.getOperator(operatorToken);
-        var rhsOperand = new NumericOperand<>(parseInt(rhsToken));
+        var rhsOperand = createOperand(rhsToken);
         elements.add(lhsOperand);
         elements.add(operator);
         elements.add(rhsOperand);
