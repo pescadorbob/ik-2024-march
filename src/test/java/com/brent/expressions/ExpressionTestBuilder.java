@@ -1,12 +1,13 @@
 package com.brent.expressions;
 
-import com.brent.expressions.domain.*;
+import com.brent.expressions.domain.Expression;
+import com.brent.expressions.domain.ExpressionElement;
 import com.brent.expressions.parser.Parser;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.brent.expressions.parser.OperandFactory.createOperand;
-import static java.lang.Integer.parseInt;
 
 public class ExpressionTestBuilder {
 
@@ -56,6 +57,12 @@ public class ExpressionTestBuilder {
     public ExpressionTestBuilder withRHS(String number) {
         var rhsOperand = createOperand(number);
         elements.add(rhsOperand);
+        return this;
+    }
+
+
+    public ExpressionTestBuilder withRHS(Expression x) {
+        elements.add(x);
         return this;
     }
 }

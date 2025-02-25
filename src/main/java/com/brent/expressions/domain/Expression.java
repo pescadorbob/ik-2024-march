@@ -3,7 +3,7 @@ package com.brent.expressions.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Expression {
+public class Expression implements ExpressionElement{
     List<ExpressionElement> expressionElements;
     public Expression(List<ExpressionElement> elements){
         expressionElements = new ArrayList<>(elements);
