@@ -29,6 +29,7 @@ public class ArithmeticExpressionShould {
 
     private static Stream<Arguments> testCases() {
         return Stream.of(
+                arguments(num(9), "4","5 + x"),
                 arguments(num(9), "4","x + 5"),
                 arguments(num(-1), "4","x - 5"),
                 arguments(num(0), "4","x / 5"),
