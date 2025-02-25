@@ -131,12 +131,6 @@ public class Parser {
             lhs = createOperand(lhsToken);
         }
 
-        if (tokens.size() == 1) {
-            List<ExpressionElement> elements = new ArrayList<>();
-            elements.add(lhs);
-            return new Expression(elements);
-        }
-
         var operatorToken = tokens.get(1);
         var rhsToken = tokens.get(2);
 
