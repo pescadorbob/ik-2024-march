@@ -14,4 +14,9 @@ public abstract class Operand<T extends Comparable<T>> implements ExpressionElem
     public int compareTo(Operand<T> other) {
         return value.compareTo(other.value);
     }
+
+    @Override
+    public String toString() {
+        return "" + value ;
+    }
 }

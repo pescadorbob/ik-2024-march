@@ -32,4 +32,9 @@ public class Expression {
     public ExpressionElement getRHS() {
         return expressionElements.get(2);
     }
+
+    @Override
+    public String toString() {
+        return "" + expressionElements ;
+    }
 }

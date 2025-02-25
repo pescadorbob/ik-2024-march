@@ -10,4 +10,8 @@ public class Operator<T extends Enum<T>> implements ExpressionElement {
     public T getType(){
         return type;
     }
+    @Override
+    public String toString() {
+        return "" + type ;
+    }
 }

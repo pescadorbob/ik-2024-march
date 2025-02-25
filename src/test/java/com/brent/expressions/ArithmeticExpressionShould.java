@@ -15,7 +15,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 public class ArithmeticExpressionShould {
 
     @ParameterizedTest(name = " {0} when x={1} applied to {2}")
-    @MethodSource("notEqualToTestCases")
+    @MethodSource("testCases")
     void evaluate_to(ExpressionResult expectedResult, String xValue,String expressionString) {
         var expression = anExpression().from(expressionString).build();
 
@@ -27,7 +27,7 @@ public class ArithmeticExpressionShould {
         assertThat(actual).usingRecursiveComparison().isEqualTo(expectedResult);
     }
 
-    private static Stream<Arguments> notEqualToTestCases() {
+    private static Stream<Arguments> testCases() {
         return Stream.of(
                 arguments(num(9), "4","x + 5"),
                 arguments(num(-1), "4","x - 5"),
