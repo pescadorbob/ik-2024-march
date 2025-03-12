@@ -1,16 +1,16 @@
 package com.brent.expressions;
 
 import com.brent.expressions.domain.BinomialExpression;
-import com.brent.expressions.domain.ExpressionElement;
+import com.brent.expressions.domain.Expression;
 import com.brent.expressions.parser.Parser;
 
 import static com.brent.expressions.parser.OperandFactory.createOperand;
 
 public class ExpressionTestBuilder {
 
-    ExpressionElement lhs;
-    ExpressionElement operator;
-    ExpressionElement rhs;
+    Expression lhs;
+    Expression operator;
+    Expression rhs;
 
     public static ExpressionTestBuilder anExpression() {
         return new ExpressionTestBuilder();

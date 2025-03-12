@@ -6,7 +6,7 @@ public class VariableOperand extends Operand<String> {
         super(value);
     }
 
-    public ExpressionElement assignVariable(ExpressionContext context) {
+    public Expression assignVariable(ExpressionContext context) {
         return context.get(getValue());
     }
 

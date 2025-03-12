@@ -121,7 +121,7 @@ public class Parser {
         }
 
         var lhsToken = tokens.getFirst();
-        ExpressionElement lhs;
+        Expression lhs;
 
         // Handle parenthesized expression in LHS
         if (lhsToken.startsWith("(")) {
@@ -136,7 +136,7 @@ public class Parser {
 
         var operator = getOperator(operatorToken);
 
-        ExpressionElement rhs;
+        Expression rhs;
         // Handle parenthesized expression in RHS
         if (rhsToken.startsWith("(")) {
             String innerExpr = rhsToken.substring(1, rhsToken.length() - 1);

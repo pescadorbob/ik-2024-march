@@ -36,7 +36,7 @@ public class ExpressionEvaluationEngine {
         return operatorEvaluator.evaluate(lhOperand, rhOperand);
     }
 
-    private Operand<?> evaluate(ExpressionElement element) {
+    private Operand<?> evaluate(Expression element) {
         if (element instanceof Operand<?> operand) {
             return operand;
         } else if (element instanceof BinomialExpression binomialExpression) {
@@ -60,7 +60,7 @@ public class ExpressionEvaluationEngine {
         return populatedExpression;
     }
 
-    private ExpressionElement assignVariable(ExpressionElement ele, ExpressionContext context) {
+    private Expression assignVariable(Expression ele, ExpressionContext context) {
         if (ele instanceof VariableOperand var) {
             return var.assignVariable(context);
         } else if (ele instanceof BinomialExpression binomialExpression) {

@@ -1,12 +1,12 @@
 package com.brent.expressions.domain;
 
-public class BinomialExpression implements ExpressionElement {
-    ExpressionElement lhs;
-    ExpressionElement operator;
-    ExpressionElement rhs;
+public class BinomialExpression implements Expression {
+    Expression lhs;
+    Expression operator;
+    Expression rhs;
 
 
-    public BinomialExpression(ExpressionElement lhs, ExpressionElement operator, ExpressionElement rhs) {
+    public BinomialExpression(Expression lhs, Expression operator, Expression rhs) {
         assert lhs !=null;
         assert operator !=null;
         assert rhs !=null;
@@ -19,7 +19,7 @@ public class BinomialExpression implements ExpressionElement {
     }
 
 
-    public ExpressionElement getLHS() {
+    public Expression getLHS() {
         return lhs;
     }
 
@@ -27,7 +27,7 @@ public class BinomialExpression implements ExpressionElement {
         return (Operator) operator;
     }
 
-    public ExpressionElement getRHS() {
+    public Expression getRHS() {
         return rhs;
     }
 
@@ -36,15 +36,15 @@ public class BinomialExpression implements ExpressionElement {
         return String.format("%s %s %s",lhs,operator,rhs );
     }
 
-    public void setLHS(ExpressionElement expressionElement) {
-        this.lhs = expressionElement;
+    public void setLHS(Expression expression) {
+        this.lhs = expression;
     }
 
-    public void setRHS(ExpressionElement expressionElement) {
-        this.rhs = expressionElement;
+    public void setRHS(Expression expression) {
+        this.rhs = expression;
     }
 
-    public void setOperator(ExpressionElement operator) {
+    public void setOperator(Expression operator) {
         this.operator = operator;
     }
 }

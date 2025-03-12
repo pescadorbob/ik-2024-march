@@ -1,6 +1,6 @@
 package com.brent.expressions.domain;
 
-public abstract class Operand<T extends Comparable<T>> implements ExpressionElement, Comparable<Operand<T>> {
+public abstract class Operand<T extends Comparable<T>> implements Expression, Comparable<Operand<T>> {
     private final T value;
 
     public Operand(T value){
