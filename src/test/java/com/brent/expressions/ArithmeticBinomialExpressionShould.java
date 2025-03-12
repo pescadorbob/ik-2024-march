@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static com.brent.expressions.ExpressionTestBuilder.anExpression;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -38,13 +37,13 @@ public class ArithmeticBinomialExpressionShould {
                 arguments(num(9), "4","x + 5"),
                 arguments(num(-1), "4","x - 5"),
                 arguments(num(0), "4","x / 5"),
-                arguments(exc("Cannot divide by zero"), "4","x / 0"),
+                arguments(error(), "4","x / 0"),
                 arguments(num(20), "4","x * 5")
         );
     }
 
-    private static ExpressionResult<?> exc(String error) {
-        return new ExpressionResultError(error);
+    private static ExpressionResult<?> error() {
+        return new ExpressionResultError("Cannot divide by zero");
     }
 
     private static <T extends Number & Comparable<T>> ExpressionResult<T> num(T number) {
