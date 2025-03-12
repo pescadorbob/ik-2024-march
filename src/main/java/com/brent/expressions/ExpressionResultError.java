@@ -2,10 +2,10 @@ package com.brent.expressions;
 
 import com.brent.expressions.domain.ExpressionResult;
 
-public class ExpressionResultError extends ExpressionResult {
+public class ExpressionResultError<T extends Comparable<T>> extends ExpressionResult<T> {
     String error;
     public ExpressionResultError(String error) {
-        super(0);
+        super(null);
         this.error = error;
     }
 
