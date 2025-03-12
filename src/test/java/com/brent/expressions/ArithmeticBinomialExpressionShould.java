@@ -47,11 +47,7 @@ public class ArithmeticBinomialExpressionShould {
         return new ExpressionResultError(error);
     }
 
-    //Helper for Number that is Comparable
     private static <T extends Number & Comparable<T>> ExpressionResult<T> num(T number) {
         return new ExpressionResult<>(number);
     }
-//    private static Object num(Number number) {
-//        return new ExpressionResult(number);
-//    }
 }

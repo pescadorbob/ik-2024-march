@@ -304,8 +304,6 @@ class Trie {
             isLeaf = true;
         }
 
-        ;
-
         public void incrementEndCount() {
             endCount++;
         }

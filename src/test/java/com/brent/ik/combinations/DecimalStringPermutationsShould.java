@@ -37,7 +37,7 @@ public class DecimalStringPermutationsShould {
         var partialSolutions = new ArrayList<String>();
         prevSolutions.forEach(prev->{
             IntStream.range(0,10).forEach(i->{
-                partialSolutions.add(prev + Integer.toString(i));
+                partialSolutions.add(prev + i);
             });
         });
         return partialSolutions;

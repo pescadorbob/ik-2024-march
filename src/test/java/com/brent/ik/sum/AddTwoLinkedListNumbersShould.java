@@ -95,7 +95,7 @@ public class AddTwoLinkedListNumbersShould {
         public String toString() {
             var rep = "" + val;
             if (next != null) {
-                rep += "->" + next.toString();
+                rep += "->" + next;
             }
             return rep;
         }
