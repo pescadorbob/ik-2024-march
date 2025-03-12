@@ -2,6 +2,7 @@ package com.brent.expressions;
 
 import com.brent.expressions.domain.BinomialExpression;
 import com.brent.expressions.domain.Expression;
+import com.brent.expressions.domain.Operator;
 import com.brent.expressions.parser.Parser;
 
 import static com.brent.expressions.parser.OperandFactory.createOperand;
@@ -9,7 +10,7 @@ import static com.brent.expressions.parser.OperandFactory.createOperand;
 public class ExpressionTestBuilder {
 
     Expression lhs;
-    Expression operator;
+    Operator<?> operator;
     Expression rhs;
 
     public static ExpressionTestBuilder anExpression() {

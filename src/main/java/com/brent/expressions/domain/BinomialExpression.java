@@ -2,11 +2,11 @@ package com.brent.expressions.domain;
 
 public class BinomialExpression implements Expression {
     Expression lhs;
-    Expression operator;
+    Operator<?> operator;
     Expression rhs;
 
 
-    public BinomialExpression(Expression lhs, Expression operator, Expression rhs) {
+    public BinomialExpression(Expression lhs, Operator<?> operator, Expression rhs) {
         assert lhs !=null;
         assert operator !=null;
         assert rhs !=null;
@@ -23,8 +23,8 @@ public class BinomialExpression implements Expression {
         return lhs;
     }
 
-    public Operator getOperator() {
-        return (Operator) operator;
+    public Operator<?> getOperator() {
+        return  operator;
     }
 
     public Expression getRHS() {
@@ -44,7 +44,7 @@ public class BinomialExpression implements Expression {
         this.rhs = expression;
     }
 
-    public void setOperator(Expression operator) {
+    public void setOperator(Operator<?> operator) {
         this.operator = operator;
     }
 }
