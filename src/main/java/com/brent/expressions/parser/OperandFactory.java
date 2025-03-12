@@ -11,12 +11,12 @@ import static java.lang.Integer.parseInt;
 public class OperandFactory {
     public static Operand<?> createOperand(String representation){
         char firstLetter = representation.charAt(0);
-        Operand operand;
+        Operand<?> operand;
         if(isDigit(firstLetter)){
             if(representation.contains(".")){
-                operand = new NumericOperand(parseDouble(representation));
+                operand = new NumericOperand<>(parseDouble(representation));
             } else {
-                operand = new NumericOperand(parseInt(representation));
+                operand = new NumericOperand<>(parseInt(representation));
             }
         } else {
             operand = new VariableOperand(representation);
