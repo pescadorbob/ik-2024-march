@@ -19,13 +19,13 @@ public class ExpressionEvaluationEngine {
         return expressionContext;
     }
 
-    public ExpressionResult evaluate(BinomialExpression binomialExpression) {
+    public ExpressionResult<?> evaluate(BinomialExpression binomialExpression) {
         var populatedExpression = populateExpression(binomialExpression, expressionContext);
         return evaluate(populatedExpression);
     }
 
 
-    private ExpressionResult evaluate(Expression element) {
+    private ExpressionResult<?> evaluate(Expression element) {
         var evaluator = evaluationRegistry.getEvaluator(element);
         return evaluator.evaluate(element);
 
