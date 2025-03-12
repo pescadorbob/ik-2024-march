@@ -2,22 +2,22 @@ package com.brent.expressions.evaluation;
 
 import com.brent.expressions.domain.*;
 
-public class BinomialExpressionEvaluator implements Evaluator {
-    private final EvaluationRegistry registry;
+public class BinomialExpressionEvaluator<T extends Comparable<T>> implements Evaluator<T> {
+    private final EvaluationRegistry<T> registry;
 
-    public BinomialExpressionEvaluator(EvaluationRegistry registry) {
+    public BinomialExpressionEvaluator(EvaluationRegistry<T> registry) {
         this.registry = registry;
     }
 
     @Override
-    public ExpressionResult<?> evaluate(Expression element) {
+    public ExpressionResult<T> evaluate(Expression element) {
         if (element instanceof BinomialExpression binomialExpression) {
             return  evaluatePopulatedExpression(binomialExpression);
         }
         throw new IllegalArgumentException(String.format("The expression evaluation %s isn't supported", element));
 
     }
-    private ExpressionResult<?> evaluatePopulatedExpression(BinomialExpression populatedBinomialExpression) {
+    private ExpressionResult<T> evaluatePopulatedExpression(BinomialExpression populatedBinomialExpression) {
         var lhs = populatedBinomialExpression.getLHS();
         var operator = populatedBinomialExpression.getOperator();
         var rhs = populatedBinomialExpression.getRHS();
@@ -25,12 +25,15 @@ public class BinomialExpressionEvaluator implements Evaluator {
         var operatorEvaluatorFactory = OperatorEvaluatorFactoryProducer.getFactory(operator);
         var operatorEvaluator = operatorEvaluatorFactory.create(operator);
 
-        var lhEvaluator = registry.getEvaluator(lhs);
-        var rhEvaluator = registry.getEvaluator(rhs);
-        var lhResult = lhEvaluator.evaluate(lhs);
-        var rhResult = rhEvaluator.evaluate(rhs);
+        Evaluator<T> lhEvaluator = registry.getEvaluator(lhs);
+        Evaluator<T> rhEvaluator = registry.getEvaluator(rhs);
 
-        return operatorEvaluator.evaluate(lhResult,rhResult);
+        ExpressionResult<T> lhResult = lhEvaluator.evaluate(lhs);
+        ExpressionResult<T> rhResult =  rhEvaluator.evaluate(rhs);
+
+        @SuppressWarnings("unchecked")
+        ExpressionResult<T> result = (ExpressionResult<T>) operatorEvaluator.evaluate(lhResult,rhResult);
+        return result;
     }
 
 }

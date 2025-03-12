@@ -4,9 +4,9 @@ import com.brent.expressions.domain.Expression;
 import com.brent.expressions.domain.ExpressionResult;
 import com.brent.expressions.domain.Operand;
 
-public class OperandEvaluator implements Evaluator {
+public class OperandEvaluator<T extends Comparable<T>> implements Evaluator<T> {
     @Override
-    public <T extends Comparable<T>> ExpressionResult<T> evaluate(Expression element) {
+    public ExpressionResult<T> evaluate(Expression element) {
         if(element instanceof Operand<?> operand){
             @SuppressWarnings("unchecked")
             Operand<T> typedOperand = (Operand<T>) operand;
