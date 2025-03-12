@@ -1,6 +1,6 @@
 package com.brent.expressions;
 
-import com.brent.expressions.domain.Expression;
+import com.brent.expressions.domain.BinomialExpression;
 import com.brent.expressions.domain.ExpressionElement;
 import com.brent.expressions.parser.Parser;
 
@@ -19,9 +19,9 @@ public class ExpressionTestBuilder {
     public ExpressionTestBuilder() {
     }
 
-    public Expression build() {
+    public BinomialExpression build() {
         if(lhs == null || operator == null || rhs == null) throw new IllegalArgumentException("no arguments can be null");
-        return new Expression(lhs,operator,rhs);
+        return new BinomialExpression(lhs,operator,rhs);
     }
 
     public ExpressionTestBuilder withLHS(String lhs) {
@@ -43,7 +43,7 @@ public class ExpressionTestBuilder {
     }
 
 
-    public ExpressionTestBuilder withRHS(Expression x) {
+    public ExpressionTestBuilder withRHS(BinomialExpression x) {
         this.rhs = x;
         return this;
     }

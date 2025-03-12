@@ -13,7 +13,7 @@ import static com.brent.expressions.ExpressionTestBuilder.anExpression;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class ArithmeticExpressionShould {
+public class ArithmeticBinomialExpressionShould {
 
     @ParameterizedTest(name = " {0} when x={1} applied to {2}")
     @MethodSource("testCases")

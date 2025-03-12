@@ -1,12 +1,12 @@
 package com.brent.expressions.domain;
 
-public class Expression implements ExpressionElement {
+public class BinomialExpression implements ExpressionElement {
     ExpressionElement lhs;
     ExpressionElement operator;
     ExpressionElement rhs;
 
 
-    public Expression(ExpressionElement lhs, ExpressionElement operator, ExpressionElement rhs) {
+    public BinomialExpression(ExpressionElement lhs, ExpressionElement operator, ExpressionElement rhs) {
         assert lhs !=null;
         assert operator !=null;
         assert rhs !=null;
@@ -15,7 +15,7 @@ public class Expression implements ExpressionElement {
         this.rhs = rhs;
     }
 
-    public Expression() {
+    public BinomialExpression() {
     }
 
 

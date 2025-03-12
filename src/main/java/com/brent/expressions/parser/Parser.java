@@ -110,12 +110,12 @@ public class Parser {
         return earliest == expression.length() ? -1 : earliest;
     }
 
-    public Expression parseExpression(String expression) {
+    public BinomialExpression parseExpression(String expression) {
         var tokens = tokenize(expression);
         return buildExpression(tokens);
     }
 
-    private Expression buildExpression(List<String> tokens) {
+    private BinomialExpression buildExpression(List<String> tokens) {
         if (tokens.isEmpty()) {
             throw new IllegalArgumentException("Empty expression");
         }
@@ -145,6 +145,6 @@ public class Parser {
             rhs = createOperand(rhsToken);
         }
 
-        return new Expression(lhs,operator,rhs);
+        return new BinomialExpression(lhs,operator,rhs);
     }
 }

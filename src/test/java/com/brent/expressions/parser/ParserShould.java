@@ -1,6 +1,6 @@
 package com.brent.expressions.parser;
 
-import com.brent.expressions.domain.Expression;
+import com.brent.expressions.domain.BinomialExpression;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,12 +16,12 @@ class ParserShould {
 
     @ParameterizedTest(name = " {0} with given input {1}")
     @MethodSource("testCases")
-    void evaluate_to(Expression expectedExpression, String expressionString) {
+    void evaluate_to(BinomialExpression expectedBinomialExpression, String expressionString) {
         var parser = new Parser();
 
         var actualExpression = parser.parseExpression(expressionString);
 
-        Assertions.assertThat(actualExpression).usingRecursiveComparison().isEqualTo(expectedExpression);
+        Assertions.assertThat(actualExpression).usingRecursiveComparison().isEqualTo(expectedBinomialExpression);
     }
 
     private static Stream<Arguments> testCases() {
