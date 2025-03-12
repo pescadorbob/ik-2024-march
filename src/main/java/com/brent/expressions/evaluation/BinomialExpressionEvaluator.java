@@ -10,14 +10,14 @@ public class BinomialExpressionEvaluator implements Evaluator {
     }
 
     @Override
-    public ExpressionResult evaluate(Expression element) {
+    public ExpressionResult<?> evaluate(Expression element) {
         if (element instanceof BinomialExpression binomialExpression) {
             return  evaluatePopulatedExpression(binomialExpression);
         }
         throw new IllegalArgumentException(String.format("The expression evaluation %s isn't supported", element));
 
     }
-    private ExpressionResult evaluatePopulatedExpression(BinomialExpression populatedBinomialExpression) {
+    private ExpressionResult<?> evaluatePopulatedExpression(BinomialExpression populatedBinomialExpression) {
         var lhs = populatedBinomialExpression.getLHS();
         var operator = populatedBinomialExpression.getOperator();
         var rhs = populatedBinomialExpression.getRHS();
