@@ -4,9 +4,10 @@ import com.brent.expressions.domain.*;
 
 public class ExpressionEvaluationEngine {
     private final ExpressionContext expressionContext;
-
+    private final EvaluationRegistry evaluationRegistry;
     public ExpressionEvaluationEngine(String context) {
         expressionContext = parseContext(context);
+        evaluationRegistry = EvaluationRegistryFactory.createRegistry();
     }
 
     private static ExpressionContext parseContext(String context) {
@@ -20,37 +21,17 @@ public class ExpressionEvaluationEngine {
 
     public ExpressionResult evaluate(BinomialExpression binomialExpression) {
         var populatedExpression = populateExpression(binomialExpression, expressionContext);
-        return evaluatePopulatedExpression(populatedExpression);
+        return evaluate(populatedExpression);
     }
 
-    private ExpressionResult evaluatePopulatedExpression(BinomialExpression populatedBinomialExpression) {
-        var lhs = populatedBinomialExpression.getLHS();
-        var operator = populatedBinomialExpression.getOperator();
-        var rhs = populatedBinomialExpression.getRHS();
 
-        var operatorEvaluatorFactory = OperatorEvaluatorFactoryProducer.getFactory(operator);
-        var operatorEvaluator = operatorEvaluatorFactory.create(operator);
+    private ExpressionResult evaluate(Expression element) {
+        var evaluator = evaluationRegistry.getEvaluator(element);
+        return evaluator.evaluate(element);
 
-        var lhOperand = evaluate(lhs);
-        var rhOperand = evaluate(rhs);
-        return operatorEvaluator.evaluate(lhOperand, rhOperand);
     }
 
-    private Operand<?> evaluate(Expression element) {
-        if (element instanceof Operand<?> operand) {
-            return operand;
-        } else if (element instanceof BinomialExpression binomialExpression) {
-            ExpressionResult result = evaluatePopulatedExpression(binomialExpression);
-            if (result.getResultType() == ResultType.BOOLEAN) {
-                throw new IllegalStateException("The expression evaluation doesn't support boolean operands");
-            } else {
-                return new NumericOperand(result.getNumberResult());
-            }
-        }
-        throw new IllegalArgumentException(String.format("The expression evaluation %s isn't supported", element));
-    }
-
-    private BinomialExpression populateExpression(BinomialExpression binomialExpression, ExpressionContext expressionContext) {
+    private Expression populateExpression(BinomialExpression binomialExpression, ExpressionContext expressionContext) {
         var populatedExpression = new BinomialExpression();
 
         populatedExpression.setLHS(assignVariable(binomialExpression.getLHS(), expressionContext));

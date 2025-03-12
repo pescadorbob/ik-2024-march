@@ -17,7 +17,7 @@ public class ArithmeticBinomialExpressionShould {
 
     @ParameterizedTest(name = " {0} when x={1} applied to {2}")
     @MethodSource("testCases")
-    void evaluate_to(ExpressionResult expectedResult, String xValue,String expressionString) {
+    void evaluate_to(ExpressionResult<?> expectedResult, String xValue,String expressionString) {
         var parser = new Parser();
         var expression = parser.parseExpression(expressionString);
 
@@ -43,11 +43,15 @@ public class ArithmeticBinomialExpressionShould {
         );
     }
 
-    private static ExpressionResult exc(String error) {
+    private static ExpressionResult<?> exc(String error) {
         return new ExpressionResultError(error);
     }
 
-    private static Object num(Number number) {
-        return new ExpressionResult(number);
+    //Helper for Number that is Comparable
+    private static <T extends Number & Comparable<T>> ExpressionResult<T> num(T number) {
+        return new ExpressionResult<>(number);
     }
+//    private static Object num(Number number) {
+//        return new ExpressionResult(number);
+//    }
 }
