@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.HashSet;
 import java.util.stream.Stream;
 
-import static java.lang.Math.max;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LongestSubstringWithoutRepeatingCharactersShould {

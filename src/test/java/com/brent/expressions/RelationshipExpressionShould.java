@@ -19,7 +19,7 @@ public class RelationshipExpressionShould {
     void evaluate_to(boolean expectedResult, String xValue,String expressionString) {
         var parser = new Parser();
         var expression = parser.parseExpression(expressionString);
-        var expected = new ExpressionResult(expectedResult);
+        var expected = new ExpressionResult<>(expectedResult);
 
         var expressionEvaluationEngine = new ExpressionEvaluationEngine("x=" + xValue);
 

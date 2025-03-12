@@ -12,7 +12,6 @@ import java.util.Queue;
 import java.util.stream.Stream;
 
 import static com.brent.ik.trees.TreeNodeBuilder.aNode;
-import static java.lang.Math.max;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;

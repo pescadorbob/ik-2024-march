@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static java.lang.Math.abs;
 import static java.util.Arrays.asList;
 import static java.util.Collections.swap;
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,7 +1,6 @@
 package com.brent.ik.sort;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class MergeSort implements Sorter {

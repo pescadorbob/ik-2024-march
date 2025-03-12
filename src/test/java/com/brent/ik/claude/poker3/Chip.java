@@ -1,6 +1,9 @@
 package com.brent.ik.claude.poker3;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // Represents a chip with its color and assigned denomination
 class Chip {

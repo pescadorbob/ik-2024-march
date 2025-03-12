@@ -1,6 +1,9 @@
 package com.brent.ik.claude.poker6;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class Distribution {
     private final Map<ChipColor, Integer> chipCounts;

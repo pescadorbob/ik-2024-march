@@ -1,6 +1,8 @@
 package com.brent.expressions.evaluation;
 
-import com.brent.expressions.domain.*;
+import com.brent.expressions.domain.BinomialExpression;
+import com.brent.expressions.domain.Expression;
+import com.brent.expressions.domain.ExpressionResult;
 
 public class BinomialExpressionEvaluator<T extends Comparable<T>> implements Evaluator<T> {
     private final EvaluationRegistry<T> registry;

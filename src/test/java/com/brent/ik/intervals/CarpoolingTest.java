@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.stream.Stream;
 
-import static java.lang.Math.max;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
