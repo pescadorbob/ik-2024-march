@@ -1,6 +1,6 @@
 package com.brent.expressions.domain;
 
-public class Operator<T extends Enum<T>> implements Expression {
+public class Operator<T extends Enum<T>>  {
     protected final T type;
 
     protected Operator(T type){
